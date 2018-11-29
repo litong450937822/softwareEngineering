@@ -1,0 +1,25 @@
+<ul class="layui-nav layui-nav-tree" lay-filter="test" id="navigation">
+    <li class="layui-nav-item layui-nav-itemed">
+        <a class="" href="javascript:">学生管理</a>
+        <dl class="layui-nav-child">
+            <dd class="layui-this"><a href="javascript:" onclick="gotoPage('manager/manageStudents.php')">查看学生</a></dd>
+        </dl>
+    </li>
+    <li class="layui-nav-item layui-nav-itemed">
+        <a href="javascript:;">教师管理</a>
+        <dl class="layui-nav-child">
+            <dd><a href="javascript:" onclick="gotoPage('manager/manageTeacher.php')">查看教师</a></dd>
+            <dd><a href="javascript:" onclick="gotoPage('manager/inputTeacher.php')">新增教师</a></dd>
+        </dl>
+    </li>
+</ul>
+
+<script>
+    layui.use('element', function () {
+        let element = layui.element;
+
+        element.render();
+
+    });
+
+</script>
