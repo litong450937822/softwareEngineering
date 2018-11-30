@@ -74,7 +74,7 @@ if (strtotime($nowTime) - strtotime($endTime) < 0) {                   //对两�
                         <col width="1000">
                         <col width="200">
                     </colgroup>
-                    <tr class="link">
+                    <tr class="link" data-method="offset" id="work">
                         <td>我的答案</td>
                         <td><?php echo $row1['submitTime'] ?></td>
                     </tr>
@@ -88,4 +88,35 @@ if (strtotime($nowTime) - strtotime($endTime) < 0) {                   //对两�
     </div>
 </div>
 
+<script>
 
+    layui.use('layer', function () {
+        let $ = layui.jquery, layer = layui.layer;
+        let active = {
+            offset: function (othis) {
+
+                layer.open({
+                    type: 1
+                    ,title: false
+                    , offset: 'auto' //具体配置参考：http://www.layui.com/doc/modules/layer.html#offset
+                    , id: 'submitWork' //防止重复弹出
+                    , content: '<div style="padding: 20px 100px;">test</div>'
+                    , btn: ['保存','关闭']
+                    , btnAlign: 'c' //按钮居中
+                    , shade: 0.3 //不显示遮罩
+                    ,closeBtn: 0
+                    , btn1: function () {
+                    }
+                    , function () {
+                        layer.closeAll();
+                    }
+                });
+            }
+        };
+        $('#work').on('click',function () {
+            let othis = $(this), method = othis.data('method');
+            active[method] ? active[method].call(this, othis) : '';
+        })
+    });
+
+</script>

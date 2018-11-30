@@ -2,7 +2,6 @@
 session_start();
 ?>
 <!DOCTYPE html>
-<html>
 <head>
     <meta charset="UTF-8">
     <title>登陆|《软件工程》学生学习效果跟踪系统</title>
@@ -15,9 +14,9 @@ session_start();
     body{
         background: url("img/timg.jpg") no-repeat center center;
     }
-<body>
 </style>
-<div class="login-main" style="width: 320px; height: 100%; background: rgba(238,238,238,0.7); float: right; margin-right: 20% ">
+<body>
+<div class="login-main" style="width: 320px; height: ; background: rgba(238,238,238,0.7); float: right; margin-right: 20% ">
     <form class="layui-form layui-form-pane" action="php/login.php" method="post" style="width: 300px;margin: 0 auto auto ">
         <p style="width: 110px; margin: 0 auto auto; color: orange"><?PHP
             if (isset($_SESSION['error'])){
@@ -48,4 +47,3 @@ session_start();
 </div>
 <script src="layui/layui.js"></script>
 </body>
-</html>

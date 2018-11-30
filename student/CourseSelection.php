@@ -8,7 +8,6 @@
 require_once("../connect/conn.php");
 session_start();
 $class = $_SESSION['clid'];
-echo $class;
 $rs = mysqli_query($conn, "select * from course left join teacher on course.tid = teacher.tid 
 where clid = $class");
 ?>
