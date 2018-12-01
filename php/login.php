@@ -14,6 +14,7 @@ $rs = mysqli_query($conn, $login_sql);
 if (mysqli_num_rows($rs) >= 1) {
     $row = mysqli_fetch_assoc($rs);
     $_SESSION['id'] = $row['sid'];
+    $_SESSION['schoolNumber'] = $row['schoolNumber'];
     $_SESSION['identity'] = 's';
     $_SESSION['name'] = $row['name'];
     $sid= $row['sid'];
@@ -35,7 +36,6 @@ if (mysqli_num_rows($rs) >= 1) {
         header("location:../index.php");
     } else {
         $_SESSION['error'] = '用户名或密码错误';
-//    $_SESSION['schoolNumber']=$username;
         header("location:../login.php");
     }
 }

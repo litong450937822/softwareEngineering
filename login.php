@@ -16,7 +16,7 @@ session_start();
     }
 </style>
 <body>
-<div class="login-main" style="width: 320px; height: ; background: rgba(238,238,238,0.7); float: right; margin-right: 20% ">
+<div class="login-main" style="width: 320px; height:100% ; background: rgba(238,238,238,0.7); float: right; margin-right: 20% ">
     <form class="layui-form layui-form-pane" action="php/login.php" method="post" style="width: 300px;margin: 0 auto auto ">
         <p style="width: 110px; margin: 0 auto auto; color: orange"><?PHP
             if (isset($_SESSION['error'])){
