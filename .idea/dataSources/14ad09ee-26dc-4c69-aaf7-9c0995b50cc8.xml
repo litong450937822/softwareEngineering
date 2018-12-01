@@ -1519,6 +1519,7 @@ result</ColNames>
     <column id="342" parent="246" name="score">
       <Position>6</Position>
       <DataType>int(11)|0s</DataType>
+      <DefaultExpression>&apos;0&apos;</DefaultExpression>
       <ColumnKind>normal</ColumnKind>
     </column>
     <index id="343" parent="246" name="stid">

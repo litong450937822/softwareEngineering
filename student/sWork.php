@@ -44,12 +44,12 @@ $rs = mysqli_query($conn, "select * from work_t where cid = $cid");
                     $row1 = mysqli_fetch_assoc($rs1)
                     ?>
                     <td><p style="color: #009688">已交</p></td>
-                    <td><?php echo $row1['score'] ?></td>
+                    <td><p style="color: #009688"><?php echo $row1['score'] ?></p></td>
                     <?php
                 } else {
                     ?>
-                    <td><p style="color: #00bbbd">未交</p></td>
-                    <td><p style="color: #00bbbd">0</p></td>
+                    <td><p style="color: #ff5722">未交</p></td>
+                    <td><p style="color: #009688">0</p></td>
                     <?php
                 }
                 ?>

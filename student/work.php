@@ -8,6 +8,7 @@
 require_once("../connect/conn.php");
 session_start();
 $wtid = $_GET['wtid'];
+$_SESSION['wtid'] = $wtid;
 $cid = $_SESSION['cid'];
 $sid = $_SESSION['id'];
 $rs = mysqli_query($conn, "select * from work_t where wtid = $wtid");
@@ -15,17 +16,6 @@ $row = mysqli_fetch_assoc($rs);
 $rs1 = mysqli_query($conn, "select * from work_s where wtid = $wtid AND sid = $sid");
 $nowTime = date('Y/m/d h:i');
 $endTime = $row['endTime'];
-echo $nowTime;
-echo $endTime;
-if (strtotime($nowTime) - strtotime($endTime) < 0) {                   //对两个时间差进行差运算
-
-//    echo "nowTime早于endTime";                              //time1-time2<0，说明time1的时间在前
-
-} else {
-
-//    echo "endTime早于nowTime";                              //否则，说明time2的时间在前
-
-}
 ?>
 <style>
     .content {
@@ -74,17 +64,22 @@ if (strtotime($nowTime) - strtotime($endTime) < 0) {                   //对两�
                         <col width="1000">
                         <col width="200">
                     </colgroup>
-                    <tr class="link" data-method="offset" id="work">
+                    <tr class="link" data-method="offset" data-cont="<?php echo $row1['content'] ?>"
+                        data-file="<?php echo $row1['file'] ?>" id="work">
                         <td>我的答案</td>
                         <td><?php echo $row1['submitTime'] ?></td>
                     </tr>
                 </table>
             <?php } else { ?>
                 <p>暂未提交答案</p>
-                <button class="layui-btn"><i class="layui-icon">&#xe62f;</i>提交作业</button>
             <?php } ?>
+            <button class="layui-btn <?php
+            if (strtotime($nowTime) - strtotime($endTime) > 0) {
+                echo 'layui-btn-disabled';
+            } ?>" onclick="gotoPage('student/submitWork.php?title= <?php echo $row['title'] ?>')">
+                <i class="layui-icon">&#xe62f;</i> 提交作业
+            </button>
         </fieldset>
-
     </div>
 </div>
 
@@ -94,17 +89,36 @@ if (strtotime($nowTime) - strtotime($endTime) < 0) {                   //对两�
         let $ = layui.jquery, layer = layui.layer;
         let active = {
             offset: function (othis) {
+                let content = othis.data('cont'),
+                    file = othis.data('file');
+                let files = file.split(';');
 
                 layer.open({
                     type: 1
-                    ,title: false
+                    , title: false
+                    , area: ['500px', '400px']
                     , offset: 'auto' //具体配置参考：http://www.layui.com/doc/modules/layer.html#offset
                     , id: 'submitWork' //防止重复弹出
-                    , content: '<div style="padding: 20px 100px;">test</div>'
-                    , btn: ['保存','关闭']
+                    , content: '<div style="margin: 20px">' +
+                    '<fieldset style="margin-top: 30px;">\n' +
+                    '            <legend>我的答案</legend>' +
+                    '</fieldset>' +
+                    content +
+                    '<fieldset style="margin-top: 30px;">\n' +
+                    '            <legend>附件</legend>' +
+                    '</fieldset>' +
+                    <?php
+                    if (mysqli_num_rows($rs1) >= 1){
+                    $files = explode(';', $row1['file']);
+                    foreach($files as $file){
+                    ?>
+                    '<a href="./file/<?php echo $file ?>" download="filename"><?php echo $file ?></a><br/>' +
+                    <?php }}  ?>
+                    '</div>'
+                    , btn: ['保存', '关闭']
                     , btnAlign: 'c' //按钮居中
-                    , shade: 0.3 //不显示遮罩
-                    ,closeBtn: 0
+                    , shade: 0.3
+                    , closeBtn: 0
                     , btn1: function () {
                     }
                     , function () {
@@ -113,10 +127,72 @@ if (strtotime($nowTime) - strtotime($endTime) < 0) {                   //对两�
                 });
             }
         };
-        $('#work').on('click',function () {
+        $('#work').on('click', function () {
             let othis = $(this), method = othis.data('method');
             active[method] ? active[method].call(this, othis) : '';
         })
     });
 
+    layui.use('upload', function () {
+        let $ = layui.jquery
+            , upload = layui.upload;
+        let demoListView = $('#demoList')
+            , uploadListIns = upload.render({
+            elem: '#testList'
+            , url: '/upload/'
+            , accept: 'file'
+            , multiple: true
+            , auto: false
+            , bindAction: '#testListAction'
+            , choose: function (obj) {
+                let files = this.files = obj.pushFile(); //将每次选择的文件追加到文件队列
+                //读取本地文件
+                obj.preview(function (index, file, result) {
+                    let tr = $(['<tr id="upload-' + index + '">'
+                        , '<td>' + file.name + '</td>'
+                        , '<td>' + (file.size / 1014).toFixed(1) + 'kb</td>'
+                        , '<td>等待上传</td>'
+                        , '<td>'
+                        , '<button class="layui-btn layui-btn-xs demo-reload layui-hide">重传</button>'
+                        , '<button class="layui-btn layui-btn-xs layui-btn-danger demo-delete">删除</button>'
+                        , '</td>'
+                        , '</tr>'].join(''));
+
+                    //单个重传
+                    tr.find('.demo-reload').on('click', function () {
+                        obj.upload(index, file);
+                    });
+
+                    //删除
+                    tr.find('.demo-delete').on('click', function () {
+                        delete files[index]; //删除对应的文件
+                        tr.remove();
+                        uploadListIns.config.elem.next()[0].value = ''; //清空 input file 值，以免删除后出现同名文件不可选
+                    });
+
+                    demoListView.append(tr);
+                });
+            }
+            , done: function (res, index, upload) {
+                if (res.code === 0) { //上传成功
+                    let tr = demoListView.find('tr#upload-' + index)
+                        , tds = tr.children();
+                    tds.eq(2).html('<span style="color: #5FB878;">上传成功</span>');
+                    tds.eq(3).html(''); //清空操作
+                    return delete this.files[index]; //删除文件队列已经上传成功的文件
+                }
+                this.error(index, upload);
+            }
+            , error: function (index, upload) {
+                let tr = demoListView.find('tr#upload-' + index)
+                    , tds = tr.children();
+                tds.eq(2).html('<span style="color: #FF5722;">上传失败</span>');
+                tds.eq(3).find('.demo-reload').removeClass('layui-hide'); //显示重传
+            }
+        });
+    });
+
+    $('#testList').on('click', function () {
+        alert(111)
+    })
 </script>
