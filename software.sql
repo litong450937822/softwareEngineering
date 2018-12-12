@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50720
 File Encoding         : 65001
 
-Date: 2018-12-01 17:20:41
+Date: 2018-12-13 00:23:32
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -200,6 +200,64 @@ CREATE TABLE `teacher` (
 INSERT INTO `teacher` VALUES ('1', '400001', '123456', '测试教师1');
 
 -- ----------------------------
+-- Table structure for test_q
+-- ----------------------------
+DROP TABLE IF EXISTS `test_q`;
+CREATE TABLE `test_q` (
+  `number` int(11) NOT NULL,
+  `ttid` int(11) NOT NULL,
+  `question` varchar(255) NOT NULL,
+  `option1` varchar(255) NOT NULL,
+  `option2` varchar(255) NOT NULL,
+  `option3` varchar(255) NOT NULL,
+  `option4` varchar(255) NOT NULL,
+  `answer` varchar(255) NOT NULL,
+  PRIMARY KEY (`number`,`ttid`),
+  KEY `test` (`ttid`),
+  CONSTRAINT `test` FOREIGN KEY (`ttid`) REFERENCES `test_t` (`ttid`) ON DELETE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of test_q
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for test_s
+-- ----------------------------
+DROP TABLE IF EXISTS `test_s`;
+CREATE TABLE `test_s` (
+  `ttid` int(11) NOT NULL,
+  `number` int(11) NOT NULL,
+  `answer` varchar(255) NOT NULL,
+  `sid` int(11) NOT NULL,
+  PRIMARY KEY (`ttid`,`number`,`sid`),
+  CONSTRAINT `testS` FOREIGN KEY (`ttid`) REFERENCES `test_t` (`ttid`) ON DELETE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of test_s
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for test_t
+-- ----------------------------
+DROP TABLE IF EXISTS `test_t`;
+CREATE TABLE `test_t` (
+  `ttid` int(11) NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `startTime` varchar(255) NOT NULL,
+  `endTime` varchar(255) NOT NULL,
+  `cid` int(11) NOT NULL,
+  PRIMARY KEY (`ttid`),
+  KEY `classtest` (`cid`),
+  CONSTRAINT `classtest` FOREIGN KEY (`cid`) REFERENCES `class` (`clid`) ON DELETE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of test_t
+-- ----------------------------
+
+-- ----------------------------
 -- Table structure for time
 -- ----------------------------
 DROP TABLE IF EXISTS `time`;
@@ -245,7 +303,10 @@ CREATE TABLE `vote_t` (
   `options` varchar(255) NOT NULL,
   `startTime` varchar(19) NOT NULL,
   `endTime` varchar(19) NOT NULL,
-  PRIMARY KEY (`vtid`) USING BTREE
+  `cid` int(11) NOT NULL,
+  PRIMARY KEY (`vtid`) USING BTREE,
+  KEY `class` (`cid`),
+  CONSTRAINT `class` FOREIGN KEY (`cid`) REFERENCES `class` (`clid`) ON DELETE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
