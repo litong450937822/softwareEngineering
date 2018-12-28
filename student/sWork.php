@@ -63,7 +63,7 @@ $rs = mysqli_query($conn, "select * from work_t where cid = $cid");
 <script>
     $('.work').on('click', function () {
         let wtid = $(this).data('wtid');
-        gotoPage('student/work.php?wtid='+wtid);
+        gotoPage('student/work.php?wtid=' + wtid);
     })
 
 </script>
