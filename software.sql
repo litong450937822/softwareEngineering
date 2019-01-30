@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50720
 File Encoding         : 65001
 
-Date: 2018-12-13 00:23:32
+Date: 2018-12-28 17:35:04
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -97,14 +97,17 @@ CREATE TABLE `discass_t` (
   `dtid` int(11) NOT NULL AUTO_INCREMENT,
   `title` varchar(255) NOT NULL,
   `cid` int(11) NOT NULL,
+  `lastUpdateTime` varchar(255) NOT NULL,
+  `traffic` int(11) DEFAULT '0',
   PRIMARY KEY (`dtid`) USING BTREE,
   KEY `discasst_c` (`cid`) USING BTREE,
   CONSTRAINT `discasst_c` FOREIGN KEY (`cid`) REFERENCES `course` (`cid`) ON DELETE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
 -- Records of discass_t
 -- ----------------------------
+INSERT INTO `discass_t` VALUES ('1', '测试讨论1', '1', '2018/12/19 16：28', '0');
 
 -- ----------------------------
 -- Table structure for question_q
