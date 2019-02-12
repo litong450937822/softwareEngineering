@@ -22,7 +22,6 @@ if (mysqli_num_rows($rs) >= 1) {
     $rs = mysqli_query($conn, $sql);
     $row = mysqli_fetch_assoc($rs);
     $_SESSION['clid'] = $row['clid'];
-//    $_SESSION['schoolNumber'] = $username;
     header("location:../index.php");
 } else {
     $login_sql = "select * from teacher where number = $username and password = '$password'";
@@ -32,7 +31,6 @@ if (mysqli_num_rows($rs) >= 1) {
         $_SESSION['id'] = $row['tid'];
         $_SESSION['identity'] = 't';
         $_SESSION['name'] = $row['name'];
-//        $_SESSION['number'] = $username;
         header("location:../index.php");
     } else {
         $_SESSION['error'] = '用户名或密码错误';
