@@ -61,10 +61,10 @@ if (!isset($_SESSION['id'])) {
             ?>
             <ul class="layui-nav layui-layout-left">
                 <li class="layui-nav-item"><a href="javascript:" onclick="changeMenu('navigation/teacherMenu.html');
-                                              gotoPage('teacher/concernUser.php')">教师页面</a>
+                                              gotoPage('teacher/concernUser.php')">课程管理</a>
                 </li>
                 <li class="layui-nav-item"><a href="javascript:" onclick="changeMenu('navigation/managerMenu.html');
-                                              gotoPage('manager/manageStudents.php')">管理员页面</a></li>
+                                              gotoPage('manager/manageStudents.php')">学习效果跟踪</a></li>
             </ul>
             <?php
         }

@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50720
 File Encoding         : 65001
 
-Date: 2018-12-28 17:35:04
+Date: 2019-02-12 22:25:55
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -83,11 +83,12 @@ CREATE TABLE `discass_s` (
   KEY `student` (`sid`) USING BTREE,
   CONSTRAINT `discass` FOREIGN KEY (`dtid`) REFERENCES `discass_t` (`dtid`) ON DELETE NO ACTION,
   CONSTRAINT `student` FOREIGN KEY (`sid`) REFERENCES `student` (`sid`) ON DELETE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
 -- Records of discass_s
 -- ----------------------------
+INSERT INTO `discass_s` VALUES ('1', '1', '2018/11/28 14:27:06', '测试讨论内容1');
 
 -- ----------------------------
 -- Table structure for discass_t
@@ -97,8 +98,9 @@ CREATE TABLE `discass_t` (
   `dtid` int(11) NOT NULL AUTO_INCREMENT,
   `title` varchar(255) NOT NULL,
   `cid` int(11) NOT NULL,
-  `lastUpdateTime` varchar(255) NOT NULL,
+  `lastUpdateTime` varchar(16) NOT NULL,
   `traffic` int(11) DEFAULT '0',
+  `startTime` varchar(16) NOT NULL,
   PRIMARY KEY (`dtid`) USING BTREE,
   KEY `discasst_c` (`cid`) USING BTREE,
   CONSTRAINT `discasst_c` FOREIGN KEY (`cid`) REFERENCES `course` (`cid`) ON DELETE NO ACTION
@@ -107,7 +109,7 @@ CREATE TABLE `discass_t` (
 -- ----------------------------
 -- Records of discass_t
 -- ----------------------------
-INSERT INTO `discass_t` VALUES ('1', '测试讨论1', '1', '2018/12/19 16：28', '0');
+INSERT INTO `discass_t` VALUES ('1', '测试讨论1', '1', '2018/12/19 16：28', '0', '2018/12/19 16：28');
 
 -- ----------------------------
 -- Table structure for question_q
