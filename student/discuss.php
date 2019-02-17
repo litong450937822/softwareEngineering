@@ -12,6 +12,7 @@ $dtid = $_GET['dtid'];
 $rs = mysqli_query($conn, "select * from discass_s left join student on discass_s.sid = student.sid
  where dtid = $dtid");
 $rs1 = mysqli_query($conn, "select * from discass_t where dtid = $dtid");
+$row = mysqli_fetch_assoc($rs);
 $row1 = mysqli_fetch_assoc($rs1);
 ?>
 <div class="layui-col-md8 layui-col-md-offset2" style="padding-top: 30px;">
@@ -26,7 +27,22 @@ $row1 = mysqli_fetch_assoc($rs1);
             <p style="margin-top: 10px;">开始时间：<?php echo $row1['startTime'] ?></p>
             <p style="margin-top: 10px">最近一次回复时间：<?php echo $row1['lastUpdateTime'] ?></p>
         </div>
+        <div style="background-color: #fff;border: 1px solid #eee;padding: 5px;margin-top: 5px">
+            <table>
+                <tr>
+                    <td style="text-align: center">
+                        <img src="img/default.jpg" class="layui-nav-img">
+                        <p style="font-size: 22px"><?php echo $row['name'] ?></p>
+                        <p style="margin-top: 10px"><?php echo $row['time'] ?></p>
+                    </td>
+                    <td><p style="margin-top: 10px;"><?php echo $row['result'] ?></p></td>
+                </tr>
 
+
+
+
+            </table>
+        </div>
 
         <fieldset style="margin-top: 30px;">
             <legend>回复</legend>

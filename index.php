@@ -26,8 +26,13 @@ if (!isset($_SESSION['id'])) {
     <script language="JavaScript">
 
         $(function () {
+            <?php if ($_SESSION['identity'] == 's' ){?>
             $('#content').load('student/CourseSelection.php');
             $('#menu').load('navigation/studentMenu.html');
+            <?php }else { ?>
+            $('#content').load('teacher/CourseSelection.php');
+            $('#menu').load('navigation/teacherMenu.html');
+            <?php } ?>
             $('#left_menu').hide();
         });
 
@@ -58,7 +63,7 @@ if (!isset($_SESSION['id'])) {
         <!-- 头部区域-->
         <?php
         if ($_SESSION['identity'] == 't') {
-            ?>
+        ?>
             <ul class="layui-nav layui-layout-left">
                 <li class="layui-nav-item"><a href="javascript:" onclick="changeMenu('navigation/teacherMenu.html');
                                               gotoPage('teacher/concernUser.php')">课程管理</a>
@@ -66,7 +71,7 @@ if (!isset($_SESSION['id'])) {
                 <li class="layui-nav-item"><a href="javascript:" onclick="changeMenu('navigation/managerMenu.html');
                                               gotoPage('manager/manageStudents.php')">学习效果跟踪</a></li>
             </ul>
-            <?php
+        <?php
         }
         ?>
         <ul class="layui-nav layui-layout-right">
