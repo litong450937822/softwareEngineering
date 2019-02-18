@@ -39,8 +39,6 @@ $row1 = mysqli_fetch_assoc($rs1);
                 </tr>
 
 
-
-
             </table>
         </div>
 
@@ -51,10 +49,36 @@ $row1 = mysqli_fetch_assoc($rs1);
                     <textarea placeholder="请输入内容" class="layui-textarea" name="reply"></textarea>
                 </div>
             </div>
+
+            <div class="layui-form-item" style="margin-top: 10px">
+                <button class="layui-btn layui-btn-danger layui-btn-fluid" onclick="replay()">回复</button>
+            </div>
     </div>
 
 </div>
 
 <script>
+    function replay() {
+        let content = $('#replay').text();
+        $.ajax({
+            type: "POST",
+            dataType: "json",
+            url: "/php/insertDiscuss.php",//url
+            data: {
+                sid:<?php echo $_SESSION('id'); ?>,
+                dtid:<?php echo $dtid; ?>,
+                result: content
+            },
+            success: function (result) {
+                console.log(result);//打印服务端返回的数据(调试用)
+                if (result.resultCode === 200) {
+                    alert("SUCCESS");
+                }
 
+            },
+            error: function () {
+                alert("异常！");
+            }
+        });
+    }
 </script>
