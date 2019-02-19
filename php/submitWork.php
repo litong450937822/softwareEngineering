@@ -12,7 +12,7 @@ $wtid = $_SESSION['wtid'];
 $sid = $_SESSION['id'];
 $content = $_POST['content'];
 $file = $_POST['file'];
-$nowTime = date('Y/m/d h:i');
+$nowTime = date('Y/m/d h:i:s');
 
 $rs1 = mysqli_query($conn, "select * from work_s where wtid = $wtid AND sid = $sid");
 if (mysqli_num_rows($rs1) >= 1) {
