@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50720
 File Encoding         : 65001
 
-Date: 2019-02-12 22:25:55
+Date: 2019-02-19 23:21:25
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -75,20 +75,21 @@ INSERT INTO `course` VALUES ('1', '1', '1', '测试课程1', '2018.09.01', '2019
 -- ----------------------------
 DROP TABLE IF EXISTS `discass_s`;
 CREATE TABLE `discass_s` (
-  `dtid` int(11) NOT NULL AUTO_INCREMENT,
+  `dsid` int(11) NOT NULL AUTO_INCREMENT,
+  `dtid` int(11) NOT NULL,
   `sid` int(11) NOT NULL,
   `time` varchar(19) NOT NULL,
-  `result` varchar(255) NOT NULL,
-  PRIMARY KEY (`dtid`,`sid`) USING BTREE,
+  `content` varchar(255) NOT NULL,
+  PRIMARY KEY (`dsid`),
   KEY `student` (`sid`) USING BTREE,
-  CONSTRAINT `discass` FOREIGN KEY (`dtid`) REFERENCES `discass_t` (`dtid`) ON DELETE NO ACTION,
-  CONSTRAINT `student` FOREIGN KEY (`sid`) REFERENCES `student` (`sid`) ON DELETE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+  KEY `disscuse` (`dtid`),
+  CONSTRAINT `disscuse` FOREIGN KEY (`dtid`) REFERENCES `discass_t` (`dtid`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
 -- Records of discass_s
 -- ----------------------------
-INSERT INTO `discass_s` VALUES ('1', '1', '2018/11/28 14:27:06', '测试讨论内容1');
+INSERT INTO `discass_s` VALUES ('1', '1', '1', '2018/11/28 14:27:06', '测试讨论内容1');
 
 -- ----------------------------
 -- Table structure for discass_t
