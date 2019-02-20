@@ -5,7 +5,6 @@ if (!isset($_SESSION['id'])) {
 }
 ?>
 <!DOCTYPE html>
-<html>
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -40,8 +39,12 @@ if (!isset($_SESSION['id'])) {
         echo 'let id=' . $_SESSION['id'];
         ?>
 
-        function backToSelect() {
-            $('#content').load('student/CourseSelection.php');
+        function backToSelect(identity) {
+            if (identity === 's')
+                $('#content').load('student/CourseSelection.php');
+            else
+                $('#content').load('teacher/CourseSelection.php');
+
             $('#left_menu').hide();
         }
 
@@ -63,7 +66,7 @@ if (!isset($_SESSION['id'])) {
         <!-- 头部区域-->
         <?php
         if ($_SESSION['identity'] == 't') {
-        ?>
+            ?>
             <ul class="layui-nav layui-layout-left">
                 <li class="layui-nav-item"><a href="javascript:" onclick="changeMenu('navigation/teacherMenu.html');
                                               gotoPage('teacher/concernUser.php')">课程管理</a>
@@ -71,7 +74,7 @@ if (!isset($_SESSION['id'])) {
                 <li class="layui-nav-item"><a href="javascript:" onclick="changeMenu('navigation/managerMenu.html');
                                               gotoPage('manager/manageStudents.php')">学习效果跟踪</a></li>
             </ul>
-        <?php
+            <?php
         }
         ?>
         <ul class="layui-nav layui-layout-right">

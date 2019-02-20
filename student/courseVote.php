@@ -14,7 +14,7 @@ $rs = mysqli_query($conn, "select * from vote_t where cid = $cid");
 
 <div class="layui-col-md8 layui-col-md-offset2" style="padding-top: 30px;">
     <ol class="breadcrumb">
-        <li onclick="backToSelect()" class="link">课程选择</li>
+        <li onclick="backToSelect('s')" class="link">课程选择</li>
         <li class="active">投票</li>
     </ol>
     <div style="width: 100%;height: 150px;background-color: #f5f5f5;

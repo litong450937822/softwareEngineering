@@ -54,6 +54,6 @@ where course.tid =  $tid");
 
     function selectCourse(cid) {
         $('#left_menu').show();
-        gotoPage('student/description.php?cid='+cid);
+        gotoPage('teacher/description.php?cid='+cid);
     }
 </script>

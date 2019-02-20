@@ -14,7 +14,7 @@ $title = $_GET['title']
 ?>
 <div class="layui-col-md8 layui-col-md-offset2" style="padding-top: 30px;" id="layer">
     <ol class="breadcrumb">
-        <li onclick="backToSelect()" class="link">课程选择</li>
+        <li onclick="backToSelect('s')" class="link">课程选择</li>
         <li onclick="gotoPage('student/sWork.php?cid='+ <?php echo $cid ?>)" class="link">作业</li>
         <li onclick="gotoPage('student/work.php?wtid='+<?php echo $wtid ?>)"><?php echo $title ?></li>
         <li class="active">作业提交</li>

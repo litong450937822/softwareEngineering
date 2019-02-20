@@ -17,7 +17,7 @@ $row1 = mysqli_fetch_assoc($rs1);
 ?>
 <div class="layui-col-md8 layui-col-md-offset2" style="padding-top: 30px;">
     <ol class="breadcrumb">
-        <li onclick="backToSelect()" class="link">课程选择</li>
+        <li onclick="backToSelect('s')" class="link">课程选择</li>
         <li class="link" onclick="gotoPage('student/courseDiscuss.php')">讨论</li>
         <li class="active"><?php echo $row1['title'] ?></li>
     </ol>
