@@ -14,18 +14,18 @@ $rs = mysqli_query($conn, "select * from work_t where cid = $cid");
 
 <div class="layui-col-md8 layui-col-md-offset2" style="padding-top: 30px;" id="layer">
     <ol class="breadcrumb">
-        <li onclick="backToSelect('s')" class="link">课程选择</li>
+        <li onclick="backToSelect('t')" class="link">课程选择</li>
         <li class="active">作业</li>
     </ol>
     <table class="layui-table" lay-skin="line" style="margin: auto">
         <colgroup>
             <col width="550px">
-            <col width="300px">
+            <col width="70px">
         </colgroup>
         <thead>
         <tr>
             <th>作业名称</th>
-            <th>操作</th>
+            <th style="text-align: center">操作</th>
         </tr>
         </thead>
         <tbody>
@@ -34,8 +34,10 @@ $rs = mysqli_query($conn, "select * from work_t where cid = $cid");
             ?>
             <tr class="work link" data-wtid="<?php echo $row['wtid'] ?>">
                 <td><?php echo $row['title'] ?></td>
-                    <td><button class="layui-btn layui-btn-sm"><i class="layui-icon"></i></button>
-                        <button class="layui-btn layui-btn-sm"><i class="layui-icon"></i></button></td>
+                <td style="text-align: center">
+                    <button class="layui-btn layui-btn-sm" onclick="editWork()"><i class="layui-icon">&#xe642;</i></button>
+                    <button class="layui-btn layui-btn-sm"><i class="layui-icon">&#xe640;</i></button>
+                </td>
             </tr>
             <?php
         }
