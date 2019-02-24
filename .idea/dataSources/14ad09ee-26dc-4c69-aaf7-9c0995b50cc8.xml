@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <dataSource name="software@localhost">
-  <database-model serializer="dbm" rdbms="MYSQL" format-version="4.8">
+  <database-model serializer="dbm" dbms="MYSQL" family-id="MYSQL" format-version="4.14">
     <root id="1">
       <ServerVersion>5.7.20</ServerVersion>
+      <DefaultEngine>InnoDB</DefaultEngine>
+      <DefaultTmpEngine>InnoDB</DefaultTmpEngine>
       <DefaultCasing>lower/lower</DefaultCasing>
     </root>
     <schema id="2" parent="1" name="englishcet">
@@ -922,60 +924,24 @@
       <Charset>utf8mb4</Charset>
       <DefaultForCharset>0</DefaultForCharset>
     </collation>
-    <table id="233" parent="8" name="class">
-      <Engine>InnoDB</Engine>
-    </table>
-    <table id="234" parent="8" name="class_s">
-      <Engine>InnoDB</Engine>
-    </table>
-    <table id="235" parent="8" name="course">
-      <Engine>InnoDB</Engine>
-    </table>
-    <table id="236" parent="8" name="discass_s">
-      <Engine>InnoDB</Engine>
-    </table>
-    <table id="237" parent="8" name="discass_t">
-      <Engine>InnoDB</Engine>
-    </table>
-    <table id="238" parent="8" name="question_q">
-      <Engine>InnoDB</Engine>
-    </table>
-    <table id="239" parent="8" name="question_s">
-      <Engine>InnoDB</Engine>
-    </table>
-    <table id="240" parent="8" name="question_t">
-      <Engine>InnoDB</Engine>
-    </table>
-    <table id="241" parent="8" name="student">
-      <Engine>InnoDB</Engine>
-    </table>
-    <table id="242" parent="8" name="teacher">
-      <Engine>InnoDB</Engine>
-    </table>
-    <table id="243" parent="8" name="test_q">
-      <Engine>InnoDB</Engine>
-    </table>
-    <table id="244" parent="8" name="test_s">
-      <Engine>InnoDB</Engine>
-    </table>
-    <table id="245" parent="8" name="test_t">
-      <Engine>InnoDB</Engine>
-    </table>
-    <table id="246" parent="8" name="time">
-      <Engine>InnoDB</Engine>
-    </table>
-    <table id="247" parent="8" name="vote_s">
-      <Engine>InnoDB</Engine>
-    </table>
-    <table id="248" parent="8" name="vote_t">
-      <Engine>InnoDB</Engine>
-    </table>
-    <table id="249" parent="8" name="work_s">
-      <Engine>InnoDB</Engine>
-    </table>
-    <table id="250" parent="8" name="work_t">
-      <Engine>InnoDB</Engine>
-    </table>
+    <table id="233" parent="8" name="class"/>
+    <table id="234" parent="8" name="class_s"/>
+    <table id="235" parent="8" name="course"/>
+    <table id="236" parent="8" name="discass_s"/>
+    <table id="237" parent="8" name="discass_t"/>
+    <table id="238" parent="8" name="question_q"/>
+    <table id="239" parent="8" name="question_s"/>
+    <table id="240" parent="8" name="question_t"/>
+    <table id="241" parent="8" name="student"/>
+    <table id="242" parent="8" name="teacher"/>
+    <table id="243" parent="8" name="test_q"/>
+    <table id="244" parent="8" name="test_s"/>
+    <table id="245" parent="8" name="test_t"/>
+    <table id="246" parent="8" name="time"/>
+    <table id="247" parent="8" name="vote_s"/>
+    <table id="248" parent="8" name="vote_t"/>
+    <table id="249" parent="8" name="work_s"/>
+    <table id="250" parent="8" name="work_t"/>
     <column id="251" parent="233" name="clid">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
@@ -1164,7 +1130,7 @@ sid</ColNames>
     <column id="283" parent="237" name="traffic">
       <Position>5</Position>
       <DataType>int(11)|0s</DataType>
-      <DefaultExpression>&apos;0&apos;</DefaultExpression>
+      <DefaultExpression>0</DefaultExpression>
       <ColumnKind>normal</ColumnKind>
     </column>
     <column id="284" parent="237" name="startTime">
@@ -1711,7 +1677,7 @@ result</ColNames>
     <column id="377" parent="249" name="score">
       <Position>6</Position>
       <DataType>int(11)|0s</DataType>
-      <DefaultExpression>&apos;0&apos;</DefaultExpression>
+      <DefaultExpression>0</DefaultExpression>
       <ColumnKind>normal</ColumnKind>
     </column>
     <index id="378" parent="249" name="stid">

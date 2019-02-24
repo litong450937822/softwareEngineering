@@ -35,8 +35,12 @@ $rs = mysqli_query($conn, "select * from work_t where cid = $cid");
             <tr class="work link" data-wtid="<?php echo $row['wtid'] ?>">
                 <td><?php echo $row['title'] ?></td>
                 <td style="text-align: center">
-                    <button class="layui-btn layui-btn-sm" onclick="editWork()"><i class="layui-icon">&#xe642;</i></button>
-                    <button class="layui-btn layui-btn-sm"><i class="layui-icon">&#xe640;</i></button>
+                    <button class="layui-btn layui-btn-sm"
+                            onclick="editWork(<?php echo $row['wtid'] ?>)">
+                        <i class="layui-icon">&#xe642;</i></button>
+                    <button class="layui-btn layui-btn-sm work" data-method="confirmTrans" id="work"
+                            data-title="<?php echo $row['title'] ?>">
+                        <i class="layui-icon">&#xe640;</i></button>
                 </td>
             </tr>
             <?php
@@ -46,9 +50,33 @@ $rs = mysqli_query($conn, "select * from work_t where cid = $cid");
     </table>
 </div>
 <script>
-    $('.work').on('click', function () {
-        let wtid = $(this).data('wtid');
-        gotoPage('student/work.php?wtid=' + wtid);
-    })
+    // $('.work').on('click', function () {
+    //     let wtid = $(this).data('wtid');
+    //     gotoPage('student/work.php?wtid=' + wtid);
+    // });
 
+    function editWork(wtid) {
+
+    }
+
+    layui.use('layer', function () { //独立版的layer无需执行这一句
+        let $ = layui.jquery, layer = layui.layer; //独立版的layer无需执行这一句
+
+        //触发事件
+        let active = {
+            confirmTrans: function (othis) {
+                let title = othis.data('title');
+                //配置一个透明的询问框
+                layer.msg('确认删除' + title + '吗？', {
+                    time: 20000, //20s后自动关闭
+                    btn: ['确认', '退出']
+                });
+            }
+
+        };
+        $('.work').on('click', function () {
+            let othis = $(this), method = othis.data('method');
+            active[method] ? active[method].call(this, othis) : '';
+        })
+    });
 </script>
