@@ -6,13 +6,13 @@
  * Time: 14:56
  */
 
-session_start();
-$schoolNumber = $_SESSION['schoolNumber'];
+require_once("../connect/checkLogin.php");
+$number = $_SESSION['number'];
 
 
 //上传文件目录获取
 define('BASE_PATH', str_replace('\\', '/', realpath(dirname(__FILE__) . '/')) . "/");
-$dir = BASE_PATH . "../file/" . $schoolNumber . "/";
+$dir = BASE_PATH . "../file/" . $number . "/";
 
 //初始化返回数组
 $arr = array(

@@ -14,7 +14,8 @@ $rs = mysqli_query($conn, $login_sql);
 if (mysqli_num_rows($rs) >= 1) {
     $row = mysqli_fetch_assoc($rs);
     $_SESSION['id'] = $row['sid'];
-    $_SESSION['schoolNumber'] = $row['schoolNumber'];
+    $_SESSION['number'] = $row['schoolNumber'];
+    echo $_SESSION['number'];
     $_SESSION['identity'] = 's';
     $_SESSION['name'] = $row['name'];
     $sid= $row['sid'];
@@ -29,6 +30,7 @@ if (mysqli_num_rows($rs) >= 1) {
     if (mysqli_num_rows($rs) >= 1) {
         $row = mysqli_fetch_assoc($rs);
         $_SESSION['id'] = $row['tid'];
+        $_SESSION['Number'] = $row['schoolNumber'];
         $_SESSION['identity'] = 't';
         $_SESSION['name'] = $row['name'];
         header("location:../index.php");

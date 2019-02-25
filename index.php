@@ -9,13 +9,13 @@ if (!isset($_SESSION['id'])) {
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <title>《软件工程》学生学习效果跟踪系统</title>
-    <link rel="stylesheet" href="bootstrap-3.3.7-dist/css/bootstrap.min.css">
+<!--    <link rel="stylesheet" href="bootstrap-3.3.7-dist/css/bootstrap.min.css">-->
     <link rel="stylesheet" href="layui/css/layui.css">
     <script src="js/jquery-3.2.1.min.js"></script>
-    <script src="js/test.js"></script>
+<!--    <script src="js/test.js"></script>-->
     <script src="layui/layui.all.js"></script>
-    <script type="text/javascript" src="js/wangEditor.min.js"></script>
-    <script type="text/javascript" src="bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+<!--    <script type="text/javascript" src="js/wangEditor.min.js"></script>-->
+<!--    <script type="text/javascript" src="bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>-->
 
     <style>
         .link {

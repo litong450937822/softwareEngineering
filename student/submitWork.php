@@ -6,19 +6,21 @@
  * Time: 14:03
  */
 require_once("../connect/conn.php");
-session_start();
+require_once("../connect/checkLogin.php");
 $wtid = $_SESSION['wtid'];
 $cid = $_SESSION['cid'];
 $sid = $_SESSION['id'];
 $title = $_GET['title']
 ?>
 <div class="layui-col-md8 layui-col-md-offset2" style="padding-top: 30px;" id="layer">
-    <ol class="breadcrumb">
-        <li onclick="backToSelect('s')" class="link">课程选择</li>
-        <li onclick="gotoPage('student/sWork.php?cid='+ <?php echo $cid ?>)" class="link">作业</li>
-        <li onclick="gotoPage('student/work.php?wtid='+<?php echo $wtid ?>)"><?php echo $title ?></li>
-        <li class="active">作业提交</li>
-    </ol>
+    <div style="margin-bottom: 15px">
+        <span class="layui-breadcrumb" style="margin-bottom: 20px">
+            <a onclick="backToSelect('s')">课程选择</a>
+            <a onclick="gotoPage('student/sWork.php?cid='+ <?php echo $cid ?>)">作业</a>
+            <a onclick="gotoPage('student/work.php?wtid='+<?php echo $wtid ?>)"><?php echo $title ?></a>
+            <a><cite>作业提交</cite></a>
+        </span>
+    </div>
     <form class="layui-form layui-form-pane" action="">
         <div class="layui-form-item layui-form-text">
             <label class="layui-form-label">我的答案</label>
@@ -49,6 +51,12 @@ $title = $_GET['title']
     </form>
 </div>
 <script>
+    layui.use('element', function () {
+        let element = layui.element; //导航的hover效果、二级菜单等功能，需要依赖element模块
+
+        element.render();
+    });
+
     layui.use('upload', function () {
         let $ = layui.jquery
             , upload = layui.upload;

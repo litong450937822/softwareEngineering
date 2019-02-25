@@ -6,17 +6,19 @@
  * Time: 20:58
  */
 require_once("../connect/conn.php");
-session_start();
+require_once("../connect/checkLogin.php");
 $cid = is_null(@$_GET['cid']) ? @$_SESSION['cid'] : @$_GET['cid'];
 $_SESSION['cid'] = is_null(@$_GET['cid']) ? @$_SESSION['cid'] : @$_GET['cid'];
 $rs = mysqli_query($conn, "select * from work_t where cid = $cid");
 ?>
 
 <div class="layui-col-md8 layui-col-md-offset2" style="padding-top: 30px;" id="layer">
-    <ol class="breadcrumb">
-        <li onclick="backToSelect('t')" class="link">课程选择</li>
-        <li class="active">作业</li>
-    </ol>
+    <div style="margin-bottom: 15px">
+        <span class="layui-breadcrumb" style="margin-bottom: 20px">
+            <a onclick="backToSelect('t')">课程选择</a>
+            <a><cite>作业</cite></a>
+        </span>
+    </div>
     <table class="layui-table" lay-skin="line" style="margin: auto">
         <colgroup>
             <col width="550px">
@@ -39,7 +41,8 @@ $rs = mysqli_query($conn, "select * from work_t where cid = $cid");
                             onclick="editWork(<?php echo $row['wtid'] ?>)">
                         <i class="layui-icon">&#xe642;</i></button>
                     <button class="layui-btn layui-btn-sm work" data-method="confirmTrans" id="work"
-                            data-title="<?php echo $row['title'] ?>">
+                            data-title="<?php echo $row['title'] ?>"
+                            data-wtid="<?php echo $row['wtid'] ?>">
                         <i class="layui-icon">&#xe640;</i></button>
                 </td>
             </tr>
@@ -48,6 +51,9 @@ $rs = mysqli_query($conn, "select * from work_t where cid = $cid");
         ?>
         </tbody>
     </table>
+    <button class="layui-btn layui-col-md-offset5" style="margin-top: 20px" onclick="gotoPage('teacher/inputWork.php')">
+        <i class="layui-icon">&#xe608;</i> 添加
+    </button>
 </div>
 <script>
     // $('.work').on('click', function () {
@@ -66,17 +72,35 @@ $rs = mysqli_query($conn, "select * from work_t where cid = $cid");
         let active = {
             confirmTrans: function (othis) {
                 let title = othis.data('title');
+                let wtid = othis.data('wtid');
                 //配置一个透明的询问框
                 layer.msg('确认删除' + title + '吗？', {
                     time: 20000, //20s后自动关闭
                     btn: ['确认', '退出']
-                });
-            }
+                    , btn1: function () {
+                        $.ajax({
+                            type: "POST",
+                            url: "./php/deleteWork.php",//url
+                            data: {
+                                wtid: wtid,
+                            },
+                        });
+                        gotoPage('teacher/sWork.php');
+                    }
+                })
 
+            }
         };
         $('.work').on('click', function () {
             let othis = $(this), method = othis.data('method');
             active[method] ? active[method].call(this, othis) : '';
         })
+
+    });
+
+    layui.use('element', function () {
+        let element = layui.element; //导航的hover效果、二级菜单等功能，需要依赖element模块
+
+        element.render();
     });
 </script>

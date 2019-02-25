@@ -6,7 +6,7 @@
  * Time: 22:00
  */
 require_once("../connect/conn.php");
-session_start();
+require_once("../connect/checkLogin.php");
 $cid = is_null(@$_GET['cid']) ? @$_SESSION['cid'] : @$_GET['cid'];
 $_SESSION['cid'] = is_null(@$_GET['cid']) ? @$_SESSION['cid'] : @$_GET['cid'];
 $sid = @$_SESSION['id'];
@@ -16,10 +16,12 @@ where cid = $cid");
 $row = mysqli_fetch_assoc($rs);
 ?>
 <div class="layui-col-md8 layui-col-md-offset2" style="padding-top: 30px;">
-    <ol class="breadcrumb">
-        <li onclick="backToSelect('s')" class="link">课程选择</li>
-        <li class="active">课程介绍</li>
-    </ol>
+    <div style="margin-bottom: 15px">
+        <span class="layui-breadcrumb" style="margin-bottom: 20px">
+            <a onclick="backToSelect('s')">课程选择</a>
+            <a><cite>课程介绍</cite></a>
+        </span>
+    </div>
     <table>
         <tr>
             <td>
@@ -34,3 +36,11 @@ $row = mysqli_fetch_assoc($rs);
         </tr>
     </table>
 </div>
+
+<script>
+    layui.use('element', function () {
+        let element = layui.element; //导航的hover效果、二级菜单等功能，需要依赖element模块
+
+        element.render();
+    });
+</script>

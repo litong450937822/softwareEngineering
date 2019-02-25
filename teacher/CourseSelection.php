@@ -6,15 +6,17 @@
  * Time: 13:55
  */
 require_once("../connect/conn.php");
-session_start();
+require_once("../connect/checkLogin.php");
 $tid = $_SESSION['id'];
 $rs = mysqli_query($conn, "select * from course left join teacher on course.tid = teacher.tid 
 where course.tid =  $tid");
 ?>
 <div class="layui-col-md8 layui-col-md-offset2" style="padding-top: 30px;">
-    <ol class="breadcrumb">
-        <li class="active">课程选择</li>
-    </ol>
+    <div style="margin-bottom: 15px">
+        <span class="layui-breadcrumb" style="margin-bottom: 20px">
+            <a><cite>课程选择</cite></a>
+        </span>
+    </div>
     <table class="layui-table" lay-skin="line">
         <colgroup>
             <col width="50">
@@ -45,6 +47,7 @@ where course.tid =  $tid");
     layui.use('element', function () {
         let element = layui.element; //导航的hover效果、二级菜单等功能，需要依赖element模块
 
+        element.render();
         //监听导航点击
         element.on('nav(demo)', function (elem) {
             //console.log(elem)

@@ -7,7 +7,7 @@
  */
 
 require_once("../connect/conn.php");
-session_start();
+require_once("../connect/checkLogin.php");
 $id = $_SESSION['id'];
 $dtid = $_GET['dtid'];
 $rs = mysqli_query($conn, "select * from discass_s left join student on discass_s.sid = student.sid
@@ -16,11 +16,13 @@ $rs1 = mysqli_query($conn, "select * from discass_t where dtid = $dtid");
 $row1 = mysqli_fetch_assoc($rs1);
 ?>
 <div class="layui-col-md8 layui-col-md-offset2" style="padding-top: 30px;">
-    <ol class="breadcrumb">
-        <li onclick="backToSelect('s')" class="link">课程选择</li>
-        <li class="link" onclick="gotoPage('student/courseDiscuss.php')">讨论</li>
-        <li class="active"><?php echo $row1['title'] ?></li>
-    </ol>
+    <div style="margin-bottom: 15px">
+        <span class="layui-breadcrumb" style="margin-bottom: 20px">
+            <a onclick="backToSelect('s')">课程选择</a>
+            <a onclick="gotoPage('student/courseDiscuss.php')">讨论</a>
+            <a><cite><?php echo $row1['title'] ?></cite></a>
+        </span>
+    </div>
     <div style="background-color: #f5f5f5;border-radius: 3px;padding: 5px">
         <div style="background-color: #fff;border: 1px solid #eee;padding: 5px">
             <p style="font-size: 22px">讨论题目：<?php echo $row1['title'] ?></p>
@@ -65,6 +67,11 @@ $row1 = mysqli_fetch_assoc($rs1);
 </div>
 
 <script>
+    layui.use('element', function () {
+        let element = layui.element; //导航的hover效果、二级菜单等功能，需要依赖element模块
+
+        element.render();
+    });
 
     function reply() {
         let content = $('#reply').val();

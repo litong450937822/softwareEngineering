@@ -6,10 +6,11 @@
  * Time: 10:52
  */
 require_once("../connect/conn.php");
-session_start();
+require_once("../connect/checkLogin.php");
 $wtid = $_GET['wtid'];
 $_SESSION['wtid'] = $wtid;
-$schoolNumber = $_SESSION['schoolNumber'];
+$schoolNumber = $_SESSION['number'];
+echo $_SESSION['number'];
 $cid = $_SESSION['cid'];
 $sid = $_SESSION['id'];
 $rs = mysqli_query($conn, "select * from work_t where wtid = $wtid");
@@ -25,11 +26,13 @@ $endTime = $row['endTime'];
     }
 </style>
 <div class="layui-col-md8 layui-col-md-offset2" style="padding-top: 30px;" id="layer">
-    <ol class="breadcrumb">
-        <li onclick="backToSelect('s')" class="link">课程选择</li>
-        <li onclick="gotoPage('student/sWork.php?cid='+ <?php echo $cid ?>)" class="link">作业</li>
-        <li class="active"><?php echo $row['title'] ?></li>
-    </ol>
+    <div style="margin-bottom: 15px">
+        <span class="layui-breadcrumb" style="margin-bottom: 20px">
+            <a onclick="backToSelect('s')">课程选择</a>
+            <a onclick="gotoPage('student/sWork.php?cid='+ <?php echo $cid ?>)">作业</a>
+            <a><cite><?php echo $row['title'] ?></cite></a>
+        </span>
+    </div>
     <div class="content">
         <p style="font-size: 24px"><?php echo $row['title'] ?></p>
         <table style="background-color: #eee;">
@@ -52,11 +55,11 @@ $endTime = $row['endTime'];
                 <td>提交作业</td>
             </tr>
         </table>
-        <fieldset style="margin-top: 30px;">
+        <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
             <legend>作业描述</legend>
             <p><?php echo $row['content'] ?></p>
         </fieldset>
-        <fieldset style="margin-top: 30px;">
+        <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
             <legend>我的答案</legend>
             <?php if (mysqli_num_rows($rs1) >= 1) {
                 $row1 = mysqli_fetch_assoc($rs1) ?>
@@ -77,8 +80,8 @@ $endTime = $row['endTime'];
             <button class="layui-btn <?php
             if (strtotime($nowTime) - strtotime($endTime) > 0) {
                 echo 'layui-btn-disabled';
-            } ?>" onclick="<?php if (strtotime($nowTime) - strtotime($endTime) <= 0){
-            ?>gotoPage('student/submitWork.php?title=+<?php echo $row['title'] ?>');
+            } ?>" onclick="<?php if (strtotime($nowTime) - strtotime($endTime) <= 0) {
+                ?>gotoPage('student/submitWork.php?title=+<?php echo $row['title'] ?>');
             <?php } ?>">
                 <i class="layui-icon">&#xe62f;</i> 提交作业
             </button>
@@ -102,28 +105,44 @@ $endTime = $row['endTime'];
                     , offset: 'auto' //具体配置参考：http://www.layui.com/doc/modules/layer.html#offset
                     , id: 'submitWork' //防止重复弹出
                     , content: '<div style="margin: 20px">' +
-                    '<fieldset style="margin-top: 30px;">\n' +
-                    '            <legend>我的答案</legend>' +
-                    '</fieldset>' +
-                    content +
-                    '<fieldset style="margin-top: 30px;">\n' +
-                    '            <legend>附件</legend>' +
-                    '</fieldset>' +
-                    <?php
-                    if (mysqli_num_rows($rs1) >= 1){
-                    $files = explode(';', $row1['file']);
-                    foreach($files as $file){
-                    ?>
+                        '<fieldset style="margin-top: 30px;">\n' +
+                        '            <legend>我的答案</legend>' +
+                        '</fieldset>' +
+                        content +
+                        '<fieldset style="margin-top: 30px;">\n' +
+                        '            <legend>附件</legend>' +
+                        '</fieldset>\n' +
+                        <?php
+                        if (mysqli_num_rows($rs1) >= 1){
+                        $files = explode(';', $row1['file']);
+                        foreach($files as $file){
+                        $suffix = explode('.',$file);
+                        $suffix = end($suffix);
+                        $suffix = strtolower($suffix);
+                        $common = ['ppt', 'pptx', 'doc', 'docx', 'xls', 'xlsx', 'txt'];
+                        $video = ['avi', 'mp4', 'rmvb', 'wmv', 'mkv'];
+                        $picture = ['bmp', 'jpg', 'jpge', 'png', 'gif', 'pcx', 'svg'];
+                        ?>
+                        '<img src="icon/<?php
+                            if (in_array($suffix, $common))
+                                echo $suffix;
+                            elseif (in_array($suffix, $video))
+                                echo 'video';
+                            elseif (in_array($suffix, $picture))
+                                echo 'picture';
+                            else
+                                echo 'file';
+                            ?>.png"width="12px" height="15px"/>' +
                     '<a href="./file/<?php echo $schoolNumber ?>/<?php echo $file ?>" download="<?php echo $file ?>"><?php echo $file ?></a><br/>' +
                     <?php }}  ?>
-                    '</div>'
+                        '</div>'
                     , btnAlign: 'c' //按钮居中
                     , shade: 0.3
-                    ,shadeClose: true
+                    , shadeClose: true
                     , closeBtn: 1
                     , btn1: function () {
                     }
-                    , function () {
+                    , function() {
                         layer.closeAll();
                     }
                 });
@@ -133,5 +152,11 @@ $endTime = $row['endTime'];
             let othis = $(this), method = othis.data('method');
             active[method] ? active[method].call(this, othis) : '';
         })
+    });
+
+    layui.use('element', function () {
+        let element = layui.element; //导航的hover效果、二级菜单等功能，需要依赖element模块
+
+        element.render();
     });
 </script>

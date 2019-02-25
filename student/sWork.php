@@ -6,7 +6,7 @@
  * Time: 20:58
  */
 require_once("../connect/conn.php");
-session_start();
+require_once("../connect/checkLogin.php");
 $cid = is_null(@$_GET['cid']) ? @$_SESSION['cid'] : @$_GET['cid'];
 $_SESSION['cid'] = is_null(@$_GET['cid']) ? @$_SESSION['cid'] : @$_GET['cid'];
 $sid = @$_SESSION['id'];
@@ -14,10 +14,12 @@ $rs = mysqli_query($conn, "select * from work_t where cid = $cid");
 ?>
 
 <div class="layui-col-md8 layui-col-md-offset2" style="padding-top: 30px;" id="layer">
-    <ol class="breadcrumb">
-        <li onclick="backToSelect('s')" class="link">课程选择</li>
-        <li class="active">作业</li>
-    </ol>
+    <div style="margin-bottom: 15px">
+        <span class="layui-breadcrumb" style="margin-bottom: 20px">
+            <a onclick="backToSelect('s')">课程选择</a>
+            <a><cite>作业</cite></a>
+        </span>
+    </div>
     <table class="layui-table" lay-skin="line" style="margin: auto">
         <colgroup>
             <col width="400px">
@@ -61,6 +63,12 @@ $rs = mysqli_query($conn, "select * from work_t where cid = $cid");
     </table>
 </div>
 <script>
+    layui.use('element', function () {
+        let element = layui.element; //导航的hover效果、二级菜单等功能，需要依赖element模块
+
+        element.render();
+    });
+
     $('.work').on('click', function () {
         let wtid = $(this).data('wtid');
         gotoPage('student/work.php?wtid=' + wtid);

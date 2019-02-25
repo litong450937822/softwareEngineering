@@ -6,6 +6,7 @@
  * Time: 14:39
  */
 require_once("../connect/conn.php");
+require_once("../connect/checkLogin.php");
 $id = $_POST['id'];
 $dtid = $_POST['dtid'];
 $content = $_POST['content'];

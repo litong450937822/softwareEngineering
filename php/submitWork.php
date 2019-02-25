@@ -7,7 +7,7 @@
  */
 
 require_once("../connect/conn.php");
-session_start();
+require_once("../connect/checkLogin.php");
 $wtid = $_SESSION['wtid'];
 $sid = $_SESSION['id'];
 $content = $_POST['content'];
