@@ -86,6 +86,7 @@ $rs = mysqli_query($conn, "select * from work_t where cid = $cid");
                             },
                         });
                         gotoPage('teacher/sWork.php');
+                        layer.closeAll();
                     }
                 })
 

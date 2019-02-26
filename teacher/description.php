@@ -16,10 +16,6 @@ where cid = $cid");
 $row = mysqli_fetch_assoc($rs);
 ?>
 <div class="layui-col-md8 layui-col-md-offset2" style="padding-top: 30px;">
-    <ol class="breadcrumb">
-        <li onclick="backToSelect('t')" class="link">课程选择</li>
-        <li class="active">课程介绍</li>
-    </ol>
     <div style="margin-bottom: 15px">
         <span class="layui-breadcrumb" style="margin-bottom: 20px">
             <a onclick="backToSelect()">课程选择</a>

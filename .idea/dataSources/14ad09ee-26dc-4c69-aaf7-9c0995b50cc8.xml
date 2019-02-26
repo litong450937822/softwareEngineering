@@ -1739,16 +1739,21 @@ sid</ColNames>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="388" parent="250" name="course">
+    <column id="388" parent="250" name="file">
+      <Position>7</Position>
+      <DataType>varchar(255)|0s</DataType>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <index id="389" parent="250" name="course">
       <ColNames>cid</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="389" parent="250" name="PRIMARY">
+    <key id="390" parent="250" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>wtid</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="390" parent="250" name="course">
+    <foreign-key id="391" parent="250" name="course">
       <ColNames>cid</ColNames>
       <RefSchemaName>software</RefSchemaName>
       <RefTableName>course</RefTableName>
