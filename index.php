@@ -21,6 +21,10 @@ if (!isset($_SESSION['id'])) {
         .link {
             cursor: pointer
         }
+        .content {
+            border: #eee 1px solid;
+            padding: 20px 20px 20px;
+        }
     </style>
     <script language="JavaScript">
 

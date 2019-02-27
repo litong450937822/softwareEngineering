@@ -56,10 +56,10 @@ $rs = mysqli_query($conn, "select * from work_t where cid = $cid");
     </button>
 </div>
 <script>
-    // $('.work').on('click', function () {
-    //     let wtid = $(this).data('wtid');
-    //     gotoPage('student/work.php?wtid=' + wtid);
-    // });
+    $('.work').on('click', function () {
+        let wtid = $(this).data('wtid');
+        gotoPage('teacher/workCompletion.php?wtid=' + wtid);
+    });
 
     function editWork(wtid) {
 
@@ -85,8 +85,11 @@ $rs = mysqli_query($conn, "select * from work_t where cid = $cid");
                                 wtid: wtid,
                             },
                         });
-                        gotoPage('teacher/sWork.php');
                         layer.closeAll();
+                        setTimeout(function () {
+                            gotoPage('teacher/sWork.php')
+                        }, 500);
+                        layer.msg('刪除成功');
                     }
                 })
 

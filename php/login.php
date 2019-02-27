@@ -18,10 +18,7 @@ if (mysqli_num_rows($rs) >= 1) {
     $_SESSION['identity'] = 's';
     $_SESSION['name'] = $row['name'];
     $sid= $row['sid'];
-    $sql = "SELECT clid from class_s where sid = $sid";
-    $rs = mysqli_query($conn, $sql);
-    $row = mysqli_fetch_assoc($rs);
-    $_SESSION['clid'] = $row['clid'];
+    $_SESSION['clid'] = $row['class'];
     header("location:../index.php");
 } else {
     $login_sql = "select * from teacher where number = $username and password = '$password'";

@@ -19,12 +19,7 @@ $rs1 = mysqli_query($conn, "select * from work_s where wtid = $wtid AND sid = $s
 $nowTime = date('Y/m/d h:i');
 $endTime = $row['endTime'];
 ?>
-<style>
-    .content {
-        border: #eee 1px solid;
-        padding: 20px 20px 20px;
-    }
-</style>
+
 <div class="layui-col-md8 layui-col-md-offset2" style="padding-top: 30px;" id="layer">
     <div style="margin-bottom: 15px">
         <span class="layui-breadcrumb" style="margin-bottom: 20px">

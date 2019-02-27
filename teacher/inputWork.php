@@ -66,8 +66,9 @@ require_once("../connect/checkLogin.php");
         </div>
         <div class="layui-form-item">
             <button type="button" class="layui-btn" id="testList">选择文件</button>
-            <button class="layui-btn " lay-submit="" lay-filter="insertWork" id="submit">提交</button>
+            <button type="button" class="layui-btn" id="upload">上传文件</button>
         </div>
+        <button class="layui-btn " lay-submit="" lay-filter="insertWork" id="submit">提交</button>
     </form>
 </div>
 
@@ -112,15 +113,18 @@ require_once("../connect/checkLogin.php");
             }
         });
 
-        form.on('submit(insertWork)', function(data){
-            if ($('#fileName').text() == null){
-                $.ajax({
-                    url: './php/insertWork.php',
-                    type: 'post',
-                    data: data.field
-                });
-                gotoPage('teacher/sWork.php');
-            }
+        form.on('submit(insertWork)', function (data) {
+            let fileStr = '';
+            $('td#fileName').each(function () {
+                fileStr += $(this).text() + ';';
+            });
+            fileStr = fileStr.substr(0, fileStr.length - 1);
+            $.ajax({
+                url: './php/insertWork.php',
+                type: 'post',
+                data: data.field
+            });
+            gotoPage('teacher/sWork.php');
             return false; //阻止表单跳转
         });
 
@@ -135,7 +139,6 @@ require_once("../connect/checkLogin.php");
     layui.use('upload', function () {
         let $ = layui.jquery
             , upload = layui.upload;
-        let str = '';
         let demoListView = $('#demoList')
             , uploadListIns = upload.render({
             elem: '#testList'
@@ -148,14 +151,13 @@ require_once("../connect/checkLogin.php");
             }
             , multiple: true
             , auto: false
-            , bindAction: '#submit'
+            , bindAction: '#upload'
             , choose: function (obj) {
                 let files = obj.pushFile(); //将每次选择的文件追加到文件队列
 
 
                 //读取本地文件
                 obj.preview(function (index, file) {
-                    str += file.name + ';';
                     let tr = $(['<tr id="upload-' + index + '">'
                         , '<td id="fileName">' + file.name + '</td>'
                         , '<td>' + (file.size / 1014).toFixed(1) + 'kb</td>'
@@ -176,6 +178,7 @@ require_once("../connect/checkLogin.php");
                         delete files[index]; //删除对应的文件
                         tr.remove();
                         uploadListIns.config.elem.next()[0].value = ''; //清空 input file 值，以免删除后出现同名文件不可选
+
                     });
 
                     demoListView.append(tr);
@@ -192,27 +195,8 @@ require_once("../connect/checkLogin.php");
             }
             , allDone: function (obj) { //当文件全部被提交后，才触发
                 $('.layui-word-aux').append("执行完毕，文件总数：" + obj.total + "成功：" + obj.successful + "个，失败：" + obj.aborted + "个");
-                let content = $('textarea[name="content"]').val()
-                    , title = $('input[name="title"]').val()
-                    , startTime = $('input[name="startTime"]').val()
-                    , endTime = $('input[name="endTime"]').val();
-                str = str.substr(0, str.length - 1);
-                let data = {
-                    title: title
-                    , startTime: startTime
-                    , endTime: endTime
-                    , content: content
-                    , file: str
-                };
-                $.ajax({
-                    url: './php/insertWork.php',
-                    type: 'post',
-                    data: data
-                });
+
                 layer.msg("上传完毕，文件总数：" + obj.total + "成功：" + obj.successful + "个，失败：" + obj.aborted + "个");
-                setTimeout(function () {
-                    gotoPage('teacher/sWork.php')
-                }, 2000);
             }
         });
     });

@@ -14,6 +14,7 @@ $rs = mysqli_query($conn, "select * from course left join teacher on course.tid 
  left join class on course.clid = class.clid
 where cid = $cid");
 $row = mysqli_fetch_assoc($rs);
+$_SESSION['clid'] = $row['clid'];
 ?>
 <div class="layui-col-md8 layui-col-md-offset2" style="padding-top: 30px;">
     <div style="margin-bottom: 15px">

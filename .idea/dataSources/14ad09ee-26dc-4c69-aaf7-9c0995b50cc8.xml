@@ -1331,7 +1331,8 @@ sid</ColNames>
     </column>
     <key id="318" parent="241" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
-      <ColNames>sid</ColNames>
+      <ColNames>sid
+schoolNumber</ColNames>
       <Primary>1</Primary>
     </key>
     <column id="319" parent="242" name="tid">
@@ -1361,7 +1362,8 @@ sid</ColNames>
     </column>
     <key id="323" parent="242" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
-      <ColNames>tid</ColNames>
+      <ColNames>tid
+number</ColNames>
       <Primary>1</Primary>
     </key>
     <column id="324" parent="243" name="number">
