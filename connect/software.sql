@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50720
 File Encoding         : 65001
 
-Date: 2019-02-19 23:21:25
+Date: 2019-03-01 07:37:26
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -84,7 +84,7 @@ CREATE TABLE `discass_s` (
   KEY `student` (`sid`) USING BTREE,
   KEY `disscuse` (`dtid`),
   CONSTRAINT `disscuse` FOREIGN KEY (`dtid`) REFERENCES `discass_t` (`dtid`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
 -- Records of discass_s
@@ -175,18 +175,20 @@ DROP TABLE IF EXISTS `student`;
 CREATE TABLE `student` (
   `sid` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
-  `class` varchar(255) NOT NULL,
+  `class` int(255) NOT NULL,
   `password` varchar(255) NOT NULL,
   `major` varchar(255) NOT NULL,
   `schoolNumber` int(11) NOT NULL,
   `studyTime` int(255) NOT NULL,
-  PRIMARY KEY (`sid`) USING BTREE
+  PRIMARY KEY (`sid`,`schoolNumber`),
+  KEY `class1` (`class`),
+  CONSTRAINT `class1` FOREIGN KEY (`class`) REFERENCES `class` (`clid`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
 -- Records of student
 -- ----------------------------
-INSERT INTO `student` VALUES ('1', '测试学生1', '测试班级1', '123456', '测试专业1', '1000001', '0');
+INSERT INTO `student` VALUES ('1', '测试学生1', '1', '123456', '测试专业1', '1000001', '0');
 
 -- ----------------------------
 -- Table structure for teacher
@@ -197,7 +199,7 @@ CREATE TABLE `teacher` (
   `number` int(11) NOT NULL,
   `password` varchar(255) NOT NULL,
   `name` varchar(255) NOT NULL,
-  PRIMARY KEY (`tid`) USING BTREE
+  PRIMARY KEY (`tid`,`number`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
@@ -327,7 +329,7 @@ CREATE TABLE `work_s` (
   `wtid` int(11) NOT NULL,
   `sid` int(11) NOT NULL,
   `submitTime` varchar(19) NOT NULL,
-  `content` varchar(255) NOT NULL,
+  `answer` varchar(255) NOT NULL,
   `file` varchar(255) DEFAULT NULL,
   `score` int(11) DEFAULT '0',
   PRIMARY KEY (`wtid`,`sid`) USING BTREE,
@@ -340,7 +342,6 @@ CREATE TABLE `work_s` (
 -- Records of work_s
 -- ----------------------------
 INSERT INTO `work_s` VALUES ('1', '1', '2018/11/17 15:21', '测试作业答案1', 'test1.jpg;test2.jpg', '0');
-INSERT INTO `work_s` VALUES ('2', '1', '2018/12/01 05:14', '', '《PHP程序设计》设计报告.doc', '0');
 
 -- ----------------------------
 -- Table structure for work_t
@@ -353,6 +354,7 @@ CREATE TABLE `work_t` (
   `content` varchar(255) NOT NULL,
   `startTime` varchar(19) NOT NULL,
   `endTime` varchar(19) NOT NULL,
+  `file` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`wtid`) USING BTREE,
   KEY `course` (`cid`) USING BTREE,
   CONSTRAINT `course` FOREIGN KEY (`cid`) REFERENCES `course` (`cid`) ON DELETE NO ACTION
@@ -361,5 +363,5 @@ CREATE TABLE `work_t` (
 -- ----------------------------
 -- Records of work_t
 -- ----------------------------
-INSERT INTO `work_t` VALUES ('1', '测试作业1', '1', '测试作业1内容', '2018/11/16 16:00', '2018/11/30 18:00');
-INSERT INTO `work_t` VALUES ('2', '测试作业2', '1', '测试作业2内容', '2018/11/01 18:00', '2019/01/13 16:00');
+INSERT INTO `work_t` VALUES ('1', '测试作业1', '1', '测试作业1内容', '2018/11/16 16:00', '2018/11/30 18:00', null);
+INSERT INTO `work_t` VALUES ('2', '测试作业2', '1', '测试作业2内容', '2018/11/01 18:00', '2019/01/13 16:00', null);

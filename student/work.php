@@ -63,7 +63,7 @@ $endTime = $row['endTime'];
                         <col width="1000">
                         <col width="200">
                     </colgroup>
-                    <tr class="link" data-method="offset" data-cont="<?php echo $row1['content'] ?>"
+                    <tr class="link" data-method="offset" data-cont="<?php echo $row1['answer'] ?>"
                         data-title="<?php echo $row['title'] ?>" id="work">
                         <td>我的答案</td>
                         <td><?php echo $row1['submitTime'] ?></td>
@@ -100,23 +100,25 @@ $endTime = $row['endTime'];
                     , offset: 'auto' //具体配置参考：http://www.layui.com/doc/modules/layer.html#offset
                     , id: 'submitWork' //防止重复弹出
                     , content: '<div style="margin: 20px">' +
-                        '<fieldset style="margin-top: 30px;">\n' +
+                        '<fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">\n' +
                         '            <legend>我的答案</legend>' +
                         '</fieldset>' +
                         content +
-                        '<fieldset style="margin-top: 30px;">\n' +
+                        '<fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">\n' +
                         '            <legend>附件</legend>' +
                         '</fieldset>\n' +
                         <?php
                         if (mysqli_num_rows($rs1) >= 1){
+                        if ($row1['file'] != null){
                         $files = explode(';', $row1['file']);
                         foreach($files as $file){
-                        $suffix = explode('.',$file);
+                        $suffix = explode('.', $file);
                         $suffix = end($suffix);
                         $suffix = strtolower($suffix);
                         $common = ['ppt', 'pptx', 'doc', 'docx', 'xls', 'xlsx', 'txt'];
                         $video = ['avi', 'mp4', 'rmvb', 'wmv', 'mkv'];
                         $picture = ['bmp', 'jpg', 'jpge', 'png', 'gif', 'pcx', 'svg'];
+                        $rar = ['rar', 'zip', '7z'];
                         ?>
                         '<img src="icon/<?php
                             if (in_array($suffix, $common))
@@ -125,11 +127,13 @@ $endTime = $row['endTime'];
                                 echo 'video';
                             elseif (in_array($suffix, $picture))
                                 echo 'picture';
+                            elseif (in_array($suffix, $rar))
+                                echo 'rar';
                             else
                                 echo 'file';
-                            ?>.png"width="12px" height="15px"/>' +
-                    '<a href="./file/<?php echo $schoolNumber ?>/<?php echo $file ?>" download="<?php echo $file ?>"><?php echo $file ?></a><br/>' +
-                    <?php }}  ?>
+                            ?>.png"width="18px" height="20px"/>' +
+                        '<a href="./file/<?php echo $schoolNumber ?>/<?php echo $file ?>" download="<?php echo $file ?>"><?php echo $file ?></a><br/>' +
+                        <?php }}}  ?>
                         '</div>'
                     , btnAlign: 'c' //按钮居中
                     , shade: 0.3

@@ -14,7 +14,7 @@ $clid = $_SESSION['clid'];
 $sql = "SELECT * FROM work_t WHERE wtid = $wtid";
 $rs = mysqli_query($conn, $sql);
 $row = mysqli_fetch_assoc($rs);
-$sql1 = "SELECT student.name,work_s.score FROM student LEFT JOIN work_s ON student.sid = work_s.sid AND wtid = $wtid WHERE class = $clid ";
+$sql1 = "SELECT student.name,work_s.score,work_s.wtid, student.sid FROM student LEFT JOIN work_s ON student.sid = work_s.sid AND wtid = $wtid WHERE class = $clid ";
 $rs1 = mysqli_query($conn, $sql1);
 ?>
 
@@ -69,10 +69,11 @@ $rs1 = mysqli_query($conn, $sql1);
             <?php
             while ($row1 = mysqli_fetch_assoc($rs1)) {
                 ?>
-                <tr>
+                <tr onclick="gotoPage('teacher/browseWork.php?wtid=<?php echo $wtid ?>&sid=<?php
+                echo $row1['sid'] ?>')">
                     <td><?php echo $row1['name'] ?></td>
-                    <td style="text-align: center"><?php
-                        if ($row1['score'] == null)
+                    <td style="text-align: center">
+                        <?php if ($row1['score'] == null)
                             echo '<p style="color: #FF5722">未提交</p>';
                         else
                             echo $row1['score']
