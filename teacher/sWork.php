@@ -15,10 +15,13 @@ $rs = mysqli_query($conn, "select * from work_t where cid = $cid");
 <div class="layui-col-md8 layui-col-md-offset2" style="padding-top: 30px;" id="layer">
     <div style="margin-bottom: 15px">
         <span class="layui-breadcrumb" style="margin-bottom: 20px">
-            <a onclick="backToSelect('t')">课程选择</a>
+            <a class="link" onclick="backToSelect('t')">课程选择</a>
             <a><cite>作业</cite></a>
         </span>
     </div>
+    <?php
+    if (mysqli_num_rows($rs) >= 1) {
+    ?>
     <table class="layui-table" lay-skin="line" style="margin: auto">
         <colgroup>
             <col width="550px">
@@ -34,8 +37,8 @@ $rs = mysqli_query($conn, "select * from work_t where cid = $cid");
         <?php
         while ($row = mysqli_fetch_assoc($rs)) {
             ?>
-            <tr class="work link" data-wtid="<?php echo $row['wtid'] ?>">
-                <td><?php echo $row['title'] ?></td>
+            <tr>
+                <td class="work link" data-wtid="<?php echo $row['wtid'] ?>"><?php echo $row['title'] ?></td>
                 <td style="text-align: center">
                     <button class="layui-btn layui-btn-sm"
                             onclick="editWork(<?php echo $row['wtid'] ?>)">
@@ -51,6 +54,16 @@ $rs = mysqli_query($conn, "select * from work_t where cid = $cid");
         ?>
         </tbody>
     </table>
+        <?php
+    } else {
+        ?>
+        <div style="width: 100%;height: 150px;background-color: #f5f5f5;
+        text-align: center;line-height: 150px;border-radius: 4px">
+            <p style="color: #999;font-size: 30px;font-weight: bolder">该课程暂无作业</p>
+        </div>
+        <?php
+    }
+    ?>
     <button class="layui-btn layui-col-md-offset5" style="margin-top: 20px" onclick="gotoPage('teacher/inputWork.php')">
         <i class="layui-icon">&#xe608;</i> 添加
     </button>
@@ -95,10 +108,6 @@ $rs = mysqli_query($conn, "select * from work_t where cid = $cid");
 
             }
         };
-        $('.work').on('click', function () {
-            let othis = $(this), method = othis.data('method');
-            active[method] ? active[method].call(this, othis) : '';
-        })
 
     });
 

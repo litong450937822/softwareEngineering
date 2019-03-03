@@ -25,16 +25,22 @@ if (!isset($_SESSION['id'])) {
             border: #eee 1px solid;
             padding: 20px 20px 20px;
         }
+        .question {
+            border: #eee 1px solid;
+            margin: 20px 20px 20px;
+        }
     </style>
     <script language="JavaScript">
 
         $(function () {
+            let content = $('#content');
+            let menu = $('#menu');
             <?php if ($_SESSION['identity'] == 's' ){?>
-            $('#content').load('student/CourseSelection.php');
-            $('#menu').load('navigation/studentMenu.html');
+            content.load('student/CourseSelection.php');
+            menu.load('navigation/studentMenu.html');
             <?php }else { ?>
-            $('#content').load('teacher/CourseSelection.php');
-            $('#menu').load('navigation/teacherMenu.html');
+            content.load('teacher/CourseSelection.php');
+            menu.load('navigation/teacherMenu.html');
             <?php } ?>
             $('#left_menu').hide();
         });
@@ -112,5 +118,5 @@ if (!isset($_SESSION['id'])) {
 </div>
 
 </body>
-</html>
+</!DOCTYPE html>
 

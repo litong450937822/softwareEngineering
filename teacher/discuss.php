@@ -21,8 +21,8 @@ $row1 = mysqli_fetch_assoc($rs1);
 <div class="layui-col-md8 layui-col-md-offset2" style="padding-top: 30px;">
     <div style="margin-bottom: 15px">
         <span class="layui-breadcrumb" style="margin-bottom: 20px">
-            <a class="link" onclick="backToSelect('s')">课程选择</a>
-            <a class="link" onclick="gotoPage('student/courseDiscuss.php')">讨论</a>
+            <a class="link" onclick="backToSelect('t')">课程选择</a>
+            <a class="link" onclick="gotoPage('teacher/courseDiscuss.php')">讨论</a>
             <a><cite><?php echo $row1['title'] ?></cite></a>
         </span>
     </div>
@@ -71,6 +71,7 @@ $row1 = mysqli_fetch_assoc($rs1);
             <div class="layui-form-item" style="margin-top: 10px;">
                 <button class="layui-btn layui-col-md-offset5" onclick="reply()">回复</button>
             </div>
+        </fieldset>
     </div>
 
 </div>
@@ -97,7 +98,7 @@ $row1 = mysqli_fetch_assoc($rs1);
             success: function (result) {
                 console.log(result);//打印服务端返回的数据(调试用)
                 layer.msg("回复成功");
-                gotoPage('school/discuss.php?dtid=<?php echo $dtid; ?>');
+                gotoPage('teacher/discuss.php?dtid=<?php echo $dtid; ?>');
             },
             error: function () {
                 layer.msg("回复失败");
@@ -115,7 +116,7 @@ $row1 = mysqli_fetch_assoc($rs1);
             success: function (result) {
                 console.log(result);//打印服务端返回的数据(调试用)
                 layer.msg("删除成功");
-                gotoPage('school/discuss.php?dtid=<?php echo $dtid; ?>');
+                gotoPage('teacher/discuss.php?dtid=<?php echo $dtid; ?>');
             },
             error: function () {
                 layer.msg("删除失败");

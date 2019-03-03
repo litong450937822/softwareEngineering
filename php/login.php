@@ -9,12 +9,12 @@ require_once("../connect/conn.php");
 session_start();
 @$username = $_POST['schoolNumber'];
 @$password = $_POST['password'];
-$login_sql = "select * from student where schoolNumber = $username and password = '$password'";
+$login_sql = "select * from student where number = $username and password = '$password'";
 $rs = mysqli_query($conn, $login_sql);
 if (mysqli_num_rows($rs) >= 1) {
     $row = mysqli_fetch_assoc($rs);
     $_SESSION['id'] = $row['sid'];
-    $_SESSION['number'] = $row['schoolNumber'];
+    $_SESSION['number'] = $row['number'];
     $_SESSION['identity'] = 's';
     $_SESSION['name'] = $row['name'];
     $sid= $row['sid'];
@@ -26,7 +26,7 @@ if (mysqli_num_rows($rs) >= 1) {
     if (mysqli_num_rows($rs) >= 1) {
         $row = mysqli_fetch_assoc($rs);
         $_SESSION['id'] = $row['tid'];
-        $_SESSION['number'] = $row['schoolNumber'];
+        $_SESSION['number'] = $row['number'];
         $_SESSION['identity'] = 't';
         $_SESSION['name'] = $row['name'];
         header("location:../index.php");

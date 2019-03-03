@@ -35,7 +35,7 @@
         <label class="layui-form-label">选择框</label>
         <div class="layui-input-block">
             <select name="city" lay-verify="required">
-                <option value=""></option>
+                <option value="" ></option>
                 <option value="0">北京</option>
                 <option value="1">上海</option>
                 <option value="2">广州</option>

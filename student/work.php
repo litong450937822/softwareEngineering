@@ -23,8 +23,8 @@ $endTime = $row['endTime'];
 <div class="layui-col-md8 layui-col-md-offset2" style="padding-top: 30px;" id="layer">
     <div style="margin-bottom: 15px">
         <span class="layui-breadcrumb" style="margin-bottom: 20px">
-            <a onclick="backToSelect('s')">课程选择</a>
-            <a onclick="gotoPage('student/sWork.php?cid='+ <?php echo $cid ?>)">作业</a>
+            <a class="link" onclick="backToSelect('s')">课程选择</a>
+            <a class="link" onclick="gotoPage('student/sWork.php?cid='+ <?php echo $cid ?>)">作业</a>
             <a><cite><?php echo $row['title'] ?></cite></a>
         </span>
     </div>

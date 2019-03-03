@@ -18,7 +18,7 @@ $row = mysqli_fetch_assoc($rs);
 <div class="layui-col-md8 layui-col-md-offset2" style="padding-top: 30px;">
     <div style="margin-bottom: 15px">
         <span class="layui-breadcrumb" style="margin-bottom: 20px">
-            <a onclick="backToSelect('s')">课程选择</a>
+            <a class="link" onclick="backToSelect('s')">课程选择</a>
             <a><cite>课程介绍</cite></a>
         </span>
     </div>

@@ -21,8 +21,8 @@ $rs1 = mysqli_query($conn, $sql1);
 <div class="layui-col-md8 layui-col-md-offset2" style="padding-top: 30px;" id="layer">
     <div style="margin-bottom: 15px">
         <span class="layui-breadcrumb" style="margin-bottom: 20px">
-            <a onclick="backToSelect('t')">课程选择</a>
-            <a onclick="gotoPage('teacher/sWork.php')">作业</a>
+            <a class="link" onclick="backToSelect('t')">课程选择</a>
+            <a class="link" onclick="gotoPage('teacher/sWork.php')">作业</a>
             <a><cite><?php echo $row['title'] ?></cite></a>
         </span>
     </div>
@@ -62,7 +62,7 @@ $rs1 = mysqli_query($conn, $sql1);
             <thead>
             <tr>
                 <th>姓名</th>
-                <th style="text-align: center">操作</th>
+                <th style="text-align: center">得分</th>
             </tr>
             </thead>
             <tbody>

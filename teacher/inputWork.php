@@ -13,8 +13,8 @@ require_once("../connect/checkLogin.php");
 <div class="layui-col-md8 layui-col-md-offset2" style="padding-top: 30px;" id="layer">
     <div style="margin-bottom: 15px">
         <span class="layui-breadcrumb" style="margin-bottom: 20px">
-            <a onclick="backToSelect('t')">课程选择</a>
-            <a onclick="gotoPage('teacher/sWork.php')">作业</a>
+            <a class="link" onclick="backToSelect('t')">课程选择</a>
+            <a class="link" onclick="gotoPage('teacher/sWork.php')">作业</a>
             <a><cite>添加作业</cite></a>
         </span>
     </div>
@@ -96,7 +96,7 @@ require_once("../connect/checkLogin.php");
         form.verify({
             title: function (value) {
                 if (value.length < 5) {
-                    return '标题至少得5个字符啊';
+                    return '标题不得少于5个字符';
                 }
             }
             , endTime: function (value) {

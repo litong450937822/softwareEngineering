@@ -19,7 +19,7 @@ $_SESSION['clid'] = $row['clid'];
 <div class="layui-col-md8 layui-col-md-offset2" style="padding-top: 30px;">
     <div style="margin-bottom: 15px">
         <span class="layui-breadcrumb" style="margin-bottom: 20px">
-            <a onclick="backToSelect()">课程选择</a>
+            <a class="link" onclick="backToSelect('t')">课程选择</a>
             <a><cite>课程介绍</cite></a>
         </span>
     </div>
