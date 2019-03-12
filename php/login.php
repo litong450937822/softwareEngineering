@@ -17,8 +17,9 @@ if (mysqli_num_rows($rs) >= 1) {
     $_SESSION['number'] = $row['number'];
     $_SESSION['identity'] = 's';
     $_SESSION['name'] = $row['name'];
-    $sid= $row['sid'];
-    $_SESSION['clid'] = $row['class'];
+    $sid = $row['sid'];
+    $_SESSION['clid'] = $row['clid'];
+    $_SESSION['loginTime'] = date('H:i:s');
     header("location:../index.php");
 } else {
     $login_sql = "select * from teacher where number = $username and password = '$password'";

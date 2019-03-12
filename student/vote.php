@@ -7,25 +7,25 @@
  */
 require_once("../connect/conn.php");
 require_once("../connect/checkLogin.php");
-$ttid = $_GET['ttid'];
-$_SESSION['ttid'] = $ttid;
+
+$vtid = $_GET['vtid'];
+$_SESSION['vtid'] = $vtid;
 $clid = $_SESSION['clid'];
-$sql = "SELECT * FROM test_t WHERE ttid = $ttid";
+$sql = "SELECT * FROM vote_t WHERE vtid = $vtid";
 $rs = mysqli_query($conn, $sql);
 $row = mysqli_fetch_assoc($rs);
-$sql1 = "SELECT * FROM test_q WHERE ttid = $ttid ";
-$rs1 = mysqli_query($conn, $sql1);
-$count = mysqli_num_rows($rs1);
 $nowTime = date('Y/m/d H:i:s');
 $endTime = $row['endTime'];
-$_SESSION['testTime'] = date('H:i:s');
+$date = date('Y/m/d');
+$sql = "INSERT INTO time (date, type, sid) VALUES ('" . $date . "','V',$sid)";
+$conn->query($sql);
 ?>
 
 <div class="layui-col-md8 layui-col-md-offset2" style="padding-top: 30px;">
     <div style="margin-bottom: 15px">
         <span class="layui-breadcrumb" style="margin-bottom: 20px">
             <a class="link" onclick="backToSelect('s')">课程选择</a>
-            <a class="link" onclick="gotoPage('student/courseTest.php')">测试</a>
+            <a class="link" onclick="gotoPage('student/courseVote.php')">课程问卷</a>
             <a><cite><?php echo $row['title'] ?></cite></a>
         </span>
     </div>
@@ -39,10 +39,10 @@ $_SESSION['testTime'] = date('H:i:s');
                 <col width="500">
             </colgroup>
             <tr style="height: 40px;">
-                <td style="padding: 20px">测试标题：</td>
+                <td style="padding: 20px">投票名称：</td>
                 <td><?php echo $row['title'] ?></td>
-                <td>题目数量：</td>
-                <td><?php echo $count ?></td>
+                <td></td>
+                <td></td>
             </tr>
             <tr style="height: 40px;">
                 <td style="padding: 20px">开放时间：</td>
@@ -51,37 +51,31 @@ $_SESSION['testTime'] = date('H:i:s');
                 <td><?php echo $row['endTime'] ?></td>
             </tr>
         </table>
-        <form class="layui-form layui-form-pane" action="" lay-filter="test">
-            <div style='border: #eee 1px solid;padding: 20px;margin-top: 20px;
-                                    height: auto' id='question" + questionID + "'>
-                <?php
-                $number = 1;
-                while ($row1 = mysqli_fetch_assoc($rs1)) {
-                    ?>
+        <form class="layui-form layui-form-pane" action="" lay-filter="vote">
+            <div style='border: #eee 1px solid;padding: 20px;margin-top: 20px;height: auto'>
 
-                    <div class="layui-form-item">
-                        <p style="font-size: 24px"><?php echo $number . '.' . $row1['question'] ?></p>
-                        <label class="layui-form-label">答案</label>
-                        <div class="layui-input-block">
-                            <select name="answer<?php echo $row1['number'] ?>" lay-verify="required">
-                                <option value=""></option>
-                                <option value="A">A.<?php echo $row1['option1'] ?></option>
-                                <option value="B">B.<?php echo $row1['option2'] ?></option>
-                                <option value="C">C.<?php echo $row1['option3'] ?></option>
-                                <option value="D">D.<?php echo $row1['option4'] ?></option>
-                            </select>
-                        </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">选项</label>
+                    <div class="layui-input-block">
+                        <select name="result" lay-verify="required">
+                            <option value=""></option>
+                            <?php
+                            $option = explode(";", $row['options']);
+                            for ($i = 0;$i < count($option);$i++){
+                            ?>
+                            <option value="<?php echo $i; ?>"><?php echo $option[$i];  ?></option>
+                            <?php
+                            }
+                            ?>
+                        </select>
                     </div>
+                </div>
 
-                    <?php
-                    $number++;
-                }
-                ?>
                 <div align="center">
 
                     <button class="layui-btn <?php if (strtotime($nowTime) - strtotime($endTime) > 0)
-                        echo 'layui-btn-disabled'; ?>" lay-submit=""
-                            lay-filter="<?php if (strtotime($nowTime) - strtotime($endTime) <= 0) echo 'insertTest'; ?>"
+                    echo 'layui-btn-disabled'; ?>" lay-submit=""
+                            lay-filter="insertVote"
 
                             id="submit" style="margin-top: 20px">提交
                     </button>
@@ -98,19 +92,21 @@ $_SESSION['testTime'] = date('H:i:s');
         });
 
         layui.use(['form', 'layedit', 'laydate'], function () {
-            let form = layui.form
-                , layer = layui.layer;
+            let form = layui.form;
 
             form.render();
-
-            form.on('submit(insertTest)', function (data) {
+            //日期
+            form.on('submit(insertVote)', function (data) {
                 <?php if (strtotime($nowTime) - strtotime($endTime) <= 0) { ?>
                 $.ajax({
-                    url: './php/insertTest_s.php',
+                    url: './php/insertVote_s.php',
                     type: 'post',
                     data: data.field,
                     success: function (data) {
-                        gotoPage('student/courseTest.php');
+                        gotoPage('student/courseVote.php');
+                    },
+                    error: function () {
+                        layer.msg("该投票您已参加过");
                     }
                 });
                 <?php

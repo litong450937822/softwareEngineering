@@ -8,17 +8,17 @@
 
 require_once("../connect/conn.php");
 require_once("../connect/checkLogin.php");
+
 $cid = $_SESSION['cid'];
-$rs = mysqli_query($conn, "select * from test_t where cid = $cid");
+$rs = mysqli_query($conn, "select * from question_t where cid = $cid");
 $sid = $_SESSION['id'];
-$nowTime = date('Y/m/d H:i:s');
 ?>
 
 <div class="layui-col-md8 layui-col-md-offset2" style="padding-top: 30px;">
     <div style="margin-bottom: 15px">
         <span class="layui-breadcrumb" style="margin-bottom: 20px">
             <a class="link" onclick="backToSelect('s')">课程选择</a>
-            <a><cite>测试</cite></a>
+            <a><cite>问卷</cite></a>
         </span>
     </div>
     <?php
@@ -29,44 +29,36 @@ $nowTime = date('Y/m/d H:i:s');
                 <col width="400px">
                 <col width="150px">
                 <col width="200px">
-                <col width="150px">
             </colgroup>
             <thead>
             <tr>
-                <th>测验名称</th>
+                <th>问卷名称</th>
                 <th>状态</th>
                 <th>截止时间</th>
-                <th>成绩</th>
             </tr>
             </thead>
             <tbody>
             <?php
             while ($row = mysqli_fetch_assoc($rs)) {
-                $ttid = $row['ttid'];
-                $rs1 = mysqli_query($conn, "Select * from test_s where sid = $sid and ttid = $ttid");
+                $qtid = $row['qtid'];
+                $rs1 = mysqli_query($conn, "Select * from question_s where sid = $sid and qtid = $qtid");
                 ?>
                 <tr>
-                    <td class="test link" data-ttid="<?php echo $row['ttid'] ?>">
+                    <td class="questionnaire link" data-qtid="<?php echo $row['qtid'] ?>">
                         <?php echo $row['title'] ?></td>
                     <?php
                     if (mysqli_num_rows($rs1) >= 1) {
                         $row1 = mysqli_fetch_assoc($rs1)
                         ?>
-                        <td><p style="color: #009688">已交</p></td>
-                        <td><?php echo $row['endTime']; ?> </td>
-                        <td><p style="color: #009688">
-                                <?php if (strtotime($nowTime) - strtotime($row['endTime']) > 0) {
-                                    echo $row1['score'];
-                                } else echo '未公布'; ?></p></td>
+                        <td><p style="color: #009688">已完成</p></td>
                         <?php
                     } else {
                         ?>
-                        <td><p style="color: #ff5722">未交</p></td>
-                        <td><?php echo $row['endTime']; ?> </td>
-                        <td><p style="color: #ff5722">0</p></td>
+                        <td><p style="color: #ff5722">未完成</p></td>
                         <?php
                     }
                     ?>
+                    <td><?php echo $row['endTime']; ?> </td>
                 </tr>
                 <?php
             }
@@ -78,7 +70,7 @@ $nowTime = date('Y/m/d H:i:s');
         ?>
         <div style="width: 100%;height: 150px;background-color: #f5f5f5;
         text-align: center;line-height: 150px;border-radius: 4px">
-            <p style="color: #999;font-size: 30px;font-weight: bolder">该课程暂无测试</p>
+            <p style="color: #999;font-size: 30px;font-weight: bolder">该课程暂无问卷</p>
         </div>
         <?php
     }
@@ -92,8 +84,8 @@ $nowTime = date('Y/m/d H:i:s');
         element.render();
     });
 
-    $('.test').on('click', function () {
-        let ttid = $(this).data('ttid');
-        gotoPage('student/test.php?ttid=' + ttid);
+    $('.questionnaire').on('click', function () {
+        let qtid = $(this).data('qtid');
+        gotoPage('student/questionnaire.php?qtid=' + qtid);
     })
 </script>

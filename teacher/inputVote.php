@@ -2,8 +2,8 @@
 /**
  * Created by PhpStorm.
  * User: TemperanceXIV
- * Date: 2019/3/2
- * Time: 22:52
+ * Date: 2019/3/5
+ * Time: 21:04
  */
 
 require_once("../connect/conn.php");
@@ -14,13 +14,13 @@ require_once("../connect/checkLogin.php");
     <div style="margin-bottom: 15px">
         <span class="layui-breadcrumb" style="margin-bottom: 20px">
             <a class="link" onclick="backToSelect('t')">课程选择</a>
-            <a class="link" onclick="gotoPage('teacher/courseTest.php')">测试</a>
-            <a><cite>添加测试</cite></a>
+            <a class="link" onclick="gotoPage('teacher/courseVote.php')">课程投票</a>
+            <a><cite>添加投票</cite></a>
         </span>
     </div>
     <form class="layui-form layui-form-pane" action="" lay-filter="test">
         <div class="layui-form-item">
-            <label class="layui-form-label">测试标题</label>
+            <label class="layui-form-label">投票标题</label>
             <div class="layui-input-block">
                 <input type="text" name="title" autocomplete="off" placeholder="请输入标题" lay-verify="title"
                        class="layui-input">
@@ -42,12 +42,12 @@ require_once("../connect/checkLogin.php");
                 </div>
             </div>
         </div>
-        <div id="question"></div>
+        <div id="question" style="border: #eee 1px solid;padding: 20px;margin-bottom: 20px;height: auto; "></div>
         <div id="button" style="width: auto; margin: auto;" align="center"></div>
         <div style="width: auto; margin: auto;" align="center">
             <button class="layui-btn layui-btn-fluid layui-btn-primary" lay-filter="addQuestion"
                     id="addQuestion" lay-submit=""
-            "><i class="layui-icon">&#xe608;</i>添加题目
+            "><i class="layui-icon">&#xe608;</i>添加选项
             <button class="layui-btn" lay-submit="" lay-filter="insertTest" id="submit" style="margin-top: 20px">提交
             </button>
         </div>
@@ -55,6 +55,10 @@ require_once("../connect/checkLogin.php");
 </div>
 
 <script>
+    $(function () {
+       $('#question').hide();
+    });
+
     questionID = 1;
 
     layui.use(['form', 'layedit', 'laydate'], function () {
@@ -98,47 +102,18 @@ require_once("../connect/checkLogin.php");
         });
 
         form.on('submit(addQuestion)', function () {
-            $('#question').append("<div style='border: #eee 1px solid;padding: 20px;margin-bottom: 20px;" +
-                "height: auto' id='question" + questionID + "'>\n" +
+            let question = $("#question");
+            question.show();
+            question.append("<div class='layui-form-item' id='question" + questionID + "'  >"+
                 "<label class=\"layui-form-label\">问题" + questionID + "</label>\n" +
                 "<div class=\"layui-input-block\">\n" +
                 "<input type=\"text\" name=\"question" + questionID + "\" autocomplete=\"off\" " +
                 "placeholder=\"请输入问题\" lay-verify=\"required\" class=\"layui-input\">\n" +
                 "</div>\n" +
-                "<label class=\"layui-form-label\">选项A</label>\n" +
-                "<div class=\"layui-input-block\">\n" +
-                "<input type=\"text\" name=\"question" + questionID + "A\" autocomplete=\"off\"" +
-                " placeholder=\"请输入选项A\" lay-verify=\"required\" class=\"layui-input\">\n" +
-                "</div>\n" +
-                "<label class=\"layui-form-label\">选项B</label>\n" +
-                "<div class=\"layui-input-block\">\n" +
-                "<input type=\"text\" name=\"question" + questionID + "B\" autocomplete=\"off\" " +
-                "placeholder=\"请输入选项B\" lay-verify=\"required\" class=\"layui-input\">\n" +
-                "</div>\n" +
-                "<label class=\"layui-form-label\">选项C</label>\n" +
-                "<div class=\"layui-input-block\">\n" +
-                "<input type=\"text\" name=\"question" + questionID + "C\" autocomplete=\"off\" " +
-                "placeholder=\"请输入选项C\" lay-verify=\"required\" class=\"layui-input\">\n" +
-                "</div>\n" +
-                "<label class=\"layui-form-label\">选项D</label>\n" +
-                "<div class=\"layui-input-block\">\n" +
-                "<input type=\"text\" name=\"question" + questionID + "D\" autocomplete=\"off\" " +
-                "placeholder=\"请输入选项D\" lay-verify=\"required\" class=\"layui-input\">\n" +
-                "</div>\n" +
-                "<label class=\"layui-form-label\">答案</label>\n" +
-                "<div class=\"layui-input-block\">\n" +
-                "<select name=\"answer" + questionID + "\"  lay-verify=\"required\">\n" +
-                "<option value=''></option>\n" +
-                "<option value=\"A\">A</option>\n" +
-                "<option value=\"B\" >B</option>\n" +
-                "<option value=\"C\">C</option>\n" +
-                "<option value=\"D\">D</option>\n" +
-                "</select>\n" +
-                "</div>" +
                 "</div>");
             if (questionID === 1) {
                 $('#button').append("<button class=\"layui-btn layui-btn-fluid layui-btn-primary\" lay-filter=\"delQuestion\"\n" +
-                    "id=\"delQuestion\" lay-submit=\"\" style='margin-bottom: 10px' \"><i class=\"layui-icon\">&#x1007;</i>删除题目\n" +
+                    "id=\"delQuestion\" lay-submit=\"\" style='margin-bottom: 10px' \"><i class=\"layui-icon\">&#x1007;</i>删除选项\n" +
                     "</button>\n")
             }
             form.render();
@@ -150,19 +125,21 @@ require_once("../connect/checkLogin.php");
             let div = 'question' + (questionID - 1);
             $("#" + div).remove();
             questionID--;
-            if (questionID === 1)
+            if (questionID === 1){
+                $('#question').hide();
                 $('#delQuestion').remove();
+            }
             return false; //阻止表单跳转
         });
 
         form.on('submit(insertTest)', function (data) {
             $.ajax({
-                url: './php/insertTest.php',
+                url: './php/insertVote.php',
                 type: 'post',
                 data: data.field,
                 success: function (data) {
-                    layer.msg('添加测验成功，共' + data + '道题目');
-                    gotoPage('teacher/courseTest.php');
+                    layer.msg('添加投票成功，共' + data + '个选项');
+                    gotoPage('teacher/courseVote.php');
                 }
             });
             return false; //阻止表单跳转

@@ -12,7 +12,8 @@ require_once("../connect/checkLogin.php");
 $dtid = $_POST['dtid'];
 $sql = "DELETE FROM discass_t WHERE dtid = $dtid";
 if ($conn->query($sql) ===TRUE){
-    echo '删除成功';
+    return 'success';
 }else{
     echo 'Error:'. $sql.'<br>'.$conn->error;
+    return 'error';
 }

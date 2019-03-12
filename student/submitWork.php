@@ -10,7 +10,9 @@ require_once("../connect/checkLogin.php");
 $wtid = $_SESSION['wtid'];
 $cid = $_SESSION['cid'];
 $sid = $_SESSION['id'];
-$title = $_GET['title']
+$title = $_GET['title'];
+$_SESSION['workTime'] = date('H:i:s');
+
 ?>
 <div class="layui-col-md8 layui-col-md-offset2" style="padding-top: 30px;" id="layer">
     <div style="margin-bottom: 15px">
@@ -25,14 +27,13 @@ $title = $_GET['title']
         <div class="layui-form-item layui-form-text">
             <label class="layui-form-label">我的答案</label>
             <div class="layui-input-block">
-                <textarea placeholder="请输入内容" class="layui-textarea" id="workContent"></textarea>
+                <textarea placeholder="请输入内容" class="layui-textarea" name="content" id="workContent"></textarea>
             </div>
         </div>
-        <fieldset style="margin-top: 30px;">
+        <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
             <legend>附件</legend>
         </fieldset>
         <div class="layui-upload">
-            <button type="button" class="layui-btn layui-btn-normal" id="testList">选择多文件</button>
             <div class="layui-upload-list">
                 <table class="layui-table">
                     <thead>
@@ -46,8 +47,13 @@ $title = $_GET['title']
                     <tbody id="demoList"></tbody>
                 </table>
             </div>
-            <button type="button" class="layui-btn" id="testListAction">开始上传</button>
+            <div class="layui-form-item">
+                <button type="button" class="layui-btn" id="testList">选择文件</button>
+                <button type="button" class="layui-btn" id="upload">上传文件</button>
+            </div>
         </div>
+        <button class="layui-btn " lay-submit="" lay-filter="insertWork" id="submit">提交</button>
+
     </form>
 </div>
 <script>
@@ -57,10 +63,36 @@ $title = $_GET['title']
         element.render();
     });
 
+    layui.use('form', function () {
+        let form = layui.form;
+
+
+        form.render();
+
+        form.on('submit(insertWork)', function (data) {
+            let fileStr = '';
+            $('td#fileName').each(function () {
+                fileStr += $(this).text() + ';';
+            });
+            fileStr = fileStr.substr(0, fileStr.length - 1);
+            data.field.file = fileStr;
+            $.ajax({
+                url: './php/submitWork.php',
+                type: 'post',
+                data: data.field,
+                success: function () {
+                    gotoPage('student/sWork.php');
+                }
+            });
+            return false; //阻止表单跳转
+        });
+
+    });
+
     layui.use('upload', function () {
         let $ = layui.jquery
             , upload = layui.upload;
-        let str = '';
+        // let str = '';
         let demoListView = $('#demoList')
             , uploadListIns = upload.render({
             elem: '#testList'
@@ -80,9 +112,9 @@ $title = $_GET['title']
 
                 //读取本地文件
                 obj.preview(function (index, file) {
-                    str += file.name + ';';
+                    // str += file.name + ';';
                     let tr = $(['<tr id="upload-' + index + '">'
-                        , '<td>' + file.name + '</td>'
+                        , '<td id="fileName">' + file.name + '</td>'
                         , '<td>' + (file.size / 1014).toFixed(1) + 'kb</td>'
                         , '<td>等待上传</td>'
                         , '<td>'
@@ -117,18 +149,20 @@ $title = $_GET['title']
             }
             , allDone: function (obj) { //当文件全部被提交后，才触发
                 $('.layui-word-aux').append("执行完毕，文件总数：" + obj.total + "成功：" + obj.successful + "个，失败：" + obj.aborted + "个");
-                let content = $('#workContent').val();
-                str = str.substr(0,str.length-1);
-                let data = {
-                    content: content
-                    ,file : str
-                };
-                $.ajax({
-                    url: './php/submitWork.php',
-                    type: 'post',
-                    data: data
-                });
-                gotoPage('student/work.php?wtid=' +<?php echo $wtid ?>);
+
+                layer.msg("上传完毕，文件总数：" + obj.total + "成功：" + obj.successful + "个，失败：" + obj.aborted + "个");
+                //let content = $('#workContent').val();
+                //str = str.substr(0,str.length-1);
+                //let data = {
+                //    content: content
+                //    ,file : str
+                //};
+                //$.ajax({
+                //    url: './php/submitWork.php',
+                //    type: 'post',
+                //    data: data
+                //});
+                //gotoPage('student/work.php?wtid=' +<?php //echo $wtid ?>//);
             }
         });
     });

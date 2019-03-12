@@ -2,14 +2,15 @@
 /**
  * Created by PhpStorm.
  * User: TemperanceXIV
- * Date: 2019/2/19
- * Time: 23:15
+ * Date: 2019/3/5
+ * Time: 22:12
  */
+
 require_once("../connect/conn.php");
 require_once("../connect/checkLogin.php");
 
-$dsid = $_POST['dsid'];
-$sql = "DELETE FROM discass_s WHERE dsid = $dsid";
+$qtid = $_POST['qtid'];
+$sql = "DELETE FROM question_t WHERE qtid = $qtid";
 if ($conn->query($sql) ===TRUE){
     return 'success';
 }else{

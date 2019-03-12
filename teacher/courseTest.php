@@ -43,9 +43,9 @@ $rs = mysqli_query($conn, "select * from test_t where cid = $cid");
                         <button class="layui-btn layui-btn-sm"
                                 onclick="editWork(<?php echo $row['ttid'] ?>)">
                             <i class="layui-icon">&#xe642;</i></button>
-                        <button class="layui-btn layui-btn-sm work" data-method="confirmTrans" id="work"
+                        <button class="layui-btn layui-btn-sm delTest" data-method="confirmTrans"
                                 data-title="<?php echo $row['title'] ?>"
-                                data-wtid="<?php echo $row['ttid'] ?>">
+                                data-ttid="<?php echo $row['ttid'] ?>">
                             <i class="layui-icon">&#xe640;</i></button>
                     </td>
                 </tr>
@@ -80,37 +80,38 @@ $rs = mysqli_query($conn, "select * from test_t where cid = $cid");
 
         element.render();
     });
+    //触发事件
+    active = {
+        confirmTrans: function (othis) {
+            let title = othis.data('title');
+            let ttid = othis.data('ttid');
+            //配置一个透明的询问框
+            layer.msg('确认删除' + title + '吗？', {
+                time: 20000, //20s后自动关闭
+                btn: ['确认', '退出']
+                , btn1: function () {
+                    $.ajax({
+                        type: "POST",
+                        url: "./php/deleteTest.php",//url
+                        data: {
+                            ttid: ttid,
+                        },
+                    });
+                    layer.closeAll();
+                    setTimeout(function () {
+                        gotoPage('teacher/courseTest.php')
+                    }, 500);
+                    layer.msg('刪除成功');
+                }
+            })
 
-    layui.use('layer', function () { //独立版的layer无需执行这一句
-        let $ = layui.jquery, layer = layui.layer; //独立版的layer无需执行这一句
+        }
+    };
 
-        //触发事件
-        let active = {
-            confirmTrans: function (othis) {
-                let title = othis.data('title');
-                let wtid = othis.data('wtid');
-                //配置一个透明的询问框
-                layer.msg('确认删除' + title + '吗？', {
-                    time: 20000, //20s后自动关闭
-                    btn: ['确认', '退出']
-                    , btn1: function () {
-                        $.ajax({
-                            type: "POST",
-                            url: "./php/deleteWork.php",//url
-                            data: {
-                                wtid: wtid,
-                            },
-                        });
-                        layer.closeAll();
-                        setTimeout(function () {
-                            gotoPage('teacher/sWork.php')
-                        }, 500);
-                        layer.msg('刪除成功');
-                    }
-                })
-
-            }
-        };
-
+    $('.delTest').on('click', function () {
+        let othis = $(this), method = othis.data('method');
+        active[method] ? active[method].call(this, othis) : '';
     });
+
+
 </script>

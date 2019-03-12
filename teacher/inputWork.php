@@ -119,12 +119,15 @@ require_once("../connect/checkLogin.php");
                 fileStr += $(this).text() + ';';
             });
             fileStr = fileStr.substr(0, fileStr.length - 1);
+            data.field.file = fileStr;
             $.ajax({
                 url: './php/insertWork.php',
                 type: 'post',
-                data: data.field
+                data: data.field,
+                success: function () {
+                    gotoPage('teacher/sWork.php');
+                }
             });
-            gotoPage('teacher/sWork.php');
             return false; //阻止表单跳转
         });
 

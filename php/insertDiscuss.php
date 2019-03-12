@@ -11,7 +11,7 @@ $id = $_POST['id'];
 $dtid = $_POST['dtid'];
 $content = $_POST['content'];
 $identity = $_POST['identity'];
-$nowTime = date('Y/m/d h:i:s');
+$nowTime = date('Y/m/d H:i:s');
 $sql =  "INSERT INTO discass_s(dtid, id, time, content, identity) VALUES ($dtid,$id,'".$nowTime."','".$content."','".$identity."')";
 if ($conn->query($sql) === TRUE) {
     echo '回复成功';

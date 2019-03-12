@@ -9,58 +9,28 @@
 require_once("../connect/conn.php");
 require_once("../connect/checkLogin.php");
 
-$ttid = $_GET['ttid'];
+$vtid = $_GET['vtid'];
 $clid = $_SESSION['clid'];
-$rs = mysqli_query($conn, "SELECT * FROM test_q WHERE ttid = $ttid");
-$count = mysqli_num_rows($rs);
-$sql = "SELECT * FROM test_t WHERE ttid = $ttid";
+$sql = "SELECT * FROM vote_t WHERE vtid = $vtid";
 $rs = mysqli_query($conn, $sql);
 $row = mysqli_fetch_assoc($rs);
-$sql1 = "SELECT student.name,test_s.score,test_s.ttid, student.sid,answer FROM student LEFT JOIN test_s ON student.sid = test_s.sid AND ttid = $ttid WHERE clid = $clid ";
+$options = explode(";", $row['options']);
+$len = count($options);
+$sql1 = "SELECT student.name,vote_s.vtid, student.sid,result FROM student LEFT JOIN vote_s ON student.sid = vote_s.sid AND vtid = $vtid WHERE clid = $clid ";
 $rs1 = mysqli_query($conn, $sql1);
 $countPerson = mysqli_num_rows($rs1);
 $finish = 0;
-$totalScore = 0;
-
-$correct = 0;
-$mistakePerson = '';
-
-class answer
-{
-    public $answer;
-    public $name;
-}
+$result = '';
 
 function statistical($number)
 {
-    global $conn, $ttid, $mistakePerson, $correct;
-    $answers = [];
-    $correctNumber = 0;
-    $mistakePerson = '';
-
-
-    $rs = mysqli_query($conn, "SELECT * FROM test_s LEFT JOIN student ON test_s.sid = student.sid  WHERE ttid = $ttid");
-    while ($row = mysqli_fetch_assoc($rs)) {
-        $answer = new answer();
-        $answer->str = $row['answer'];
-        $answer->name = $row['name'];
-        $answers[] = $answer;
-    }
-    $rs2 = mysqli_query($conn, "SELECT * FROM test_q WHERE ttid = $ttid AND number = $number");
-    $questionCount = mysqli_num_rows($rs2);
-    $row2 = mysqli_fetch_assoc($rs2);
-    for ($i = 0; $i < count($answers); $i++) {
-        $answerStr = $answers[$i]->str;
-        $answerArray = explode(';', $answerStr);
-        if ($answerArray[$number - 1] == $row2['answer'])
-            $correctNumber++;
-        else
-            $mistakePerson = $mistakePerson . $answers[$i]->name;
-    }
-    if ($correctNumber != 0)
-        $correct = round(($correctNumber / count($answers)) * 100);
+    global $conn, $qtid, $finish, $result, $countPerson, $len;
+    $rs = mysqli_query($conn, "SELECT * FROM vote_s WHERE result = $number");
+    $count = mysqli_num_rows($rs);
+    if ($count != 0)
+        $result = round(($count / $finish) * 100) . "%";
     else
-        $correct = 0;
+        $result = '0%';
 }
 
 
@@ -78,7 +48,7 @@ function statistical($number)
 
         <table style="background-color: #eee;">
             <colgroup>
-                <col width="100">
+                <col width="150">
                 <col width="500">
                 <col width="150">
                 <col width="500">
@@ -86,8 +56,8 @@ function statistical($number)
             <tr style="height: 40px;">
                 <td style="padding: 20px">测试标题：</td>
                 <td><?php echo $row['title'] ?></td>
-                <td>题目数量：</td>
-                <td><?php echo $count ?></td>
+                <td></td>
+                <td></td>
             </tr>
             <tr style="height: 40px;">
                 <td style="padding: 20px">开放时间：</td>
@@ -112,15 +82,13 @@ function statistical($number)
             <?php
             while ($row1 = mysqli_fetch_assoc($rs1)) {
                 ?>
-                <tr onclick="gotoPage('teacher/browseWork.php?wtid=<?php echo $ttid ?>&sid=<?php
-                echo $row1['sid'] ?>')">
+                <tr>
                     <td><?php echo $row1['name'] ?></td>
                     <td style="text-align: center">
-                        <?php if ($row1['score'] == null)
+                        <?php if ($row1['result'] == null)
                             echo '<p style="color: #FF5722">未提交</p>';
                         else {
-                            echo $row1['score'];
-                            $totalScore += $row1['score'];
+                            echo '<p>已完成</p>';
                             $finish++;
                         }
                         ?></td>
@@ -141,22 +109,15 @@ function statistical($number)
             </colgroup>
             <tr style="height: 40px;">
                 <td style="padding: 20px">完成人员：<?php echo round(($finish / $countPerson) * 100) . '%' ?></td>
-                <td colspan="2">平均得分：<?php
-                    if ($totalScore == 0)
-                        echo '0';
-                    else
-                        echo round($totalScore / $finish) ?></td>
+                <td></td>
             </tr>
             <?php
-            $rs2 = mysqli_query($conn, "SELECT * FROM test_q WHERE ttid = $ttid GROUP BY number");
-
-            while ($row2 = mysqli_fetch_assoc($rs2)) {
-                statistical($row2['number']);
+            for ($i = 0; $i < $len; $i++) {
+                statistical($i);
                 ?>
                 <tr>
-                    <td  style="padding:20px">第<?php echo $row2['number'] ?>题：<?php echo $row2['question'] ?></td>
-                    <td>正确率：<?php echo $correct . '%' ?></td>
-                    <td>错误名单：<?php echo $mistakePerson; ?></td>
+                    <td style="padding:20px">选项<?php echo $i + 1; ?>：<?php echo $options[$i]; ?></td>
+                    <td colspan="2">结果：<?php echo $result ?></td>
                 </tr>
                 <?php
             }

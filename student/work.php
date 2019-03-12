@@ -16,7 +16,7 @@ $sid = $_SESSION['id'];
 $rs = mysqli_query($conn, "select * from work_t where wtid = $wtid");
 $row = mysqli_fetch_assoc($rs);
 $rs1 = mysqli_query($conn, "select * from work_s where wtid = $wtid AND sid = $sid");
-$nowTime = date('Y/m/d h:i');
+$nowTime = date('Y/m/d H:i');
 $endTime = $row['endTime'];
 ?>
 
@@ -52,8 +52,39 @@ $endTime = $row['endTime'];
         </table>
         <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
             <legend>作业描述</legend>
-            <p><?php echo $row['content'] ?></p>
+            <p style="margin: 10px"><?php echo $row['content'] ?></p>
         </fieldset>
+        <?php if ($row['file'] != '') { ?>
+            <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+                <legend>附件</legend>
+                <?php
+                        $files = explode(';', $row['file']);
+                        foreach($files as $file){
+                            $suffix = explode('.', $file);
+                            $suffix = end($suffix);
+                            $suffix = strtolower($suffix);
+                            $common = ['ppt', 'pptx', 'doc', 'docx', 'xls', 'xlsx', 'txt'];
+                            $video = ['avi', 'mp4', 'rmvb', 'wmv', 'mkv'];
+                            $picture = ['bmp', 'jpg', 'jpge', 'png', 'gif', 'pcx', 'svg'];
+                            $rar = ['rar', 'zip', '7z'];
+                            ?>
+                            <a href="./file/<?php echo $schoolNumber ?>/<?php echo $file ?>" download="<?php echo $file ?>"
+                            style="margin: 10px">
+                            <img src="icon/<?php
+                            if (in_array($suffix, $common))
+                                echo $suffix;
+                            elseif (in_array($suffix, $video))
+                                echo 'video';
+                            elseif (in_array($suffix, $picture))
+                                echo 'picture';
+                            elseif (in_array($suffix, $rar))
+                                echo 'rar';
+                            else
+                                echo 'file';
+                            ?>.png" width="18px" height="20px"/><?php echo $file ?></a><br/>
+                        <?php }  ?>
+            </fieldset>
+        <?php } ?>
         <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
             <legend>我的答案</legend>
             <?php if (mysqli_num_rows($rs1) >= 1) {
@@ -70,8 +101,9 @@ $endTime = $row['endTime'];
                     </tr>
                 </table>
             <?php } else { ?>
-                <p>暂未提交答案</p>
+                <p style="margin: 10px">暂未提交答案</p>
             <?php } ?>
+            <div align="center" style="margin-top: 20px">
             <button class="layui-btn <?php
             if (strtotime($nowTime) - strtotime($endTime) > 0) {
                 echo 'layui-btn-disabled';
@@ -80,6 +112,7 @@ $endTime = $row['endTime'];
             <?php } ?>">
                 <i class="layui-icon">&#xe62f;</i> 提交作业
             </button>
+            </div>
         </fieldset>
     </div>
 </div>
@@ -97,7 +130,7 @@ $endTime = $row['endTime'];
                     type: 1
                     , title: title
                     , area: ['500px', '400px']
-                    , offset: 'auto' //具体配置参考：http://www.layui.com/doc/modules/layer.html#offset
+                    , offset: 'auto'
                     , id: 'submitWork' //防止重复弹出
                     , content: '<div style="margin: 20px">' +
                         '<fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">\n' +

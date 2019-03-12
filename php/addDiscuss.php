@@ -11,7 +11,7 @@ require_once("../connect/checkLogin.php");
 
 $title = $_POST['title'];
 $cid = $_SESSION['cid'];
-$nowTime = date('Y/m/d h:i:s');
+$nowTime = date('Y/m/d H:i:s');
 $sql = "INSERT INTO discass_t(title,cid,lastUpdateTime,startTime) VALUES ('" . $title . "',$cid,'" . $nowTime . "','" . $nowTime . "')";
 if ($conn->query($sql) === TRUE) {
     echo '添加成功';

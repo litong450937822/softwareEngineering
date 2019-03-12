@@ -17,8 +17,18 @@ $result = $conn->query($rs);
 $rs = mysqli_query($conn, "select * from discass_s where dtid = $dtid");
 $rs1 = mysqli_query($conn, "select * from discass_t where dtid = $dtid");
 $row1 = mysqli_fetch_assoc($rs1);
+$date = date('Y/m/d');
+$sql = "INSERT INTO time (date, type, sid) VALUES ('" . $date . "','D',$sid)";
+$conn->query($sql);
 ?>
 <div class="layui-col-md8 layui-col-md-offset2" style="padding-top: 30px;">
+    <div style="margin-bottom: 15px">
+        <span class="layui-breadcrumb" style="margin-bottom: 20px">
+            <a class="link" onclick="backToSelect('s')">课程选择</a>
+            <a class="link" onclick="gotoPage('student/courseQuestionnaire.php')">问卷</a>
+            <a><cite><?php echo $row['title'] ?></cite></a>
+        </span>
+    </div>
     <div style="margin-bottom: 15px">
         <span class="layui-breadcrumb" style="margin-bottom: 20px">
             <a class="link" onclick="backToSelect('s')">课程选择</a>
@@ -97,7 +107,7 @@ $row1 = mysqli_fetch_assoc($rs1);
             success: function (result) {
                 console.log(result);//打印服务端返回的数据(调试用)
                 layer.msg("回复成功");
-                gotoPage('school/discuss.php?dtid=<?php echo $dtid; ?>');
+                gotoPage('student/discuss.php?dtid=<?php echo $dtid; ?>');
             },
             error: function () {
                 layer.msg("回复失败");
@@ -115,7 +125,7 @@ $row1 = mysqli_fetch_assoc($rs1);
             success: function (result) {
                 console.log(result);//打印服务端返回的数据(调试用)
                 layer.msg("删除成功");
-                gotoPage('school/discuss.php?dtid=<?php echo $dtid; ?>');
+                gotoPage('student/discuss.php?dtid=<?php echo $dtid; ?>');
             },
             error: function () {
                 layer.msg("删除失败");

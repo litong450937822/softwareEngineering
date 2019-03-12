@@ -14,7 +14,7 @@ $clid = $_SESSION['clid'];
 $sql = "SELECT * FROM work_t WHERE wtid = $wtid";
 $rs = mysqli_query($conn, $sql);
 $row = mysqli_fetch_assoc($rs);
-$sql1 = "SELECT student.name,work_s.score,work_s.wtid, student.sid FROM student LEFT JOIN work_s ON student.sid = work_s.sid AND wtid = $wtid WHERE class = $clid ";
+$sql1 = "SELECT student.name,work_s.score,work_s.wtid, student.sid FROM student LEFT JOIN work_s ON student.sid = work_s.sid AND wtid = $wtid WHERE clid = $clid ";
 $rs1 = mysqli_query($conn, $sql1);
 ?>
 

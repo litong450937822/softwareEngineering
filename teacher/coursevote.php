@@ -9,14 +9,14 @@
 require_once("../connect/conn.php");
 require_once("../connect/checkLogin.php");
 $cid = $_SESSION['cid'];
-$rs = mysqli_query($conn, "select * from discass_t where cid = $cid");
+$rs = mysqli_query($conn, "select * from vote_t where cid = $cid");
 ?>
 
 <div class="layui-col-md8 layui-col-md-offset2" style="padding-top: 30px;">
     <div style="margin-bottom: 15px">
         <span class="layui-breadcrumb" style="margin-bottom: 20px">
             <a class="link" onclick="backToSelect('t')">课程选择</a>
-            <a><cite>讨论</cite></a>
+            <a><cite>课程投票</cite></a>
         </span>
     </div>
     <?php
@@ -24,44 +24,33 @@ $rs = mysqli_query($conn, "select * from discass_t where cid = $cid");
         ?>
         <table class="layui-table" lay-skin="line" style="margin: auto">
             <colgroup>
-                <col width="400px">
-                <col width="150px">
-                <col width="150px">
-                <col width="300px">
-                <col width="100px">
+                <col width="550px">
+                <col width="70px">
             </colgroup>
             <thead>
             <tr>
-                <th>讨论主题</th>
-                <th>回复数</th>
-                <th>访问量</th>
-                <th>最后更新</th>
-                <th></th>
+                <th>投票名称</th>
+                <th style="text-align: center">操作</th>
             </tr>
             </thead>
             <tbody>
             <?php
             while ($row = mysqli_fetch_assoc($rs)) {
-                $dtid = $row['dtid'];
-                $rs1 = mysqli_query($conn, "select * from discass_s where dtid = $dtid");
-                $recordCount = mysqli_num_rows($rs1);
                 ?>
                 <tr>
-                    <td class="link discuss" data-dtid="<?php echo $row['dtid'] ?>"><?php echo $row['title'] ?></td>
-                    <td class="link discuss" data-dtid="<?php echo $row['dtid'] ?>"><?php echo $recordCount ?></td>
-                    <td class="link discuss" data-dtid="<?php echo $row['dtid'] ?>"><?php echo $row['traffic'] ?></td>
-                    <td class="link discuss"
-                        data-dtid="<?php echo $row['dtid'] ?>"><?php echo $row['lastUpdateTime'] ?></td>
-                    <td>
-                        <button class="layui-btn layui-btn-sm delDiscuss" data-method="confirmTrans" id="discuss"
+                    <td class="vote link" data-vtid="<?php echo $row['vtid'] ?>"><?php echo $row['title'] ?></td>
+                    <td style="text-align: center">
+                        <button class="layui-btn layui-btn-sm"
+                                onclick="editWork(<?php echo $row['vtid'] ?>)">
+                            <i class="layui-icon">&#xe642;</i></button>
+                        <button class="layui-btn layui-btn-sm delVote" data-method="confirmTrans" id="vote"
                                 data-title="<?php echo $row['title'] ?>"
-                                data-dtid="<?php echo $row['dtid'] ?>">
+                                data-vtid="<?php echo $row['vtid'] ?>">
                             <i class="layui-icon">&#xe640;</i></button>
                     </td>
                 </tr>
                 <?php
             }
-
             ?>
             </tbody>
         </table>
@@ -70,21 +59,34 @@ $rs = mysqli_query($conn, "select * from discass_t where cid = $cid");
         ?>
         <div style="width: 100%;height: 150px;background-color: #f5f5f5;
         text-align: center;line-height: 150px;border-radius: 4px">
-            <p style="color: #999;font-size: 30px;font-weight: bolder">该课程暂无讨论主题</p>
+            <p style="color: #999;font-size: 30px;font-weight: bolder">该课程暂无问卷</p>
         </div>
         <?php
     }
     ?>
     <button class="layui-btn layui-col-md-offset5" style="margin-top: 20px"
-            onclick="gotoPage('teacher/inputDiscuss.php')">
+            onclick="gotoPage('teacher/inputVote.php')">
         <i class="layui-icon">&#xe608;</i> 添加
     </button>
 </div>
+
 <script>
+    $('.vote').on('click', function () {
+        let vtid = $(this).data('vtid');
+        gotoPage('teacher/voteCompletion.php?vtid=' + vtid);
+    });
+
+
+    layui.use('element', function () {
+        let element = layui.element; //导航的hover效果、二级菜单等功能，需要依赖element模块
+
+        element.render();
+    });
+    //触发事件
     active = {
         confirmTrans: function (othis) {
             let title = othis.data('title');
-            let dtid = othis.data('dtid');
+            let vtid = othis.data('vtid');
             //配置一个透明的询问框
             layer.msg('确认删除' + title + '吗？', {
                 time: 20000, //20s后自动关闭
@@ -92,35 +94,24 @@ $rs = mysqli_query($conn, "select * from discass_t where cid = $cid");
                 , btn1: function () {
                     $.ajax({
                         type: "POST",
-                        url: "./php/deleteDiscuss_t.php",//url
+                        url: "./php/deleteVote.php",//url
                         data: {
-                            dtid: dtid,
+                            qtid: qtid,
                         },
                         success: function () {
-                            gotoPage('teacher/courseDiscuss.php');
                             layer.msg('刪除成功');
+                            gotoPage('teacher/courseVote.php');
                         }
                     });
                     layer.closeAll();
-
                 }
             })
 
         }
     };
-    $('.delDiscuss').on('click', function () {
+
+    $('.delVote').on('click', function () {
         let othis = $(this), method = othis.data('method');
         active[method] ? active[method].call(this, othis) : '';
-    });
-
-    $('.discuss').on('click', function () {
-        let dtid = $(this).data('dtid');
-        gotoPage('teacher/discuss.php?dtid=' + dtid);
-    });
-
-    layui.use('element', function () {
-        let element = layui.element; //导航的hover效果、二级菜单等功能，需要依赖element模块
-
-        element.render();
     });
 </script>

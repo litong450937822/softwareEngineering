@@ -9,58 +9,77 @@
 require_once("../connect/conn.php");
 require_once("../connect/checkLogin.php");
 
-$ttid = $_GET['ttid'];
+$qtid = $_GET['qtid'];
 $clid = $_SESSION['clid'];
-$rs = mysqli_query($conn, "SELECT * FROM test_q WHERE ttid = $ttid");
+$rs = mysqli_query($conn, "SELECT * FROM question_q WHERE qtid = $qtid");
 $count = mysqli_num_rows($rs);
-$sql = "SELECT * FROM test_t WHERE ttid = $ttid";
+$sql = "SELECT * FROM question_t WHERE qtid = $qtid";
 $rs = mysqli_query($conn, $sql);
 $row = mysqli_fetch_assoc($rs);
-$sql1 = "SELECT student.name,test_s.score,test_s.ttid, student.sid,answer FROM student LEFT JOIN test_s ON student.sid = test_s.sid AND ttid = $ttid WHERE clid = $clid ";
+$sql1 = "SELECT student.name,question_s.qtid, student.sid,result FROM student LEFT JOIN question_s ON student.sid = question_s.sid AND qtid = $qtid WHERE clid = $clid ";
 $rs1 = mysqli_query($conn, $sql1);
 $countPerson = mysqli_num_rows($rs1);
 $finish = 0;
-$totalScore = 0;
-
-$correct = 0;
-$mistakePerson = '';
-
-class answer
-{
-    public $answer;
-    public $name;
-}
+$result = '';
 
 function statistical($number)
 {
-    global $conn, $ttid, $mistakePerson, $correct;
+    global $conn, $qtid, $finish,$result;
     $answers = [];
-    $correctNumber = 0;
-    $mistakePerson = '';
+    $option1 = 0;
+    $option2 = 0;
+    $option3 = 0;
+    $option4 = 0;
+    $option5 = 0;
 
-
-    $rs = mysqli_query($conn, "SELECT * FROM test_s LEFT JOIN student ON test_s.sid = student.sid  WHERE ttid = $ttid");
+//    $rs2 = mysqli_query($conn, "SELECT * FROM question_q WHERE qtid = $qtid AND number = $number");
+//    $row2 = mysqli_fetch_assoc($rs2);
+    $rs = mysqli_query($conn, "SELECT * FROM question_s LEFT JOIN student ON question_s.sid = student.sid  WHERE qtid = $qtid");
     while ($row = mysqli_fetch_assoc($rs)) {
-        $answer = new answer();
-        $answer->str = $row['answer'];
-        $answer->name = $row['name'];
-        $answers[] = $answer;
+        $answer = $row['result'];
+        array_push($answers, $answer);
     }
-    $rs2 = mysqli_query($conn, "SELECT * FROM test_q WHERE ttid = $ttid AND number = $number");
-    $questionCount = mysqli_num_rows($rs2);
-    $row2 = mysqli_fetch_assoc($rs2);
+
     for ($i = 0; $i < count($answers); $i++) {
-        $answerStr = $answers[$i]->str;
+        $answerStr = $answers[$i];
         $answerArray = explode(';', $answerStr);
-        if ($answerArray[$number - 1] == $row2['answer'])
-            $correctNumber++;
-        else
-            $mistakePerson = $mistakePerson . $answers[$i]->name;
+        switch ($answerArray[$number - 1]) {
+            case 1:
+                $option1++;
+                break;
+            case 2:
+                $option2++;
+                break;
+            case 3:
+                $option3++;
+                break;
+            case 4:
+                $option4++;
+                break;
+            case 5:
+                $option5++;
+                break;
+        }
     }
-    if ($correctNumber != 0)
-        $correct = round(($correctNumber / count($answers)) * 100);
-    else
-        $correct = 0;
+    if ($option1 == 0
+        and $option2 == 0
+        and $option3 == 0
+        and $option4 == 0
+        and $option5 == 0) {
+        $probability1 = 0;
+        $probability2 = 0;
+        $probability3 = 0;
+        $probability4 = 0;
+        $probability5 = 0;
+    }else{
+        $probability1 = round(($option1 / $finish) * 100);
+        $probability2 = round(($option2 / $finish) * 100);
+        $probability3 = round(($option3 / $finish) * 100);
+        $probability4 = round(($option4 / $finish) * 100);
+        $probability5 = round(($option5 / $finish) * 100);
+    }
+    $result = "非常符合：" . $probability1 . "%  基本符合：" . $probability2 . "%  一般：" . $probability3 .
+        "%  偏离：" . $probability4 . "%  严重偏离：" . $probability5 . "%";
 }
 
 
@@ -112,15 +131,13 @@ function statistical($number)
             <?php
             while ($row1 = mysqli_fetch_assoc($rs1)) {
                 ?>
-                <tr onclick="gotoPage('teacher/browseWork.php?wtid=<?php echo $ttid ?>&sid=<?php
-                echo $row1['sid'] ?>')">
+                <tr>
                     <td><?php echo $row1['name'] ?></td>
                     <td style="text-align: center">
-                        <?php if ($row1['score'] == null)
+                        <?php if ($row1['result'] == null)
                             echo '<p style="color: #FF5722">未提交</p>';
                         else {
-                            echo $row1['score'];
-                            $totalScore += $row1['score'];
+                            echo '<p>已完成</p>' ;
                             $finish++;
                         }
                         ?></td>
@@ -141,22 +158,17 @@ function statistical($number)
             </colgroup>
             <tr style="height: 40px;">
                 <td style="padding: 20px">完成人员：<?php echo round(($finish / $countPerson) * 100) . '%' ?></td>
-                <td colspan="2">平均得分：<?php
-                    if ($totalScore == 0)
-                        echo '0';
-                    else
-                        echo round($totalScore / $finish) ?></td>
+                <td></td>
             </tr>
             <?php
-            $rs2 = mysqli_query($conn, "SELECT * FROM test_q WHERE ttid = $ttid GROUP BY number");
+            $rs2 = mysqli_query($conn, "SELECT * FROM question_q WHERE qtid = $qtid GROUP BY number");
 
             while ($row2 = mysqli_fetch_assoc($rs2)) {
                 statistical($row2['number']);
                 ?>
                 <tr>
-                    <td  style="padding:20px">第<?php echo $row2['number'] ?>题：<?php echo $row2['question'] ?></td>
-                    <td>正确率：<?php echo $correct . '%' ?></td>
-                    <td>错误名单：<?php echo $mistakePerson; ?></td>
+                    <td style="padding:20px">问题<?php echo $row2['number'] ?>：<?php echo $row2['question'] ?></td>
+                    <td colspan="2">结果：<?php echo $result ?></td>
                 </tr>
                 <?php
             }

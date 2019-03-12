@@ -19,8 +19,7 @@ $rs = mysqli_query($conn, $sql);
 $row = mysqli_fetch_assoc($rs);
 $ttid = $row['ttid'];
 $number = 1;
-while (true) {
-    if ( isset($_POST['question' . $number])){
+while (isset($_POST['question' . $number])) {
     $question = $_POST['question' . $number];
     $option1 = $_POST['question' . $number . 'A'];
     $option2 = $_POST['question' . $number . 'B'];
@@ -33,10 +32,9 @@ VALUES ($number,'" . $ttid . "','" . $question . "','" . $option1 . "','" . $opt
     $result = $conn->query($sql);
     $number++;
 }
-    else
-        break;
+if ($number > 1) {
+    echo $number - 1;
+    return $number - 1;
 }
-if ($number > 1)
-    return $number;
 else
     return 'error';

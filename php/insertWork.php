@@ -20,6 +20,8 @@ $sql = "INSERT INTO work_t (title, cid, content, startTime, endTime, file) VALUE
 
 if (mysqli_query($conn, $sql)) {
     echo "新记录插入成功";
+    return 'success';
 } else {
     echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+    return 'error';
 }

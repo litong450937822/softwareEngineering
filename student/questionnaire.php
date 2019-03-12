@@ -7,25 +7,28 @@
  */
 require_once("../connect/conn.php");
 require_once("../connect/checkLogin.php");
-$ttid = $_GET['ttid'];
-$_SESSION['ttid'] = $ttid;
+
+$qtid = $_GET['qtid'];
+$_SESSION['qtid'] = $qtid;
 $clid = $_SESSION['clid'];
-$sql = "SELECT * FROM test_t WHERE ttid = $ttid";
+$sql = "SELECT * FROM question_t WHERE qtid = $qtid";
 $rs = mysqli_query($conn, $sql);
 $row = mysqli_fetch_assoc($rs);
-$sql1 = "SELECT * FROM test_q WHERE ttid = $ttid ";
+$sql1 = "SELECT * FROM question_q WHERE qtid = $qtid ";
 $rs1 = mysqli_query($conn, $sql1);
 $count = mysqli_num_rows($rs1);
 $nowTime = date('Y/m/d H:i:s');
 $endTime = $row['endTime'];
-$_SESSION['testTime'] = date('H:i:s');
+$date = date('Y/m/d');
+$sql = "INSERT INTO time (date, type, sid) VALUES ('" . $date . "','Q',$sid)";
+$conn->query($sql);
 ?>
 
 <div class="layui-col-md8 layui-col-md-offset2" style="padding-top: 30px;">
     <div style="margin-bottom: 15px">
         <span class="layui-breadcrumb" style="margin-bottom: 20px">
             <a class="link" onclick="backToSelect('s')">课程选择</a>
-            <a class="link" onclick="gotoPage('student/courseTest.php')">测试</a>
+            <a class="link" onclick="gotoPage('student/courseQuestionnaire.php')">问卷</a>
             <a><cite><?php echo $row['title'] ?></cite></a>
         </span>
     </div>
@@ -41,7 +44,7 @@ $_SESSION['testTime'] = date('H:i:s');
             <tr style="height: 40px;">
                 <td style="padding: 20px">测试标题：</td>
                 <td><?php echo $row['title'] ?></td>
-                <td>题目数量：</td>
+                <td>问题数量：</td>
                 <td><?php echo $count ?></td>
             </tr>
             <tr style="height: 40px;">
@@ -51,37 +54,35 @@ $_SESSION['testTime'] = date('H:i:s');
                 <td><?php echo $row['endTime'] ?></td>
             </tr>
         </table>
-        <form class="layui-form layui-form-pane" action="" lay-filter="test">
-            <div style='border: #eee 1px solid;padding: 20px;margin-top: 20px;
-                                    height: auto' id='question" + questionID + "'>
+        <form class="layui-form layui-form-pane" action="" lay-filter="questionnaire">
+            <div style='border: #eee 1px solid;padding: 20px;margin-top: 20px;height: auto'>
                 <?php
-                $number = 1;
+                $number = 0;
                 while ($row1 = mysqli_fetch_assoc($rs1)) {
+                    $number++;
                     ?>
-
                     <div class="layui-form-item">
                         <p style="font-size: 24px"><?php echo $number . '.' . $row1['question'] ?></p>
-                        <label class="layui-form-label">答案</label>
+                        <label class="layui-form-label">回答</label>
                         <div class="layui-input-block">
                             <select name="answer<?php echo $row1['number'] ?>" lay-verify="required">
                                 <option value=""></option>
-                                <option value="A">A.<?php echo $row1['option1'] ?></option>
-                                <option value="B">B.<?php echo $row1['option2'] ?></option>
-                                <option value="C">C.<?php echo $row1['option3'] ?></option>
-                                <option value="D">D.<?php echo $row1['option4'] ?></option>
+                                <option value="1">非常符合></option>
+                                <option value="2">基本符合</option>
+                                <option value="3">一般</option>
+                                <option value="4">偏离</option>
+                                <option value="5">严重偏离</option>
                             </select>
                         </div>
                     </div>
-
                     <?php
-                    $number++;
                 }
                 ?>
                 <div align="center">
 
                     <button class="layui-btn <?php if (strtotime($nowTime) - strtotime($endTime) > 0)
                         echo 'layui-btn-disabled'; ?>" lay-submit=""
-                            lay-filter="<?php if (strtotime($nowTime) - strtotime($endTime) <= 0) echo 'insertTest'; ?>"
+                            lay-filter="insertQuestionnaire"
 
                             id="submit" style="margin-top: 20px">提交
                     </button>
@@ -99,18 +100,57 @@ $_SESSION['testTime'] = date('H:i:s');
 
         layui.use(['form', 'layedit', 'laydate'], function () {
             let form = layui.form
-                , layer = layui.layer;
+                , layer = layui.layer
+                , laydate = layui.laydate;
 
             form.render();
+            //日期
+            let answerStr = '';
+            form.on('radio',function (data) {
+                answerStr = answerStr + data + ';'
+            });
 
-            form.on('submit(insertTest)', function (data) {
+            laydate.render({
+                elem: '#startTime'
+                , type: 'datetime'
+                , format: 'yyyy/MM/dd HH:mm:ss'
+            });
+
+            laydate.render({
+                elem: '#endTime'
+                , type: 'datetime'
+                , format: 'yyyy/MM/dd HH:mm:ss'
+            });
+
+            //自定义验证规则
+            form.verify({
+                title: function (value) {
+                    if (value.length < 5) {
+                        return '标题不得少于5个字符';
+                    }
+                }
+                , endTime: function (value) {
+                    if (value === '') {
+                        return '必填项不能为空';
+                    }
+                    let startTime = $('#startTime').val();
+                    let endTime = $('#endTime').val();
+                    let start = new Date(startTime.replace("-", "/").replace("-", "/"));
+                    let end = new Date(endTime.replace("-", "/").replace("-", "/"));
+                    if (end < start) {
+                        return '结束时间不能小于开始时间';
+                    }
+                }
+            });
+
+            form.on('submit(insertQuestionnaire)', function (data) {
                 <?php if (strtotime($nowTime) - strtotime($endTime) <= 0) { ?>
                 $.ajax({
-                    url: './php/insertTest_s.php',
+                    url: './php/insertQuestionnaire_s.php',
                     type: 'post',
                     data: data.field,
                     success: function (data) {
-                        gotoPage('student/courseTest.php');
+                        gotoPage('student/courseQuestionnaire.php');
                     }
                 });
                 <?php

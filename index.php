@@ -9,28 +9,38 @@ if (!isset($_SESSION['id'])) {
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <title>《软件工程》学生学习效果跟踪系统</title>
-<!--    <link rel="stylesheet" href="bootstrap-3.3.7-dist/css/bootstrap.min.css">-->
     <link rel="stylesheet" href="layui/css/layui.css">
     <script src="js/jquery-3.2.1.min.js"></script>
-<!--    <script src="js/test.js"></script>-->
     <script src="layui/layui.all.js"></script>
-<!--    <script type="text/javascript" src="js/wangEditor.min.js"></script>-->
-<!--    <script type="text/javascript" src="bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>-->
+    <script src="js/echarts.min.js"></script>
 
     <style>
         .link {
             cursor: pointer
         }
+
         .content {
             border: #eee 1px solid;
             padding: 20px 20px 20px;
         }
+
         .question {
             border: #eee 1px solid;
             margin: 20px 20px 20px;
         }
     </style>
     <script language="JavaScript">
+
+        //每30秒确认一次是否在线
+        function loginTime() {
+            <?php if ($_SESSION['identity'] == 's') { ?>
+            $.ajax({
+                url: './php/loginTime.php',
+                type: 'post',
+            });
+            <?php } ?>
+        }
+
 
         $(function () {
             let content = $('#content');
@@ -43,6 +53,7 @@ if (!isset($_SESSION['id'])) {
             menu.load('navigation/teacherMenu.html');
             <?php } ?>
             $('#left_menu').hide();
+            setInterval(loginTime, 30000);
         });
 
         <?php
@@ -52,9 +63,10 @@ if (!isset($_SESSION['id'])) {
         function backToSelect(identity) {
             if (identity === 's')
                 $('#content').load('student/CourseSelection.php');
-            else
+            else if (identity === 't')
                 $('#content').load('teacher/CourseSelection.php');
-
+            else
+                $('#content').load('teacher/CourseSelection2.php');
             $('#left_menu').hide();
         }
 
@@ -65,8 +77,10 @@ if (!isset($_SESSION['id'])) {
 
         function changeMenu(page) {
             $('#menu').load(page);
+            $('#left_menu').hide();
             return false;
         }
+
     </script>
 </head>
 <body class="layui-layout-body">
@@ -79,10 +93,10 @@ if (!isset($_SESSION['id'])) {
             ?>
             <ul class="layui-nav layui-layout-left">
                 <li class="layui-nav-item"><a href="javascript:" onclick="changeMenu('navigation/teacherMenu.html');
-                                              gotoPage('teacher/concernUser.php')">课程管理</a>
+                                              gotoPage('teacher/CourseSelection.php')">课程管理</a>
                 </li>
-                <li class="layui-nav-item"><a href="javascript:" onclick="changeMenu('navigation/managerMenu.html');
-                                              gotoPage('manager/manageStudents.php')">学习效果跟踪</a></li>
+                <li class="layui-nav-item"><a href="javascript:" onclick="changeMenu('navigation/effectMenu.html');
+                                              gotoPage('teacher/CourseSelection2.php')">学习效果跟踪</a></li>
             </ul>
             <?php
         }

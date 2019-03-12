@@ -24,12 +24,14 @@ $rs = mysqli_query($conn, "select * from work_t where cid = $cid");
         <colgroup>
             <col width="400px">
             <col width="150px">
-            <col width="300px">
+            <col width="200px">
+            <col width="150px">
         </colgroup>
         <thead>
         <tr>
             <th>作业名称</th>
             <th>状态</th>
+            <td>截止时间</td>
             <th>成绩</th>
         </tr>
         </thead>
@@ -46,11 +48,13 @@ $rs = mysqli_query($conn, "select * from work_t where cid = $cid");
                     $row1 = mysqli_fetch_assoc($rs1)
                     ?>
                     <td><p style="color: #009688">已交</p></td>
+                    <td><?php echo $row['endTime'];  ?> </td>
                     <td><p style="color: #009688"><?php echo $row1['score'] ?></p></td>
                     <?php
                 } else {
                     ?>
                     <td><p style="color: #ff5722">未交</p></td>
+                    <td><?php echo $row['endTime'];  ?> </td>
                     <td><p style="color: #009688">0</p></td>
                     <?php
                 }

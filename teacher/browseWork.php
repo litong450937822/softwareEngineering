@@ -18,7 +18,7 @@ $name = $row['name'];
 $rs = mysqli_query($conn, "SELECT title FROM work_t WHERE wtid = $wtid");
 $row = mysqli_fetch_assoc($rs);
 $title = $row['title'];
-$sql = "SELECT work_s.file,work_s.answer,score,submitTime,schoolNumber FROM work_s 
+$sql = "SELECT work_s.file,work_s.answer,score,submitTime,number FROM work_s 
   LEFT JOIN work_t ON work_t.wtid=work_s.wtid 
   LEFT JOIN student on work_s.sid = student.sid WHERE work_s.wtid=$wtid AND work_s.sid = $sid";
 $rs = mysqli_query($conn, $sql);
@@ -81,7 +81,7 @@ $rs = mysqli_query($conn, $sql);
                     else
                         echo 'file';
                     ?>.png" width="18px" height="20px"/>
-                    <a href="./file/<?php echo $row['schoolNumber'] ?>/<?php echo $file ?>"
+                    <a href="./file/<?php echo $row['number'] ?>/<?php echo $file ?>"
                        download="<?php echo $file ?>"><?php echo $file ?></a>
                     <br/>
                     <?php
