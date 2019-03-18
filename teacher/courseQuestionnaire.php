@@ -41,7 +41,7 @@ $rs = mysqli_query($conn, "select * from question_t where cid = $cid");
                     <td class="question link" data-qtid="<?php echo $row['qtid'] ?>"><?php echo $row['title'] ?></td>
                     <td style="text-align: center">
                         <button class="layui-btn layui-btn-sm"
-                                onclick="editWork(<?php echo $row['qtid'] ?>)">
+                                onclick="editQuestion(<?php echo $row['qtid'] ?>)">
                             <i class="layui-icon">&#xe642;</i></button>
                         <button class="layui-btn layui-btn-sm delQuestionnaire" data-method="confirmTrans" id="work"
                                 data-title="<?php echo $row['title'] ?>"
@@ -76,6 +76,9 @@ $rs = mysqli_query($conn, "select * from question_t where cid = $cid");
         gotoPage('teacher/questionCompletion.php?qtid=' + qtid);
     });
 
+    function editQuestion(qtid) {
+        gotoPage('teacher/inputQuestionnaire.php?qtid=' + qtid);
+    }
 
     layui.use('element', function () {
         let element = layui.element; //导航的hover效果、二级菜单等功能，需要依赖element模块

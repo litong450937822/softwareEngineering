@@ -11,6 +11,7 @@ require_once("../connect/checkLogin.php");
 $number = $_SESSION['number'];
 $id = $_SESSION['id'];
 $dtid = $_GET['dtid'];
+$cid = $_SESSION['cid'];
 $identity = $_SESSION['identity'];
 $rs = mysqli_query($conn, "UPDATE discass_t SET traffic = traffic + 1 WHERE dtid = $dtid");
 $result = $conn->query($rs);
@@ -18,17 +19,10 @@ $rs = mysqli_query($conn, "select * from discass_s where dtid = $dtid");
 $rs1 = mysqli_query($conn, "select * from discass_t where dtid = $dtid");
 $row1 = mysqli_fetch_assoc($rs1);
 $date = date('Y/m/d');
-$sql = "INSERT INTO time (date, type, sid) VALUES ('" . $date . "','D',$sid)";
+$sql = "INSERT INTO time (date, type, sid, cid) VALUES ('" . $date . "','D',$id, $cid)";
 $conn->query($sql);
 ?>
 <div class="layui-col-md8 layui-col-md-offset2" style="padding-top: 30px;">
-    <div style="margin-bottom: 15px">
-        <span class="layui-breadcrumb" style="margin-bottom: 20px">
-            <a class="link" onclick="backToSelect('s')">课程选择</a>
-            <a class="link" onclick="gotoPage('student/courseQuestionnaire.php')">问卷</a>
-            <a><cite><?php echo $row['title'] ?></cite></a>
-        </span>
-    </div>
     <div style="margin-bottom: 15px">
         <span class="layui-breadcrumb" style="margin-bottom: 20px">
             <a class="link" onclick="backToSelect('s')">课程选择</a>

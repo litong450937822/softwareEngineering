@@ -41,7 +41,7 @@ $rs = mysqli_query($conn, "select * from vote_t where cid = $cid");
                     <td class="vote link" data-vtid="<?php echo $row['vtid'] ?>"><?php echo $row['title'] ?></td>
                     <td style="text-align: center">
                         <button class="layui-btn layui-btn-sm"
-                                onclick="editWork(<?php echo $row['vtid'] ?>)">
+                                onclick="editVote(<?php echo $row['vtid'] ?>)">
                             <i class="layui-icon">&#xe642;</i></button>
                         <button class="layui-btn layui-btn-sm delVote" data-method="confirmTrans" id="vote"
                                 data-title="<?php echo $row['title'] ?>"
@@ -76,6 +76,9 @@ $rs = mysqli_query($conn, "select * from vote_t where cid = $cid");
         gotoPage('teacher/voteCompletion.php?vtid=' + vtid);
     });
 
+    function editVote(vtid) {
+        gotoPage('teacher/inputVote.php?vtid=' + vtid);
+    }
 
     layui.use('element', function () {
         let element = layui.element; //导航的hover效果、二级菜单等功能，需要依赖element模块

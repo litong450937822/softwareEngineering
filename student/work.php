@@ -9,6 +9,7 @@ require_once("../connect/conn.php");
 require_once("../connect/checkLogin.php");
 $wtid = $_GET['wtid'];
 $_SESSION['wtid'] = $wtid;
+$cid = $_SESSION['cid'];
 $schoolNumber = $_SESSION['number'];
 echo $_SESSION['number'];
 $cid = $_SESSION['cid'];
@@ -18,6 +19,9 @@ $row = mysqli_fetch_assoc($rs);
 $rs1 = mysqli_query($conn, "select * from work_s where wtid = $wtid AND sid = $sid");
 $nowTime = date('Y/m/d H:i');
 $endTime = $row['endTime'];
+$date = date('Y/m/d');
+$sql = "INSERT INTO time (date, type, sid, cid) VALUES ('" . $date . "','O',$sid,$cid)";
+$conn->query($sql);
 ?>
 
 <div class="layui-col-md8 layui-col-md-offset2" style="padding-top: 30px;" id="layer">

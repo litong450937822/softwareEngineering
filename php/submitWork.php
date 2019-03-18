@@ -10,6 +10,7 @@ require_once("../connect/conn.php");
 require_once("../connect/checkLogin.php");
 $wtid = $_SESSION['wtid'];
 $sid = $_SESSION['id'];
+$cid = $_SESSION['cid'];
 $content = $_POST['content'];
 $file = @$_POST['file'];
 $nowTime = date('Y/m/d H:i:s');
@@ -25,7 +26,7 @@ if (mysqli_num_rows($rs1) >= 1) {
 }
 if (mysqli_query($conn, $sql)) {
     echo "新记录插入成功";
-    $sql = "INSERT INTO time (date, time, type, startTime, endTime, sid) VALUES ('" . $date . "',$time,'W','" . $workTime . "','" . $endTime . "',$sid)";
+    $sql = "INSERT INTO time (date, time, type, startTime, endTime, sid,cid) VALUES ('" . $date . "',$time,'W','" . $workTime . "','" . $endTime . "',$sid,$cid)";
     $conn->query($sql);
 } else {
     echo "Error: " . $sql . "<br>" . mysqli_error($conn);

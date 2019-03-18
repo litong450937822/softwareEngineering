@@ -8,14 +8,23 @@
 
 require_once("../connect/conn.php");
 require_once("../connect/checkLogin.php");
-
+$wtid = @$_GET['wtid'];
+if ($wtid != null) {
+    $rs = mysqli_query($conn, "SELECT * FROM work_t WHERE wtid = $wtid");
+    $row = mysqli_fetch_assoc($rs);
+}
 ?>
 <div class="layui-col-md8 layui-col-md-offset2" style="padding-top: 30px;" id="layer">
     <div style="margin-bottom: 15px">
         <span class="layui-breadcrumb" style="margin-bottom: 20px">
             <a class="link" onclick="backToSelect('t')">课程选择</a>
             <a class="link" onclick="gotoPage('teacher/sWork.php')">作业</a>
-            <a><cite>添加作业</cite></a>
+            <a><cite><?php
+                    if ($wtid != null)
+                        echo '编辑作业';
+                    else
+                        echo '添加作业';
+                    ?></cite></a>
         </span>
     </div>
     <form class="layui-form layui-form-pane" action="" lay-filter="work">
@@ -23,7 +32,7 @@ require_once("../connect/checkLogin.php");
             <label class="layui-form-label">作业标题</label>
             <div class="layui-input-block">
                 <input type="text" name="title" autocomplete="off" placeholder="请输入标题" lay-verify="title"
-                       class="layui-input">
+                       class="layui-input" value="<?php echo @$row['title'] ?>">
             </div>
         </div>
         <div class="layui-form-item">
@@ -31,14 +40,17 @@ require_once("../connect/checkLogin.php");
                 <label class="layui-form-label">起始时间</label>
                 <div class="layui-input-block">
                     <input type="text" name="startTime" id="startTime" autocomplete="off" lay-verify="required"
-                           value="<?php echo date('Y/m/d h:i:s'); ?>" class="layui-input">
+                           value="<?php if ($wtid != null)
+                               echo $row['startTime'];
+                           else
+                               echo date('Y/m/d h:i:s'); ?>" class="layui-input">
                 </div>
             </div>
             <div class="layui-inline">
                 <label class="layui-form-label">结束时间</label>
                 <div class="layui-input-inline">
                     <input type="text" name="endTime" id="endTime" autocomplete="off" lay-verify="endTime"
-                           class="layui-input">
+                           class="layui-input" value="<?php echo @$row['endTime'] ?>">
                 </div>
             </div>
         </div>
@@ -46,7 +58,7 @@ require_once("../connect/checkLogin.php");
             <label class="layui-form-label">作业内容</label>
             <div class="layui-input-block">
                 <textarea placeholder="请输入内容" name="content" lay-verify="required"
-                          class="layui-textarea"></textarea>
+                          class="layui-textarea"><?php echo @$row['content'] ?></textarea>
             </div>
         </div>
         <div class="layui-upload">
@@ -60,7 +72,30 @@ require_once("../connect/checkLogin.php");
                         <th>操作</th>
                     </tr>
                     </thead>
-                    <tbody id="demoList"></tbody>
+                    <tbody id="demoList">
+                    <?php if ($wtid != null && $row['file'] != '') {
+                        $files = explode(";", $row['file']);
+                        for ($i = 0; $i < count($files); $i++) {
+                            $url = '../file/' . $_SESSION['number'] . '/' . $files[$i];
+                            $url = iconv("UTF-8", "gb2312", $url);
+                            ?>
+                            <tr id="upload-<?php echo $i; ?>">
+                                <td id="fileName"><?php echo $files[$i] ?></td>
+                                <td><?php if (file_exists($url)) {
+                                        $fileSize = round(filesize($url) / 1024);
+                                        echo $fileSize . 'KB';
+                                    } else echo 0; ?></td>
+                                <td>已经上传</td>
+                                <td>
+                                    <button class="layui-btn layui-btn-xs layui-btn-danger" type="button"
+                                            onclick="delFile('upload-<?php echo $i; ?>','<?php echo $files[$i] ?>')">删除
+                                    </button>
+                                </td>
+                            </tr>
+                        <?php }
+                    }
+                    ?>
+                    </tbody>
                 </table>
             </div>
         </div>
@@ -120,6 +155,7 @@ require_once("../connect/checkLogin.php");
             });
             fileStr = fileStr.substr(0, fileStr.length - 1);
             data.field.file = fileStr;
+            data.field.wtid = '<?php echo $wtid ?>';
             $.ajax({
                 url: './php/insertWork.php',
                 type: 'post',
@@ -203,4 +239,20 @@ require_once("../connect/checkLogin.php");
             }
         });
     });
+
+    function delFile(index, fileName) {
+        $('#' + index).remove();
+
+        $.ajax({
+            url: './php/delFile.php',
+            type: 'post',
+            data: {fileName: fileName},
+            success: function () {
+                layer.msg('删除成功');
+            },
+            error: function () {
+                layer.msg('删除失败');
+            }
+        });
+    }
 </script>

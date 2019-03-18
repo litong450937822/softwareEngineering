@@ -13,6 +13,8 @@ $sid = $_SESSION['id'];
 $nowTime = date('H:i:s');
 $date = date('Y/m/d');
 $time = strtotime($nowTime) - strtotime($loginTime);
+if ($loginTime == '')
+    return 'error';
 if (!isset($_SESSION['tid'])) {
     $sql = "INSERT INTO time (date, time, type, startTime, endTime, sid) VALUES 
 ('" . $date . "','" . $time . "','L','" . $loginTime . "','" . $nowTime . "',$sid)";

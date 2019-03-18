@@ -14,14 +14,15 @@ $content = $_POST['content'];
 $startTime = $_POST['startTime'];
 $endTime = $_POST['endTime'];
 $cid = $_SESSION['cid'];
+$wtid = $_POST['wtid'];
 $file = @$_POST['file'];
-
-$sql = "INSERT INTO work_t (title, cid, content, startTime, endTime, file) VALUE ('$title', $cid, '$content', '$startTime', '$endTime', '$file') ";
-
-if (mysqli_query($conn, $sql)) {
-    echo "新记录插入成功";
-    return 'success';
-} else {
-    echo "Error: " . $sql . "<br>" . mysqli_error($conn);
-    return 'error';
-}
+if ($wtid == '')
+    $sql = "INSERT INTO work_t (title, cid, content, startTime, endTime, file) VALUE ('$title', $cid, '$content', '$startTime', '$endTime', '$file') ";
+else
+    $sql = "UPDATE work_t SET title = '" . $title . "',content = '" . $content . "',startTime = '" . $startTime . "',endTime = '" . $endTime . "',file = '" . $file . "' WHERE wtid = $wtid";
+    if (mysqli_query($conn, $sql)) {
+        return 'success';
+    } else {
+        echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+        return 'error';
+    }

@@ -109,7 +109,7 @@ $rs = mysqli_query($conn, "select * from work_t where cid = $cid");
     });
 
     function editWork(wtid) {
-
+        gotoPage('teacher/inputWork.php?wtid=' + wtid);
     }
 
     layui.use('element', function () {

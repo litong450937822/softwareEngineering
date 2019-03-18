@@ -11,6 +11,8 @@ require_once("../connect/checkLogin.php");
 $qtid = $_GET['qtid'];
 $_SESSION['qtid'] = $qtid;
 $clid = $_SESSION['clid'];
+$cid = $_SESSION['cid'];
+$id = $_SESSION['id'];
 $sql = "SELECT * FROM question_t WHERE qtid = $qtid";
 $rs = mysqli_query($conn, $sql);
 $row = mysqli_fetch_assoc($rs);
@@ -20,7 +22,7 @@ $count = mysqli_num_rows($rs1);
 $nowTime = date('Y/m/d H:i:s');
 $endTime = $row['endTime'];
 $date = date('Y/m/d');
-$sql = "INSERT INTO time (date, type, sid) VALUES ('" . $date . "','Q',$sid)";
+$sql = "INSERT INTO time (date, type, sid, cid) VALUES ('" . $date . "','Q',$id,$cid)";
 $conn->query($sql);
 ?>
 
@@ -106,7 +108,7 @@ $conn->query($sql);
             form.render();
             //日期
             let answerStr = '';
-            form.on('radio',function (data) {
+            form.on('radio', function (data) {
                 answerStr = answerStr + data + ';'
             });
 

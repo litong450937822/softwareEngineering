@@ -8,6 +8,11 @@
 
 require_once("../connect/conn.php");
 require_once("../connect/checkLogin.php");
+$vtid = @$_GET['vtid'];
+if ($vtid != null) {
+    $rs = mysqli_query($conn, "SELECT * FROM vote_t WHERE vtid = $vtid");
+    $row = mysqli_fetch_assoc($rs);
+}
 ?>
 
 <div class="layui-col-md8 layui-col-md-offset2" style="padding-top: 30px;" id="layer">
@@ -15,7 +20,12 @@ require_once("../connect/checkLogin.php");
         <span class="layui-breadcrumb" style="margin-bottom: 20px">
             <a class="link" onclick="backToSelect('t')">课程选择</a>
             <a class="link" onclick="gotoPage('teacher/courseVote.php')">课程投票</a>
-            <a><cite>添加投票</cite></a>
+            <a><cite><?php
+                    if ($vtid != null)
+                        echo '编辑投票';
+                    else
+                        echo '添加投票';
+                    ?></cite></a>
         </span>
     </div>
     <form class="layui-form layui-form-pane" action="" lay-filter="test">
@@ -23,7 +33,7 @@ require_once("../connect/checkLogin.php");
             <label class="layui-form-label">投票标题</label>
             <div class="layui-input-block">
                 <input type="text" name="title" autocomplete="off" placeholder="请输入标题" lay-verify="title"
-                       class="layui-input">
+                       class="layui-input" value="<?php echo @$row['title'] ?>">
             </div>
         </div>
         <div class="layui-form-item">
@@ -31,35 +41,56 @@ require_once("../connect/checkLogin.php");
                 <label for="startTime" class="layui-form-label">起始时间</label>
                 <div class="layui-input-block">
                     <input type="text" name="startTime" id="startTime" autocomplete="off" lay-verify="required"
-                           value="<?php echo date('Y/m/d h:i:s'); ?>" class="layui-input">
+                           value="<?php if ($vtid != null)
+                               echo $row['startTime'];
+                           else
+                               echo date('Y/m/d h:i:s'); ?>" class="layui-input">
                 </div>
             </div>
             <div class="layui-inline">
                 <label for="endTime" class="layui-form-label">结束时间</label>
                 <div class="layui-input-inline">
                     <input type="text" name="endTime" id="endTime" autocomplete="off" lay-verify="endTime"
-                           class="layui-input">
+                           class="layui-input" value="<?php echo @$row['endTime'] ?>">
                 </div>
             </div>
         </div>
-        <div id="question" style="border: #eee 1px solid;padding: 20px;margin-bottom: 20px;height: auto; "></div>
+        <div id="option">
+            <?php if ($vtid != null) {
+                $option = explode(";", $row['options']);
+                for ($i = 0; $i < count($option); $i++) {
+                    ?>
+                    <div class='layui-form-item' id='option<?php echo $i + 1 ?>'>
+                        <label class="layui-form-label">选项<?php echo $i + 1 ?></label>
+                        <div class="layui-input-block">
+                            <input type="text" name="option<?php echo $i + 1 ?>" autocomplete="off"
+                                   placeholder="请输入选项" lay-verify="required" class="layui-input"
+                                   value="<?php echo $option[$i] ?>">
+                        </div>
+                    </div>
+                    <?php
+                }
+            } ?>
+        </div>
         <div id="button" style="width: auto; margin: auto;" align="center"></div>
         <div style="width: auto; margin: auto;" align="center">
-            <button class="layui-btn layui-btn-fluid layui-btn-primary" lay-filter="addQuestion"
-                    id="addQuestion" lay-submit=""
-            "><i class="layui-icon">&#xe608;</i>添加选项
-            <button class="layui-btn" lay-submit="" lay-filter="insertTest" id="submit" style="margin-top: 20px">提交
-            </button>
+            <button class="layui-btn layui-btn-fluid layui-btn-primary" type="button"
+                    id="addOption"><i class="layui-icon">&#xe608;</i>添加选项
+                <button class="layui-btn" lay-submit="" lay-filter="insertTest" id="submit" style="margin-top: 20px">提交
+                </button>
         </div>
     </form>
 </div>
 
 <script>
-    $(function () {
-       $('#question').hide();
-    });
+    optionID = <?php echo @is_null(@$i) ? 1 : $i+1; ?>;
 
-    questionID = 1;
+    $(function () {
+        if (optionID > 1)
+            $('#button').append("<button class=\"layui-btn layui-btn-fluid layui-btn-primary\"  type=\"button\" " +
+                "id=\"del\" onclick='delOption()' style='margin-bottom: 10px'><i class=\"layui-icon\">&#x1007;</i>删除选项\n" +
+                "</button>\n");
+    });
 
     layui.use(['form', 'layedit', 'laydate'], function () {
         let form = layui.form
@@ -101,44 +132,38 @@ require_once("../connect/checkLogin.php");
             }
         });
 
-        form.on('submit(addQuestion)', function () {
-            let question = $("#question");
-            question.show();
-            question.append("<div class='layui-form-item' id='question" + questionID + "'  >"+
-                "<label class=\"layui-form-label\">问题" + questionID + "</label>\n" +
+        $('#addOption').on('click', function () {
+            let option = $("#option");
+            option.append("<div class='layui-form-item' id='option" + optionID + "'  >" +
+                "<label class=\"layui-form-label\">选项" + optionID + "</label>\n" +
                 "<div class=\"layui-input-block\">\n" +
-                "<input type=\"text\" name=\"question" + questionID + "\" autocomplete=\"off\" " +
-                "placeholder=\"请输入问题\" lay-verify=\"required\" class=\"layui-input\">\n" +
+                "<input type=\"text\" name=\"option" + optionID + "\" autocomplete=\"off\" " +
+                "placeholder=\"请输入选项\" lay-verify=\"required\" class=\"layui-input\">\n" +
                 "</div>\n" +
                 "</div>");
-            if (questionID === 1) {
-                $('#button').append("<button class=\"layui-btn layui-btn-fluid layui-btn-primary\" lay-filter=\"delQuestion\"\n" +
-                    "id=\"delQuestion\" lay-submit=\"\" style='margin-bottom: 10px' \"><i class=\"layui-icon\">&#x1007;</i>删除选项\n" +
-                    "</button>\n")
+            if (optionID === 1) {
+                $('#button').append("<button class=\"layui-btn layui-btn-fluid layui-btn-primary\"  type=\"button\" " +
+                    "id=\"del\" onclick='delOption()' style='margin-bottom: 10px'><i class=\"layui-icon\">&#x1007;</i>删除选项\n" +
+                    "</button>\n");
             }
             form.render();
-            questionID++;
-            return false; //阻止表单跳转
-        });
-
-        form.on('submit(delQuestion)', function () {
-            let div = 'question' + (questionID - 1);
-            $("#" + div).remove();
-            questionID--;
-            if (questionID === 1){
-                $('#question').hide();
-                $('#delQuestion').remove();
-            }
+            optionID++;
             return false; //阻止表单跳转
         });
 
         form.on('submit(insertTest)', function (data) {
+            vtid = '<?php echo @$vtid; ?>';
+            data.field.vtid = vtid;
             $.ajax({
                 url: './php/insertVote.php',
                 type: 'post',
                 data: data.field,
                 success: function (data) {
-                    layer.msg('添加投票成功，共' + data + '个选项');
+                    if (vtid === '')
+                        layer.msg('添加投票成功，共' + data + '个选项');
+                    else
+                        layer.msg('修改投票成功，共' + data + '个选项');
+
                     gotoPage('teacher/courseVote.php');
                 }
             });
@@ -151,5 +176,14 @@ require_once("../connect/checkLogin.php");
 
         element.render();
     });
+
+    function delOption() {
+        let div = 'option' + (optionID - 1);
+        $("#" + div).remove();
+        optionID--;
+        if (optionID === 1) {
+            $('#del').remove();
+        }
+    }
 
 </script>

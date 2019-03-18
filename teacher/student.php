@@ -118,4 +118,8 @@ $time7 = getTime($dates[7]);
     };
 
     myChart.setOption(option);
+
+    myChart.on('click', function (params) {
+        gotoPage('teacher/dailyDetails.php?date='+params.name+'&sid=<?php echo $sid ?>')
+    });
 </script>

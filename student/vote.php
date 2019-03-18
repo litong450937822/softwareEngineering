@@ -10,14 +10,16 @@ require_once("../connect/checkLogin.php");
 
 $vtid = $_GET['vtid'];
 $_SESSION['vtid'] = $vtid;
+$id = $_SESSION['id'];
 $clid = $_SESSION['clid'];
+$cid = $_SESSION['cid'];
 $sql = "SELECT * FROM vote_t WHERE vtid = $vtid";
 $rs = mysqli_query($conn, $sql);
 $row = mysqli_fetch_assoc($rs);
 $nowTime = date('Y/m/d H:i:s');
 $endTime = $row['endTime'];
 $date = date('Y/m/d');
-$sql = "INSERT INTO time (date, type, sid) VALUES ('" . $date . "','V',$sid)";
+$sql = "INSERT INTO time (date, type, sid, cid) VALUES ('" . $date . "','V',$id,$cid)";
 $conn->query($sql);
 ?>
 
@@ -61,10 +63,10 @@ $conn->query($sql);
                             <option value=""></option>
                             <?php
                             $option = explode(";", $row['options']);
-                            for ($i = 0;$i < count($option);$i++){
-                            ?>
-                            <option value="<?php echo $i; ?>"><?php echo $option[$i];  ?></option>
-                            <?php
+                            for ($i = 0; $i < count($option); $i++) {
+                                ?>
+                                <option value="<?php echo $i; ?>"><?php echo $option[$i]; ?></option>
+                                <?php
                             }
                             ?>
                         </select>
@@ -74,7 +76,7 @@ $conn->query($sql);
                 <div align="center">
 
                     <button class="layui-btn <?php if (strtotime($nowTime) - strtotime($endTime) > 0)
-                    echo 'layui-btn-disabled'; ?>" lay-submit=""
+                        echo 'layui-btn-disabled'; ?>" lay-submit=""
                             lay-filter="insertVote"
 
                             id="submit" style="margin-top: 20px">提交

@@ -12,19 +12,32 @@ $title = $_POST['title'];
 $startTime = $_POST['startTime'];
 $endTime = $_POST['endTime'];
 $cid = $_SESSION['cid'];
-$sql = "INSERT INTO question_t (title, startTime, endTime, cid) VALUES ('" . $title . "','" . $startTime . "','" . $endTime . "',$cid)";
-$result = $conn->query($sql);
-$sql = "SELECT @@IDENTITY AS qtid";
-$rs = mysqli_query($conn, $sql);
-$row = mysqli_fetch_assoc($rs);
-$qtid = $row['qtid'];
+$qtid = $_POST['qtid'];
 $number = 1;
-while (isset($_POST['question' . $number])) {
-    $question = $_POST['question' . $number];
-    $sql = "INSERT INTO question_q (number, qtid, question) 
-VALUES ($number,'" . $qtid . "','" . $question . "' ) ";
+if ($qtid == '') {
+    $sql = "INSERT INTO question_t (title, startTime, endTime, cid) VALUES ('" . $title . "','" . $startTime . "','" . $endTime . "',$cid)";
     $result = $conn->query($sql);
-    $number++;
+    $sql = "SELECT @@IDENTITY AS qtid";
+    $rs = mysqli_query($conn, $sql);
+    $row = mysqli_fetch_assoc($rs);
+    $qtid = $row['qtid'];
+    while (isset($_POST['question' . $number])) {
+        $question = $_POST['question' . $number];
+        $sql = "INSERT INTO question_q (number, qtid, question) 
+VALUES ($number,'" . $qtid . "','" . $question . "' ) ";
+        $result = $conn->query($sql);
+        $number++;
+    }
+} else {
+    $sql = "UPDATE question_t SET title = '" . $title . "',startTime = '" . $startTime . "',endTime = '" . $endTime . "' 
+    WHERE qtid = $qtid";
+    $result = $conn->query($sql);
+    while (isset($_POST['question' . $number])) {
+        $question = $_POST['question' . $number];
+        $sql = "UPDATE question_q SET question = '" . $question . "' WHERE qtid = $qtid AND number = $number";
+        $result = $conn->query($sql);
+        $number++;
+    }
 }
 if ($number > 1) {
     echo $number - 1;

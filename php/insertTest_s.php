@@ -10,6 +10,7 @@ require_once("../connect/conn.php");
 require_once("../connect/checkLogin.php");
 $ttid = $_SESSION['ttid'];
 $sid = $_SESSION['id'];
+$cid = $_SESSION['cid'];
 $rs = mysqli_query($conn, "SELECT * FROM test_q WHERE ttid = $ttid GROUP BY number");
 $count = mysqli_num_rows($rs);
 $answerStr = '';
@@ -37,7 +38,7 @@ $rs = mysqli_query($conn, "SELECT * FROM test_s WHERE ttid = $ttid AND sid = $si
 if (mysqli_num_rows($rs) >= 1) {
     $sql = "UPDATE test_s SET answer = '" . $answerStr . "', score = $score , submitTime = '" . $nowTime . "'  WHERE ttid = $ttid AND sid = $sid";
     if ($conn->query($sql)) {
-        $sql = "INSERT INTO time (date, time, type, startTime, endTime, sid) VALUES ('" . $date . "',$time,'T','" . $testTime . "','" . $endTime . "',$sid);";
+        $sql = "INSERT INTO time (date, time, type, startTime, endTime, sid,cid) VALUES ('" . $date . "',$time,'T','" . $testTime . "','" . $endTime . "',$sid,$cid);";
         $conn->query($sql);
 
         return 'success';
@@ -46,7 +47,7 @@ if (mysqli_num_rows($rs) >= 1) {
 } else {
     $sql = "INSERT INTO test_s (ttid, answer, sid, score, submitTime) VALUES ($ttid,'" . $answerStr . "',$sid,$score,'" . $nowTime . "')";
     if ($conn->query($sql)) {
-        $sql = "INSERT INTO time (date, time, type, startTime, endTime, sid) VALUES ('" . $date . "',$time,'T','" . $testTime . "','" . $endTime . "',$sid);";
+        $sql = "INSERT INTO time (date, time, type, startTime, endTime, sid,cid) VALUES ('" . $date . "',$time,'T','" . $testTime . "','" . $endTime . "',$sid,$cid);";
         $conn->query($sql);
 
         return 'success';

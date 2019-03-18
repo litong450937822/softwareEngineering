@@ -13,15 +13,22 @@ $startTime = $_POST['startTime'];
 $endTime = $_POST['endTime'];
 $cid = $_SESSION['cid'];
 $number = 1;
+$vtid = $_POST['vtid'];
 $options = '';
-while (isset($_POST['question' . $number])) {
-        $question = $_POST['question' . $number];
-        $options = $options . $question .';';
-        $number++;
+while (isset($_POST['option' . $number])) {
+    $option = $_POST['option' . $number];
+    $options = $options . $option .';';
+    $number++;
 }
-$options = substr($options, 0, strlen($options));
-$sql = "INSERT INTO vote_t (title, options ,startTime, endTime, cid) VALUES ('" . $title . "','".$options ."','" . $startTime . "','" . $endTime . "',$cid)";
-$result = $conn->query($sql);
+$options = substr($options, 0, strlen($options)-1);
+if ($vtid == ''){
+    $sql = "INSERT INTO vote_t (title, options ,startTime, endTime, cid) VALUES ('" . $title . "','".$options ."','" . $startTime . "','" . $endTime . "',$cid)";
+    $result = $conn->query($sql);
+}else{
+    $sql = "UPDATE vote_t SET title = '" . $title . "',startTime = '" . $startTime . "',endTime = '" . $endTime . "',options = '".$options."'
+    WHERE vtid = $vtid";
+    $result = $conn->query($sql);
+}
 
 if ($number > 1) {
     echo  $number -1;

@@ -10,6 +10,8 @@ require_once("../connect/checkLogin.php");
 $ttid = $_GET['ttid'];
 $_SESSION['ttid'] = $ttid;
 $clid = $_SESSION['clid'];
+$sid = $_SESSION['id'];
+$cid = $_SESSION['cid'];
 $sql = "SELECT * FROM test_t WHERE ttid = $ttid";
 $rs = mysqli_query($conn, $sql);
 $row = mysqli_fetch_assoc($rs);
@@ -19,6 +21,9 @@ $count = mysqli_num_rows($rs1);
 $nowTime = date('Y/m/d H:i:s');
 $endTime = $row['endTime'];
 $_SESSION['testTime'] = date('H:i:s');
+$date = date('Y/m/d');
+$sql = "INSERT INTO time (date, type, sid, cid) VALUES ('" . $date . "','E',$sid,$cid)";
+$conn->query($sql);
 ?>
 
 <div class="layui-col-md8 layui-col-md-offset2" style="padding-top: 30px;">

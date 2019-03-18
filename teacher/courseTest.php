@@ -41,7 +41,7 @@ $rs = mysqli_query($conn, "select * from test_t where cid = $cid");
                     <td class="test link" data-ttid="<?php echo $row['ttid'] ?>"><?php echo $row['title'] ?></td>
                     <td style="text-align: center">
                         <button class="layui-btn layui-btn-sm"
-                                onclick="editWork(<?php echo $row['ttid'] ?>)">
+                                onclick="editTest(<?php echo $row['ttid'] ?>)">
                             <i class="layui-icon">&#xe642;</i></button>
                         <button class="layui-btn layui-btn-sm delTest" data-method="confirmTrans"
                                 data-title="<?php echo $row['title'] ?>"
@@ -74,6 +74,10 @@ $rs = mysqli_query($conn, "select * from test_t where cid = $cid");
         let ttid = $(this).data('ttid');
         gotoPage('teacher/testCompletion.php?ttid=' + ttid);
     });
+
+    function editTest(ttid) {
+        gotoPage('teacher/inputTest.php?ttid=' + ttid);
+    }
 
     layui.use('element', function () {
         let element = layui.element; //导航的hover效果、二级菜单等功能，需要依赖element模块
