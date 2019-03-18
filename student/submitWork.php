@@ -92,7 +92,6 @@ $_SESSION['workTime'] = date('H:i:s');
     layui.use('upload', function () {
         let $ = layui.jquery
             , upload = layui.upload;
-        // let str = '';
         let demoListView = $('#demoList')
             , uploadListIns = upload.render({
             elem: '#testList'
@@ -105,14 +104,13 @@ $_SESSION['workTime'] = date('H:i:s');
             }
             , multiple: true
             , auto: false
-            , bindAction: '#testListAction'
+            , bindAction: '#upload'
             , choose: function (obj) {
                 let files = obj.pushFile(); //将每次选择的文件追加到文件队列
 
 
                 //读取本地文件
                 obj.preview(function (index, file) {
-                    // str += file.name + ';';
                     let tr = $(['<tr id="upload-' + index + '">'
                         , '<td id="fileName">' + file.name + '</td>'
                         , '<td>' + (file.size / 1014).toFixed(1) + 'kb</td>'
@@ -133,6 +131,7 @@ $_SESSION['workTime'] = date('H:i:s');
                         delete files[index]; //删除对应的文件
                         tr.remove();
                         uploadListIns.config.elem.next()[0].value = ''; //清空 input file 值，以免删除后出现同名文件不可选
+
                     });
 
                     demoListView.append(tr);
@@ -151,18 +150,6 @@ $_SESSION['workTime'] = date('H:i:s');
                 $('.layui-word-aux').append("执行完毕，文件总数：" + obj.total + "成功：" + obj.successful + "个，失败：" + obj.aborted + "个");
 
                 layer.msg("上传完毕，文件总数：" + obj.total + "成功：" + obj.successful + "个，失败：" + obj.aborted + "个");
-                //let content = $('#workContent').val();
-                //str = str.substr(0,str.length-1);
-                //let data = {
-                //    content: content
-                //    ,file : str
-                //};
-                //$.ajax({
-                //    url: './php/submitWork.php',
-                //    type: 'post',
-                //    data: data
-                //});
-                //gotoPage('student/work.php?wtid=' +<?php //echo $wtid ?>//);
             }
         });
     });

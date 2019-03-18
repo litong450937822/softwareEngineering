@@ -20,6 +20,9 @@ $rs = mysqli_query($conn, "select * from work_t where cid = $cid");
             <a><cite>作业</cite></a>
         </span>
     </div>
+    <?php
+    if (mysqli_num_rows($rs) >= 1) {
+    ?>
     <table class="layui-table" lay-skin="line" style="margin: auto">
         <colgroup>
             <col width="400px">
@@ -65,6 +68,16 @@ $rs = mysqli_query($conn, "select * from work_t where cid = $cid");
         ?>
         </tbody>
     </table>
+        <?php
+    } else {
+        ?>
+        <div style="width: 100%;height: 150px;background-color: #f5f5f5;
+        text-align: center;line-height: 150px;border-radius: 4px">
+            <p style="color: #999;font-size: 30px;font-weight: bolder">该课程暂无作业</p>
+        </div>
+        <?php
+    }
+    ?>
 </div>
 <script>
     layui.use('element', function () {
