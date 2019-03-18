@@ -64,9 +64,11 @@ $rs = mysqli_query($conn, "select * from test_t where cid = $cid");
         <?php
     }
     ?>
-    <button class="layui-btn layui-col-md-offset5" style="margin-top: 20px" onclick="gotoPage('teacher/inputTest.php')">
+    <div style="width: auto; margin: auto;" align="center">
+    <button class="layui-btn" style="margin-top: 20px" onclick="gotoPage('teacher/inputTest.php')">
         <i class="layui-icon">&#xe608;</i> 添加
     </button>
+    </div>
 </div>
 
 <script>

@@ -10,10 +10,43 @@ Target Server Type    : MYSQL
 Target Server Version : 50720
 File Encoding         : 65001
 
-Date: 2019-03-18 09:53:36
+Date: 2019-03-18 23:10:49
 */
 
 SET FOREIGN_KEY_CHECKS=0;
+
+-- ----------------------------
+-- Table structure for attachment
+-- ----------------------------
+DROP TABLE IF EXISTS `attachment`;
+CREATE TABLE `attachment` (
+  `aid` int(11) NOT NULL AUTO_INCREMENT,
+  `file` varchar(255) NOT NULL,
+  `startTime` varchar(19) NOT NULL,
+  `target` varchar(255) NOT NULL,
+  `chid` int(11) NOT NULL,
+  PRIMARY KEY (`aid`),
+  KEY `attachment` (`chid`),
+  CONSTRAINT `attachment` FOREIGN KEY (`chid`) REFERENCES `chapter` (`chid`) ON DELETE CASCADE ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of attachment
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for chapter
+-- ----------------------------
+DROP TABLE IF EXISTS `chapter`;
+CREATE TABLE `chapter` (
+  `chid` int(11) NOT NULL,
+  `title` varchar(255) NOT NULL,
+  KEY `chid` (`chid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of chapter
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for class
@@ -184,6 +217,45 @@ INSERT INTO `question_t` VALUES ('4', '1241245435', '1', '2019/03/10 03:57:11', 
 INSERT INTO `question_t` VALUES ('5', '测试问卷1', '1', '2019/03/05 09:45:23', '2019/03/30 00:00:00');
 
 -- ----------------------------
+-- Table structure for rollcall
+-- ----------------------------
+DROP TABLE IF EXISTS `rollcall`;
+CREATE TABLE `rollcall` (
+  `sid` int(11) NOT NULL,
+  `time` varchar(19) NOT NULL,
+  `state` varchar(1) NOT NULL,
+  `cid` int(11) NOT NULL,
+  PRIMARY KEY (`sid`,`time`,`cid`),
+  KEY `courseCall` (`cid`),
+  CONSTRAINT `courseCall` FOREIGN KEY (`cid`) REFERENCES `course` (`cid`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  CONSTRAINT `studentCall` FOREIGN KEY (`sid`) REFERENCES `student` (`sid`) ON DELETE CASCADE ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of rollcall
+-- ----------------------------
+INSERT INTO `rollcall` VALUES ('1', '2019/03/18 07:57:26', 'A', '1');
+INSERT INTO `rollcall` VALUES ('1', '2019/03/18 08:41:14', 'N', '1');
+INSERT INTO `rollcall` VALUES ('2', '2019/03/18 07:57:26', 'N', '1');
+INSERT INTO `rollcall` VALUES ('2', '2019/03/18 08:41:14', 'N', '1');
+INSERT INTO `rollcall` VALUES ('3', '2019/03/18 07:57:26', 'N', '1');
+INSERT INTO `rollcall` VALUES ('3', '2019/03/18 08:41:14', 'N', '1');
+INSERT INTO `rollcall` VALUES ('4', '2019/03/18 07:57:26', 'L', '1');
+INSERT INTO `rollcall` VALUES ('4', '2019/03/18 08:41:14', 'N', '1');
+INSERT INTO `rollcall` VALUES ('5', '2019/03/18 07:57:26', 'N', '1');
+INSERT INTO `rollcall` VALUES ('5', '2019/03/18 08:41:14', 'L', '1');
+INSERT INTO `rollcall` VALUES ('6', '2019/03/18 07:57:26', 'N', '1');
+INSERT INTO `rollcall` VALUES ('6', '2019/03/18 08:41:14', 'N', '1');
+INSERT INTO `rollcall` VALUES ('7', '2019/03/18 07:57:26', 'L', '1');
+INSERT INTO `rollcall` VALUES ('7', '2019/03/18 08:41:14', 'N', '1');
+INSERT INTO `rollcall` VALUES ('8', '2019/03/18 07:57:26', 'N', '1');
+INSERT INTO `rollcall` VALUES ('8', '2019/03/18 08:41:14', 'T', '1');
+INSERT INTO `rollcall` VALUES ('9', '2019/03/18 07:57:26', 'N', '1');
+INSERT INTO `rollcall` VALUES ('9', '2019/03/18 08:41:14', 'T', '1');
+INSERT INTO `rollcall` VALUES ('10', '2019/03/18 07:57:26', 'A', '1');
+INSERT INTO `rollcall` VALUES ('10', '2019/03/18 08:41:14', 'N', '1');
+
+-- ----------------------------
 -- Table structure for student
 -- ----------------------------
 DROP TABLE IF EXISTS `student`;
@@ -199,14 +271,23 @@ CREATE TABLE `student` (
   PRIMARY KEY (`sid`,`number`),
   UNIQUE KEY `studentNumber` (`number`),
   KEY `class1` (`clid`),
+  KEY `sid` (`sid`),
   CONSTRAINT `class1` FOREIGN KEY (`clid`) REFERENCES `class` (`clid`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
 -- Records of student
 -- ----------------------------
 INSERT INTO `student` VALUES ('1', '测试学生1', '1', '123456', '1000001', 'W', '0', 'default.jpg');
 INSERT INTO `student` VALUES ('2', '测试学生2', '1', '123456', '1000002', 'M', '0', 'default.jpg');
+INSERT INTO `student` VALUES ('3', '测试学生3', '1', '123456', '1000003', 'M', '0', 'default.jpg');
+INSERT INTO `student` VALUES ('4', '测试学生4', '1', '123456', '1000004', 'M', '0', 'default.jpg');
+INSERT INTO `student` VALUES ('5', '测试学生5', '1', '123456', '1000005', 'M', '0', 'default.jpg');
+INSERT INTO `student` VALUES ('6', '测试学生6', '1', '123456', '1000006', 'W', '0', 'default.jpg');
+INSERT INTO `student` VALUES ('7', '测试学生7', '1', '123456', '1000007', 'W', '0', 'default.jpg');
+INSERT INTO `student` VALUES ('8', '测试学生8', '1', '123456', '1000008', 'M', '0', 'default.jpg');
+INSERT INTO `student` VALUES ('9', '测试学生9', '1', '123456', '1000009', 'M', '0', 'default.jpg');
+INSERT INTO `student` VALUES ('10', '测试学生10', '1', '123456', '1000010', 'W', '0', 'default.jpg');
 
 -- ----------------------------
 -- Table structure for teacher
@@ -325,7 +406,7 @@ CREATE TABLE `time` (
   PRIMARY KEY (`id`) USING BTREE,
   KEY `student1` (`sid`),
   CONSTRAINT `student1` FOREIGN KEY (`sid`) REFERENCES `student` (`sid`)
-) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
 -- Records of time
@@ -354,6 +435,12 @@ INSERT INTO `time` VALUES ('31', '2019/03/14', null, 'Q', null, null, '1', '1');
 INSERT INTO `time` VALUES ('32', '2019/03/14', null, 'E', null, null, '1', '1');
 INSERT INTO `time` VALUES ('33', '2019/03/14', null, 'O', null, null, '1', '1');
 INSERT INTO `time` VALUES ('34', '2019/03/14', null, 'D', null, null, '1', '1');
+INSERT INTO `time` VALUES ('35', '2019/03/18', null, 'O', null, null, '2', '1');
+INSERT INTO `time` VALUES ('36', '2019/03/18', '30', 'L', '10:16:28', '10:16:58', '2', null);
+INSERT INTO `time` VALUES ('37', '2019/03/18', null, 'O', null, null, '2', '1');
+INSERT INTO `time` VALUES ('38', '2019/03/18', '9', 'W', '10:20:41', '10:20:50', '2', '1');
+INSERT INTO `time` VALUES ('39', '2019/03/18', '240', 'L', '10:20:36', '10:24:36', '2', null);
+INSERT INTO `time` VALUES ('40', '2019/03/18', '8101', 'L', '20:55:34', '23:10:35', '1', null);
 
 -- ----------------------------
 -- Table structure for vote_s
@@ -389,7 +476,7 @@ CREATE TABLE `vote_t` (
   PRIMARY KEY (`vtid`),
   KEY `class` (`cid`),
   CONSTRAINT `class` FOREIGN KEY (`cid`) REFERENCES `class` (`clid`) ON DELETE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
 -- Records of vote_t
@@ -417,6 +504,7 @@ CREATE TABLE `work_s` (
 -- Records of work_s
 -- ----------------------------
 INSERT INTO `work_s` VALUES ('1', '1', '2018/11/17 15:21', '测试作业答案1', 'test1.jpg;test2.jpg', '88');
+INSERT INTO `work_s` VALUES ('2', '2', '2019/03/18 10:20:50', '12431241241', 'game.txt', '0');
 INSERT INTO `work_s` VALUES ('4', '1', '2019/03/11 10:05:57', '测试作业3内容', '', '0');
 
 -- ----------------------------
@@ -431,14 +519,17 @@ CREATE TABLE `work_t` (
   `startTime` varchar(19) NOT NULL,
   `endTime` varchar(19) NOT NULL,
   `file` varchar(255) DEFAULT NULL,
+  `chid` int(11) DEFAULT NULL,
   PRIMARY KEY (`wtid`),
   KEY `course` (`cid`) USING BTREE,
-  CONSTRAINT `course` FOREIGN KEY (`cid`) REFERENCES `course` (`cid`) ON DELETE NO ACTION
+  KEY `workChapter` (`chid`),
+  CONSTRAINT `course` FOREIGN KEY (`cid`) REFERENCES `course` (`cid`) ON DELETE CASCADE,
+  CONSTRAINT `workChapter` FOREIGN KEY (`chid`) REFERENCES `chapter` (`chid`) ON DELETE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
 -- Records of work_t
 -- ----------------------------
-INSERT INTO `work_t` VALUES ('1', '测试作业1', '1', '测试作业1内容', '2018/11/16 16:00', '2018/11/30 18:00', null);
-INSERT INTO `work_t` VALUES ('2', '测试作业2', '1', '测试作业2内容', '2019/03/08 12:39:24', '2019/07/05 00:00:00', '');
-INSERT INTO `work_t` VALUES ('4', '测试作业3', '1', '测试内容3update', '2019/03/11 09:48:02', '2019/07/04 00:00:00', '《PHP程序设计》设计报告.doc');
+INSERT INTO `work_t` VALUES ('1', '测试作业1', '1', '测试作业1内容', '2018/11/16 16:00', '2018/11/30 18:00', null, null);
+INSERT INTO `work_t` VALUES ('2', '测试作业2', '1', '测试作业2内容', '2019/03/08 12:39:24', '2019/07/05 00:00:00', '', null);
+INSERT INTO `work_t` VALUES ('4', '测试作业3', '1', '测试内容3update', '2019/03/11 09:48:02', '2019/07/04 00:00:00', '《PHP程序设计》设计报告.doc', null);

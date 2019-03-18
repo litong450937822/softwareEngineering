@@ -931,585 +931,592 @@
     <table id="237" parent="8" name="question_q"/>
     <table id="238" parent="8" name="question_s"/>
     <table id="239" parent="8" name="question_t"/>
-    <table id="240" parent="8" name="student"/>
-    <table id="241" parent="8" name="teacher"/>
-    <table id="242" parent="8" name="test_q"/>
-    <table id="243" parent="8" name="test_s"/>
-    <table id="244" parent="8" name="test_t"/>
-    <table id="245" parent="8" name="time"/>
-    <table id="246" parent="8" name="vote_s"/>
-    <table id="247" parent="8" name="vote_t"/>
-    <table id="248" parent="8" name="work_s"/>
-    <table id="249" parent="8" name="work_t"/>
-    <column id="250" parent="233" name="clid">
+    <table id="240" parent="8" name="rollcall"/>
+    <table id="241" parent="8" name="student"/>
+    <table id="242" parent="8" name="teacher"/>
+    <table id="243" parent="8" name="test_q"/>
+    <table id="244" parent="8" name="test_s"/>
+    <table id="245" parent="8" name="test_t"/>
+    <table id="246" parent="8" name="time"/>
+    <table id="247" parent="8" name="vote_s"/>
+    <table id="248" parent="8" name="vote_t"/>
+    <table id="249" parent="8" name="work_s"/>
+    <table id="250" parent="8" name="work_t"/>
+    <column id="251" parent="233" name="clid">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="251" parent="233" name="className">
+    <column id="252" parent="233" name="className">
       <Position>2</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="252" parent="233" name="grade">
+    <column id="253" parent="233" name="grade">
       <Position>3</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="253" parent="233" name="major">
+    <column id="254" parent="233" name="major">
       <Position>4</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="254" parent="233" name="PRIMARY">
+    <key id="255" parent="233" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>clid</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="255" parent="234" name="cid">
+    <column id="256" parent="234" name="cid">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="256" parent="234" name="clid">
+    <column id="257" parent="234" name="clid">
       <Position>2</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="257" parent="234" name="tid">
+    <column id="258" parent="234" name="tid">
       <Position>3</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="258" parent="234" name="courseName">
+    <column id="259" parent="234" name="courseName">
       <Position>4</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="259" parent="234" name="startDate">
+    <column id="260" parent="234" name="startDate">
       <Position>5</Position>
       <DataType>varchar(10)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="260" parent="234" name="endDate">
+    <column id="261" parent="234" name="endDate">
       <Position>6</Position>
       <DataType>varchar(10)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="261" parent="234" name="describe">
+    <column id="262" parent="234" name="describe">
       <Position>7</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="262" parent="234" name="semester">
+    <column id="263" parent="234" name="semester">
       <Position>8</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="263" parent="234" name="clid">
+    <index id="264" parent="234" name="clid">
       <ColNames>clid</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="264" parent="234" name="tid">
+    <index id="265" parent="234" name="tid">
       <ColNames>tid</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="265" parent="234" name="PRIMARY">
+    <key id="266" parent="234" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>cid</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="266" parent="234" name="clid">
+    <foreign-key id="267" parent="234" name="clid">
       <ColNames>clid</ColNames>
       <RefSchemaName>software</RefSchemaName>
       <RefTableName>class</RefTableName>
       <RefColNames>clid</RefColNames>
     </foreign-key>
-    <foreign-key id="267" parent="234" name="tid">
+    <foreign-key id="268" parent="234" name="tid">
       <ColNames>tid</ColNames>
       <RefSchemaName>software</RefSchemaName>
       <RefTableName>teacher</RefTableName>
       <RefColNames>tid</RefColNames>
     </foreign-key>
-    <column id="268" parent="235" name="dsid">
+    <column id="269" parent="235" name="dsid">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="269" parent="235" name="dtid">
+    <column id="270" parent="235" name="dtid">
       <Position>2</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="270" parent="235" name="id">
+    <column id="271" parent="235" name="id">
       <Position>3</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="271" parent="235" name="time">
+    <column id="272" parent="235" name="time">
       <Position>4</Position>
       <DataType>varchar(19)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="272" parent="235" name="content">
+    <column id="273" parent="235" name="content">
       <Position>5</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="273" parent="235" name="identity">
+    <column id="274" parent="235" name="identity">
       <Position>6</Position>
       <DataType>varchar(1)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="274" parent="235" name="disscuse">
+    <index id="275" parent="235" name="disscuse">
       <ColNames>dtid</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="275" parent="235" name="id_t">
+    <index id="276" parent="235" name="id_t">
       <ColNames>id</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="276" parent="235" name="PRIMARY">
+    <key id="277" parent="235" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>dsid</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="277" parent="235" name="disscuse">
+    <foreign-key id="278" parent="235" name="disscuse">
       <ColNames>dtid</ColNames>
       <RefSchemaName>software</RefSchemaName>
       <RefTableName>discass_t</RefTableName>
       <RefColNames>dtid</RefColNames>
       <OnDelete>cascade</OnDelete>
     </foreign-key>
-    <foreign-key id="278" parent="235" name="id_s">
+    <foreign-key id="279" parent="235" name="id_s">
       <ColNames>id</ColNames>
       <RefSchemaName>software</RefSchemaName>
       <RefTableName>student</RefTableName>
       <RefColNames>sid</RefColNames>
     </foreign-key>
-    <foreign-key id="279" parent="235" name="id_t">
+    <foreign-key id="280" parent="235" name="id_t">
       <ColNames>id</ColNames>
       <RefSchemaName>software</RefSchemaName>
       <RefTableName>teacher</RefTableName>
       <RefColNames>tid</RefColNames>
     </foreign-key>
-    <column id="280" parent="236" name="dtid">
+    <column id="281" parent="236" name="dtid">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="281" parent="236" name="title">
+    <column id="282" parent="236" name="title">
       <Position>2</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="282" parent="236" name="cid">
+    <column id="283" parent="236" name="cid">
       <Position>3</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="283" parent="236" name="lastUpdateTime">
+    <column id="284" parent="236" name="lastUpdateTime">
       <Position>4</Position>
       <DataType>varchar(19)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="284" parent="236" name="traffic">
+    <column id="285" parent="236" name="traffic">
       <Position>5</Position>
       <DataType>int(11)|0s</DataType>
       <DefaultExpression>0</DefaultExpression>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="285" parent="236" name="startTime">
+    <column id="286" parent="236" name="startTime">
       <Position>6</Position>
       <DataType>varchar(19)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="286" parent="236" name="discasst_c">
+    <index id="287" parent="236" name="discasst_c">
       <ColNames>cid</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="287" parent="236" name="PRIMARY">
+    <key id="288" parent="236" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>dtid
 cid</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="288" parent="236" name="discasst_c">
+    <foreign-key id="289" parent="236" name="discasst_c">
       <ColNames>cid</ColNames>
       <RefSchemaName>software</RefSchemaName>
       <RefTableName>course</RefTableName>
       <RefColNames>cid</RefColNames>
     </foreign-key>
-    <column id="289" parent="237" name="qtid">
+    <column id="290" parent="237" name="qtid">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="290" parent="237" name="question">
+    <column id="291" parent="237" name="question">
       <Position>2</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="291" parent="237" name="number">
+    <column id="292" parent="237" name="number">
       <Position>3</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="292" parent="237" name="qtid">
+    <index id="293" parent="237" name="qtid">
       <ColNames>qtid</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="293" parent="237" name="PRIMARY">
+    <key id="294" parent="237" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>qtid
 number</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="294" parent="237" name="qtid">
+    <foreign-key id="295" parent="237" name="qtid">
       <ColNames>qtid</ColNames>
       <RefSchemaName>software</RefSchemaName>
       <RefTableName>question_t</RefTableName>
       <RefColNames>qtid</RefColNames>
       <OnDelete>cascade</OnDelete>
     </foreign-key>
-    <column id="295" parent="238" name="qtid">
+    <column id="296" parent="238" name="qtid">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="296" parent="238" name="sid">
+    <column id="297" parent="238" name="sid">
       <Position>2</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="297" parent="238" name="result">
+    <column id="298" parent="238" name="result">
       <Position>3</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="298" parent="238" name="submitTime">
+    <column id="299" parent="238" name="submitTime">
       <Position>4</Position>
       <DataType>varchar(19)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="299" parent="238" name="student_q">
+    <index id="300" parent="238" name="student_q">
       <ColNames>sid</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="300" parent="238" name="PRIMARY">
+    <key id="301" parent="238" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>qtid
 sid</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="301" parent="238" name="question">
+    <foreign-key id="302" parent="238" name="question">
       <ColNames>qtid</ColNames>
       <RefSchemaName>software</RefSchemaName>
       <RefTableName>question_t</RefTableName>
       <RefColNames>qtid</RefColNames>
+      <OnUpdate>cascade</OnUpdate>
       <OnDelete>cascade</OnDelete>
     </foreign-key>
-    <foreign-key id="302" parent="238" name="student_q">
+    <foreign-key id="303" parent="238" name="student_q">
       <ColNames>sid</ColNames>
       <RefSchemaName>software</RefSchemaName>
       <RefTableName>student</RefTableName>
       <RefColNames>sid</RefColNames>
       <OnDelete>cascade</OnDelete>
     </foreign-key>
-    <column id="303" parent="239" name="qtid">
+    <column id="304" parent="239" name="qtid">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="304" parent="239" name="title">
+    <column id="305" parent="239" name="title">
       <Position>2</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="305" parent="239" name="cid">
+    <column id="306" parent="239" name="cid">
       <Position>3</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="306" parent="239" name="startTime">
+    <column id="307" parent="239" name="startTime">
       <Position>4</Position>
       <DataType>varchar(19)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="307" parent="239" name="endTime">
+    <column id="308" parent="239" name="endTime">
       <Position>5</Position>
       <DataType>varchar(19)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="308" parent="239" name="course_q">
+    <index id="309" parent="239" name="course_q">
       <ColNames>cid</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="309" parent="239" name="PRIMARY">
+    <key id="310" parent="239" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>qtid
 cid</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="310" parent="239" name="course_q">
+    <foreign-key id="311" parent="239" name="course_q">
       <ColNames>cid</ColNames>
       <RefSchemaName>software</RefSchemaName>
       <RefTableName>course</RefTableName>
       <RefColNames>cid</RefColNames>
     </foreign-key>
-    <column id="311" parent="240" name="sid">
+    <column id="312" parent="240" name="sid">
+      <Position>1</Position>
+      <DataType>int(11)|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="313" parent="240" name="time">
+      <Position>2</Position>
+      <DataType>varchar(19)|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="314" parent="240" name="state">
+      <Position>3</Position>
+      <DataType>varchar(1)|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="315" parent="240" name="cid">
+      <Position>4</Position>
+      <DataType>int(11)|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <index id="316" parent="240" name="courseCall">
+      <ColNames>cid</ColNames>
+      <Type>btree</Type>
+    </index>
+    <key id="317" parent="240" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>sid
+time
+cid</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <foreign-key id="318" parent="240" name="studentCall">
+      <ColNames>sid</ColNames>
+      <RefSchemaName>software</RefSchemaName>
+      <RefTableName>student</RefTableName>
+      <RefColNames>sid</RefColNames>
+      <OnDelete>cascade</OnDelete>
+    </foreign-key>
+    <foreign-key id="319" parent="240" name="courseCall">
+      <ColNames>cid</ColNames>
+      <RefSchemaName>software</RefSchemaName>
+      <RefTableName>course</RefTableName>
+      <RefColNames>cid</RefColNames>
+      <OnDelete>cascade</OnDelete>
+    </foreign-key>
+    <column id="320" parent="241" name="sid">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="312" parent="240" name="name">
+    <column id="321" parent="241" name="name">
       <Position>2</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="313" parent="240" name="clid">
+    <column id="322" parent="241" name="clid">
       <Position>3</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="314" parent="240" name="password">
+    <column id="323" parent="241" name="password">
       <Position>4</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="315" parent="240" name="number">
+    <column id="324" parent="241" name="number">
       <Position>5</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="316" parent="240" name="sex">
+    <column id="325" parent="241" name="sex">
       <Position>6</Position>
       <DataType>varchar(1)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="317" parent="240" name="studyTime">
+    <column id="326" parent="241" name="studyTime">
       <Position>7</Position>
       <DataType>int(255)|0s</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>0</DefaultExpression>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="318" parent="240" name="profilePhoto">
+    <column id="327" parent="241" name="profilePhoto">
       <Position>8</Position>
       <DataType>varchar(255)|0s</DataType>
       <DefaultExpression>&apos;default.jpg&apos;</DefaultExpression>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="319" parent="240" name="studentNumber">
+    <index id="328" parent="241" name="studentNumber">
       <ColNames>number</ColNames>
       <Unique>1</Unique>
       <Type>btree</Type>
     </index>
-    <index id="320" parent="240" name="class1">
+    <index id="329" parent="241" name="sid">
+      <ColNames>sid</ColNames>
+      <Type>btree</Type>
+    </index>
+    <index id="330" parent="241" name="class1">
       <ColNames>clid</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="321" parent="240" name="PRIMARY">
+    <key id="331" parent="241" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>sid
 number</ColNames>
       <Primary>1</Primary>
     </key>
-    <key id="322" parent="240" name="studentNumber">
+    <key id="332" parent="241" name="studentNumber">
       <ColNames>number</ColNames>
       <UnderlyingIndexName>studentNumber</UnderlyingIndexName>
     </key>
-    <foreign-key id="323" parent="240" name="class1">
+    <foreign-key id="333" parent="241" name="class1">
       <ColNames>clid</ColNames>
       <RefSchemaName>software</RefSchemaName>
       <RefTableName>class</RefTableName>
       <RefColNames>clid</RefColNames>
     </foreign-key>
-    <column id="324" parent="241" name="tid">
+    <column id="334" parent="242" name="tid">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="325" parent="241" name="number">
+    <column id="335" parent="242" name="number">
       <Position>2</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="326" parent="241" name="password">
+    <column id="336" parent="242" name="password">
       <Position>3</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="327" parent="241" name="name">
+    <column id="337" parent="242" name="name">
       <Position>4</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="328" parent="241" name="profilePhoto">
+    <column id="338" parent="242" name="profilePhoto">
       <Position>5</Position>
       <DataType>varchar(255)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="329" parent="241" name="PRIMARY">
+    <key id="339" parent="242" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>tid
 number</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="330" parent="242" name="ttid">
-      <Position>1</Position>
-      <DataType>int(11)|0s</DataType>
-      <NotNull>1</NotNull>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <column id="331" parent="242" name="number">
-      <Position>2</Position>
-      <DataType>int(11)|0s</DataType>
-      <NotNull>1</NotNull>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <column id="332" parent="242" name="question">
-      <Position>3</Position>
-      <DataType>varchar(255)|0s</DataType>
-      <NotNull>1</NotNull>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <column id="333" parent="242" name="option1">
-      <Position>4</Position>
-      <DataType>varchar(255)|0s</DataType>
-      <NotNull>1</NotNull>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <column id="334" parent="242" name="option2">
-      <Position>5</Position>
-      <DataType>varchar(255)|0s</DataType>
-      <NotNull>1</NotNull>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <column id="335" parent="242" name="option3">
-      <Position>6</Position>
-      <DataType>varchar(255)|0s</DataType>
-      <NotNull>1</NotNull>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <column id="336" parent="242" name="option4">
-      <Position>7</Position>
-      <DataType>varchar(255)|0s</DataType>
-      <NotNull>1</NotNull>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <column id="337" parent="242" name="answer">
-      <Position>8</Position>
-      <DataType>varchar(255)|0s</DataType>
-      <NotNull>1</NotNull>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <key id="338" parent="242" name="PRIMARY">
-      <NameSurrogate>1</NameSurrogate>
-      <ColNames>ttid
-number</ColNames>
-      <Primary>1</Primary>
-    </key>
-    <foreign-key id="339" parent="242" name="test">
-      <ColNames>ttid</ColNames>
-      <RefSchemaName>software</RefSchemaName>
-      <RefTableName>test_t</RefTableName>
-      <RefColNames>ttid</RefColNames>
-      <OnUpdate>cascade</OnUpdate>
-      <OnDelete>cascade</OnDelete>
-    </foreign-key>
     <column id="340" parent="243" name="ttid">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="341" parent="243" name="answer">
+    <column id="341" parent="243" name="number">
       <Position>2</Position>
-      <DataType>varchar(255)|0s</DataType>
-      <NotNull>1</NotNull>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <column id="342" parent="243" name="sid">
-      <Position>3</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="343" parent="243" name="score">
-      <Position>4</Position>
-      <DataType>int(3)|0s</DataType>
-      <DefaultExpression>0</DefaultExpression>
-      <ColumnKind>normal</ColumnKind>
-    </column>
-    <column id="344" parent="243" name="submitTime">
-      <Position>5</Position>
-      <DataType>varchar(19)|0s</DataType>
+    <column id="342" parent="243" name="question">
+      <Position>3</Position>
+      <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="345" parent="243" name="student">
-      <ColNames>sid</ColNames>
-      <Type>btree</Type>
-    </index>
-    <key id="346" parent="243" name="PRIMARY">
+    <column id="343" parent="243" name="option1">
+      <Position>4</Position>
+      <DataType>varchar(255)|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="344" parent="243" name="option2">
+      <Position>5</Position>
+      <DataType>varchar(255)|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="345" parent="243" name="option3">
+      <Position>6</Position>
+      <DataType>varchar(255)|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="346" parent="243" name="option4">
+      <Position>7</Position>
+      <DataType>varchar(255)|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="347" parent="243" name="answer">
+      <Position>8</Position>
+      <DataType>varchar(255)|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <key id="348" parent="243" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>ttid
-sid</ColNames>
+number</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="347" parent="243" name="testS">
+    <foreign-key id="349" parent="243" name="test">
       <ColNames>ttid</ColNames>
       <RefSchemaName>software</RefSchemaName>
       <RefTableName>test_t</RefTableName>
@@ -1517,328 +1524,377 @@ sid</ColNames>
       <OnUpdate>cascade</OnUpdate>
       <OnDelete>cascade</OnDelete>
     </foreign-key>
-    <foreign-key id="348" parent="243" name="student">
+    <column id="350" parent="244" name="ttid">
+      <Position>1</Position>
+      <DataType>int(11)|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="351" parent="244" name="answer">
+      <Position>2</Position>
+      <DataType>varchar(255)|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="352" parent="244" name="sid">
+      <Position>3</Position>
+      <DataType>int(11)|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="353" parent="244" name="score">
+      <Position>4</Position>
+      <DataType>int(3)|0s</DataType>
+      <DefaultExpression>0</DefaultExpression>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="354" parent="244" name="submitTime">
+      <Position>5</Position>
+      <DataType>varchar(19)|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <index id="355" parent="244" name="student">
+      <ColNames>sid</ColNames>
+      <Type>btree</Type>
+    </index>
+    <key id="356" parent="244" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>ttid
+sid</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <foreign-key id="357" parent="244" name="testS">
+      <ColNames>ttid</ColNames>
+      <RefSchemaName>software</RefSchemaName>
+      <RefTableName>test_t</RefTableName>
+      <RefColNames>ttid</RefColNames>
+      <OnUpdate>cascade</OnUpdate>
+      <OnDelete>cascade</OnDelete>
+    </foreign-key>
+    <foreign-key id="358" parent="244" name="student">
       <ColNames>sid</ColNames>
       <RefSchemaName>software</RefSchemaName>
       <RefTableName>student</RefTableName>
       <RefColNames>sid</RefColNames>
     </foreign-key>
-    <column id="349" parent="244" name="ttid">
+    <column id="359" parent="245" name="ttid">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="350" parent="244" name="title">
+    <column id="360" parent="245" name="title">
       <Position>2</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="351" parent="244" name="startTime">
+    <column id="361" parent="245" name="startTime">
       <Position>3</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="352" parent="244" name="endTime">
+    <column id="362" parent="245" name="endTime">
       <Position>4</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="353" parent="244" name="cid">
+    <column id="363" parent="245" name="cid">
       <Position>5</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="354" parent="244" name="ttid">
+    <index id="364" parent="245" name="ttid">
       <ColNames>ttid</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="355" parent="244" name="classtest">
+    <index id="365" parent="245" name="classtest">
       <ColNames>cid</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="356" parent="244" name="PRIMARY">
+    <key id="366" parent="245" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>ttid</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="357" parent="244" name="classtest">
+    <foreign-key id="367" parent="245" name="classtest">
       <ColNames>cid</ColNames>
       <RefSchemaName>software</RefSchemaName>
       <RefTableName>class</RefTableName>
       <RefColNames>clid</RefColNames>
     </foreign-key>
-    <column id="358" parent="245" name="id">
+    <column id="368" parent="246" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="359" parent="245" name="date">
+    <column id="369" parent="246" name="date">
       <Position>2</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="360" parent="245" name="time">
+    <column id="370" parent="246" name="time">
       <Position>3</Position>
       <DataType>int(11)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="361" parent="245" name="type">
+    <column id="371" parent="246" name="type">
       <Position>4</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="362" parent="245" name="startTime">
+    <column id="372" parent="246" name="startTime">
       <Position>5</Position>
       <DataType>varchar(8)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="363" parent="245" name="endTime">
+    <column id="373" parent="246" name="endTime">
       <Position>6</Position>
       <DataType>varchar(8)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="364" parent="245" name="sid">
+    <column id="374" parent="246" name="sid">
       <Position>7</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="365" parent="245" name="cid">
+    <column id="375" parent="246" name="cid">
       <Position>8</Position>
       <DataType>int(11)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="366" parent="245" name="student1">
+    <index id="376" parent="246" name="student1">
       <ColNames>sid</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="367" parent="245" name="PRIMARY">
+    <key id="377" parent="246" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="368" parent="245" name="student1">
+    <foreign-key id="378" parent="246" name="student1">
       <ColNames>sid</ColNames>
       <RefSchemaName>software</RefSchemaName>
       <RefTableName>student</RefTableName>
       <RefColNames>sid</RefColNames>
     </foreign-key>
-    <column id="369" parent="246" name="vtid">
+    <column id="379" parent="247" name="vtid">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="370" parent="246" name="sid">
+    <column id="380" parent="247" name="sid">
       <Position>2</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="371" parent="246" name="result">
+    <column id="381" parent="247" name="result">
       <Position>3</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="372" parent="246" name="student_v">
+    <index id="382" parent="247" name="student_v">
       <ColNames>sid</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="373" parent="246" name="PRIMARY">
+    <key id="383" parent="247" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>vtid
 sid
 result</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="374" parent="246" name="vtid">
+    <foreign-key id="384" parent="247" name="vtid">
       <ColNames>vtid</ColNames>
       <RefSchemaName>software</RefSchemaName>
       <RefTableName>vote_t</RefTableName>
       <RefColNames>vtid</RefColNames>
+      <OnUpdate>cascade</OnUpdate>
       <OnDelete>cascade</OnDelete>
     </foreign-key>
-    <foreign-key id="375" parent="246" name="student_v">
+    <foreign-key id="385" parent="247" name="student_v">
       <ColNames>sid</ColNames>
       <RefSchemaName>software</RefSchemaName>
       <RefTableName>student</RefTableName>
       <RefColNames>sid</RefColNames>
       <OnDelete>cascade</OnDelete>
     </foreign-key>
-    <column id="376" parent="247" name="vtid">
+    <column id="386" parent="248" name="vtid">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="377" parent="247" name="title">
+    <column id="387" parent="248" name="title">
       <Position>2</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="378" parent="247" name="options">
+    <column id="388" parent="248" name="options">
       <Position>3</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="379" parent="247" name="startTime">
+    <column id="389" parent="248" name="startTime">
       <Position>4</Position>
       <DataType>varchar(19)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="380" parent="247" name="endTime">
+    <column id="390" parent="248" name="endTime">
       <Position>5</Position>
       <DataType>varchar(19)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="381" parent="247" name="cid">
+    <column id="391" parent="248" name="cid">
       <Position>6</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="382" parent="247" name="class">
+    <index id="392" parent="248" name="class">
       <ColNames>cid</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="383" parent="247" name="PRIMARY">
+    <key id="393" parent="248" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>vtid</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="384" parent="247" name="class">
+    <foreign-key id="394" parent="248" name="class">
       <ColNames>cid</ColNames>
       <RefSchemaName>software</RefSchemaName>
       <RefTableName>class</RefTableName>
       <RefColNames>clid</RefColNames>
     </foreign-key>
-    <column id="385" parent="248" name="wtid">
+    <column id="395" parent="249" name="wtid">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="386" parent="248" name="sid">
+    <column id="396" parent="249" name="sid">
       <Position>2</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="387" parent="248" name="submitTime">
+    <column id="397" parent="249" name="submitTime">
       <Position>3</Position>
       <DataType>varchar(19)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="388" parent="248" name="answer">
+    <column id="398" parent="249" name="answer">
       <Position>4</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="389" parent="248" name="file">
+    <column id="399" parent="249" name="file">
       <Position>5</Position>
       <DataType>varchar(255)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="390" parent="248" name="score">
+    <column id="400" parent="249" name="score">
       <Position>6</Position>
       <DataType>int(11)|0s</DataType>
       <DefaultExpression>0</DefaultExpression>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="391" parent="248" name="stid">
+    <index id="401" parent="249" name="stid">
       <ColNames>sid</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="392" parent="248" name="PRIMARY">
+    <key id="402" parent="249" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>wtid
 sid</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="393" parent="248" name="work">
+    <foreign-key id="403" parent="249" name="work">
       <ColNames>wtid</ColNames>
       <RefSchemaName>software</RefSchemaName>
       <RefTableName>work_t</RefTableName>
       <RefColNames>wtid</RefColNames>
       <OnDelete>cascade</OnDelete>
     </foreign-key>
-    <foreign-key id="394" parent="248" name="stid">
+    <foreign-key id="404" parent="249" name="stid">
       <ColNames>sid</ColNames>
       <RefSchemaName>software</RefSchemaName>
       <RefTableName>student</RefTableName>
       <RefColNames>sid</RefColNames>
       <OnDelete>cascade</OnDelete>
     </foreign-key>
-    <column id="395" parent="249" name="wtid">
+    <column id="405" parent="250" name="wtid">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="396" parent="249" name="title">
+    <column id="406" parent="250" name="title">
       <Position>2</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="397" parent="249" name="cid">
+    <column id="407" parent="250" name="cid">
       <Position>3</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="398" parent="249" name="content">
+    <column id="408" parent="250" name="content">
       <Position>4</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="399" parent="249" name="startTime">
+    <column id="409" parent="250" name="startTime">
       <Position>5</Position>
       <DataType>varchar(19)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="400" parent="249" name="endTime">
+    <column id="410" parent="250" name="endTime">
       <Position>6</Position>
       <DataType>varchar(19)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="401" parent="249" name="file">
+    <column id="411" parent="250" name="file">
       <Position>7</Position>
       <DataType>varchar(255)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="402" parent="249" name="course">
+    <index id="412" parent="250" name="course">
       <ColNames>cid</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="403" parent="249" name="PRIMARY">
+    <key id="413" parent="250" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>wtid</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="404" parent="249" name="course">
+    <foreign-key id="414" parent="250" name="course">
       <ColNames>cid</ColNames>
       <RefSchemaName>software</RefSchemaName>
       <RefTableName>course</RefTableName>
