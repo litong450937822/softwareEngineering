@@ -16,10 +16,12 @@ $endTime = $_POST['endTime'];
 $cid = $_SESSION['cid'];
 $wtid = $_POST['wtid'];
 $file = @$_POST['file'];
+$chid = $_POST['chid'];
 if ($wtid == '')
-    $sql = "INSERT INTO work_t (title, cid, content, startTime, endTime, file) VALUE ('$title', $cid, '$content', '$startTime', '$endTime', '$file') ";
+    $sql = "INSERT INTO work_t (title, cid, content, startTime, endTime, file, chid) VALUE ('$title', $cid, '$content', '$startTime', '$endTime', '$file',$chid) ";
 else
-    $sql = "UPDATE work_t SET title = '" . $title . "',content = '" . $content . "',startTime = '" . $startTime . "',endTime = '" . $endTime . "',file = '" . $file . "' WHERE wtid = $wtid";
+    $sql = "UPDATE work_t SET title = '" . $title . "',content = '" . $content . "',startTime = '" . $startTime . "',
+    endTime = '" . $endTime . "',file = '" . $file . "',chid = $chid WHERE wtid = $wtid";
     if (mysqli_query($conn, $sql)) {
         return 'success';
     } else {

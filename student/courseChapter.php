@@ -1,0 +1,145 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: TemperanceXIV
+ * Date: 2019/3/18
+ * Time: 21:09
+ */
+
+require_once("../connect/conn.php");
+require_once("../connect/checkLogin.php");
+$cid = $_SESSION['cid'];
+$rs = mysqli_query($conn, "SELECT * FROM chapter WHERE cid = $cid AND type = 'T'");
+$count = mysqli_num_rows($rs);
+?>
+<div class="layui-col-md8 layui-col-md-offset2" style="padding-top: 30px;">
+    <div style="margin-bottom: 15px">
+        <span class="layui-breadcrumb" style="margin-bottom: 20px">
+            <a class="link" onclick="backToSelect('t')">课程选择</a>
+            <a><cite>课程章节</cite></a>
+        </span>
+    </div>
+    <?php
+    if ($count > 0) { ?>
+        <div class="layui-collapse" lay-filter="test">
+            <?php
+            while ($row = mysqli_fetch_assoc($rs)) {
+                $number = $row['number'];
+                $chid = $row['chid'];
+                $rs1 = mysqli_query($conn, "SELECT * FROM chapter WHERE cid = $cid AND type != 'T' AND number = $number")
+                ?>
+                <div class="layui-colla-item">
+                    <h3 class="layui-colla-title">第<?php echo $number ?>章 <?php echo $row['title'] ?></h3>
+                    <div class="layui-colla-content layui-show">
+                        <?php while ($row1 = mysqli_fetch_assoc($rs1)) { ?>
+                            <h2 class="link" id="item" style="margin-bottom: 5px"
+                                onclick="gotoPage('teacher/chapterItem.php?chid=<?php echo $row1['chid'] ?>')">
+                                <img src="icon/<?php
+                                switch ($row1['type']) {
+                                    case 'A':
+                                        echo 'attachment.png';
+                                        break;
+                                    case 'L':
+                                        echo 'link.png';
+                                        break;
+                                }
+                                ?>" class="layui-nav-img"><?php echo $row1['title'] ?></h2>
+                        <?php }
+                        $rs1 = mysqli_query($conn, "SELECT * FROM work_t WHERE cid = cid AND chid = $chid");
+                        while ($row1 = mysqli_fetch_assoc($rs1)) {
+                            ?>
+                            <h2 class="link" style="margin-bottom: 5px" onclick="gotoPage('student/work.php?wtid=<?php echo $row1['wtid'] ?>')">
+                                <img src="icon/work.png" class="layui-nav-img"><?php echo $row1['title'] ?>
+                            </h2>
+                            <?php
+                        }
+                        $rs1 = mysqli_query($conn, "SELECT * FROM discass_t WHERE cid = cid AND chid = $chid");
+                        while ($row1 = mysqli_fetch_assoc($rs1)) {
+                            ?>
+                            <h2 class="link" style="margin-bottom: 5px" onclick="gotoPage('student/discuss.php?dtid=<?php echo $row1['dtid'] ?>')">
+                                <img src="icon/disscuss.png" class="layui-nav-img"><?php echo $row1['title'] ?>
+                            </h2>
+                            <?php
+                        }
+                        ?>
+                    </div>
+                </div>
+                <?php
+            } ?>
+        </div>
+        <?php
+    } else {
+        ?>
+        <div style="width: 100%;height: 150px;background-color: #f5f5f5;
+        text-align: center;line-height: 150px;border-radius: 4px">
+            <p style="color: #999;font-size: 30px;font-weight: bolder">该课程暂无章节</p>
+        </div>
+        <?php
+    }
+    ?>
+</div>
+
+<script>
+    layui.use('element', function () {
+        let element = layui.element; //导航的hover效果、二级菜单等功能，需要依赖element模块
+
+        element.render();
+    });
+
+    layui.use(['layer', 'form'], function () {
+        let $ = layui.jquery, layer = layui.layer;
+        let form = layui.form;
+
+        form.render();
+
+        let active = {
+            offset: function (othis) {
+
+                layer.open({
+                    type: 1
+                    , title: '添加章节'
+                    , offset: 'auto'
+                    , id: 'chapter' //防止重复弹出
+                    , content: '<div style="margin: 20px">' +
+                    '<form class="layui-form layui-form-pane" action="" >\n' +
+                    '<div class="layui-form-item">\n' +
+                    '<label class="layui-form-label">章节名</label>\n' +
+                    '<div class="layui-input-block">\n' +
+                    '<input type="text" name="title" autocomplete="off" placeholder="请输入章节名" lay-verify="required" class="layui-input">\n' +
+                    '</div>' +
+                    '</div>' +
+                    '</form>' +
+                    '</div>'
+                    , btnAlign: 'c' //按钮居中
+                    , shade: 0.3
+                    , btn: '确定'
+                    , shadeClose: true
+                    , yes: function (index) {
+                        let count = <?php echo $count + 1; ?>;
+                        let title = $('input[name="title"]').val();
+                        $.ajax({
+                            url: './php/insertChapter.php',
+                            type: 'post',
+                            data: {
+                                number: count,
+                                title: title,
+                            },
+                            success: function () {
+                                layer.close(index);
+                                gotoPage('teacher/courseChapter.php');
+
+                            }
+                        });
+
+                    }
+                });
+            }
+        };
+
+
+        $('#addChapter').on('click', function () {
+            let othis = $(this), method = othis.data('method');
+            active[method] ? active[method].call(this, othis) : '';
+        })
+    });
+</script

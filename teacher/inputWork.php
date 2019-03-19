@@ -9,16 +9,24 @@
 require_once("../connect/conn.php");
 require_once("../connect/checkLogin.php");
 $wtid = @$_GET['wtid'];
+$number = @$_GET['number'];
+$cid = $_SESSION['cid'];
 if ($wtid != null) {
     $rs = mysqli_query($conn, "SELECT * FROM work_t WHERE wtid = $wtid");
     $row = mysqli_fetch_assoc($rs);
 }
+$rs1 = mysqli_query($conn, "SELECT * FROM chapter WHERE cid = $cid AND type = 'T'");
 ?>
 <div class="layui-col-md8 layui-col-md-offset2" style="padding-top: 30px;" id="layer">
     <div style="margin-bottom: 15px">
         <span class="layui-breadcrumb" style="margin-bottom: 20px">
             <a class="link" onclick="backToSelect('t')">课程选择</a>
-            <a class="link" onclick="gotoPage('teacher/sWork.php')">作业</a>
+            <?php
+            if ($number != null)
+                echo '<a class="link" onclick="gotoPage(\'teacher/courseChapter.php\')">课程章节</a>';
+            else
+                echo '<a class="link" onclick="gotoPage(\'teacher/sWork.php\')">作业</a>';
+            ?>
             <a><cite><?php
                     if ($wtid != null)
                         echo '编辑作业';
@@ -52,6 +60,22 @@ if ($wtid != null) {
                     <input type="text" name="endTime" id="endTime" autocomplete="off" lay-verify="endTime"
                            class="layui-input" value="<?php echo @$row['endTime'] ?>">
                 </div>
+            </div>
+        </div>
+        <div class="layui-form-block" style="margin-bottom: 20px">
+            <label class="layui-form-label">选择章节</label>
+            <div class="layui-input-block" style="width: 200px">
+                <select name="chid" data-number="<?php echo $number ?>" lay-filter="chapter">
+                    <option value="">请选择章节</option>
+                    <?php
+                    while ($row1 = mysqli_fetch_assoc($rs1)) {
+                        ?>
+                        <option value="<?php echo $row1['chid'] ?>" <?php
+                        if ($number == $row1['number'])
+                            echo 'selected=""';
+                        ?>><?php echo '第' . $row1['number'] . '章 ' . $row1['title'] ?></option>
+                    <?php } ?>
+                </select>
             </div>
         </div>
         <div class="layui-form-item layui-form-text">

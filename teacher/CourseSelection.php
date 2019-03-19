@@ -27,7 +27,7 @@ where course.tid =  $tid");
         <?php
         while ($row = mysqli_fetch_assoc($rs)) {
             ?>
-            <tr onclick="selectCourse(<?php echo $row['cid'] ?>)" class="link">
+            <tr onclick="selectCourse(<?php echo $row['cid'] ?>)" class="link" >
                 <td><img src="./img/course-cover-default.png" style="width: 130px; height: 71px"></td>
                 <td><p style="font-size: 20px"><?php echo $row['courseName'] ?></p>
                     <p>开课日期：<?php echo $row['startDate']  ?> - 课程结束日期：<?php echo $row['endDate']  ?></p>
