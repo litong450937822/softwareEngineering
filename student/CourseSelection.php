@@ -62,6 +62,7 @@ where clid = $class");
     });
 
     function selectCourse(cid) {
+        changeMenu('navigation/studentMenu.html');
         $('#left_menu').show();
         gotoPage('student/description.php?cid='+cid);
     }

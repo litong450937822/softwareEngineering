@@ -56,6 +56,7 @@ where course.tid =  $tid");
     });
 
     function selectCourse(cid) {
+        changeMenu('navigation/teacherMenu.html');
         $('#left_menu').show();
         gotoPage('teacher/description.php?cid='+cid);
     }

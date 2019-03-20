@@ -104,8 +104,13 @@ $conn->query($sql);
                     url: './php/insertVote_s.php',
                     type: 'post',
                     data: data.field,
+                    dataType:"json",
                     success: function (data) {
-                        gotoPage('student/courseVote.php');
+                        if (data.state !== 1)
+                            gotoPage('student/courseVote.php');
+                        else
+                            layer.msg("该投票您已参加过");
+
                     },
                     error: function () {
                         layer.msg("该投票您已参加过");

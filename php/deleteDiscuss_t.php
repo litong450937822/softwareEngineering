@@ -9,7 +9,7 @@
 require_once("../connect/conn.php");
 require_once("../connect/checkLogin.php");
 
-$dtid = $_POST['dtid'];
+$dtid = is_null(@$_POST['id']) ? $_POST['dtid'] : $_POST['id'];
 $sql = "DELETE FROM discass_t WHERE dtid = $dtid";
 if ($conn->query($sql) ===TRUE){
     return 'success';

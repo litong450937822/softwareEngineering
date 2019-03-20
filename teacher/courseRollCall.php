@@ -57,8 +57,7 @@ $rs = mysqli_query($conn, "SELECT distinct time FROM rollcall WHERE cid = $cid")
                         <button class="layui-btn layui-btn-sm"
                                 onclick="editRollCall('<?php echo $time ?>')">
                             <i class="layui-icon">&#xe642;</i></button>
-                        <button class="layui-btn layui-btn-sm delQuestionnaire" data-method="confirmTrans"
-                                id="delRollCall"
+                        <button class="layui-btn layui-btn-sm delRollCall" data-method="confirmTrans"
                                 data-time="<?php echo $time ?>">
                             <i class="layui-icon">&#xe640;</i></button>
                     </td>
@@ -116,12 +115,12 @@ $rs = mysqli_query($conn, "SELECT distinct time FROM rollcall WHERE cid = $cid")
                 , btn1: function () {
                     $.ajax({
                         type: "POST",
-                        url: "./php/deleteDiscuss_t.php",//url
+                        url: "./php/deleteRollCall.php",//url
                         data: {
                             time: time,
                         },
                         success: function () {
-                            gotoPage('teacher/courseDiscuss.php');
+                            gotoPage('teacher/courseRollCall.php');
                             layer.msg('刪除成功');
                         }
                     });
@@ -134,7 +133,6 @@ $rs = mysqli_query($conn, "SELECT distinct time FROM rollcall WHERE cid = $cid")
     };
 
     $('.delRollCall').on('click', function () {
-        alert(1);
         let othis = $(this), method = othis.data('method');
         active[method] ? active[method].call(this, othis) : '';
     });

@@ -2,15 +2,15 @@
 /**
  * Created by PhpStorm.
  * User: TemperanceXIV
- * Date: 2019/2/25
- * Time: 20:53
+ * Date: 2019/2/19
+ * Time: 23:15
  */
-
 require_once("../connect/conn.php");
 require_once("../connect/checkLogin.php");
 
-$wtid = is_null(@$_POST['id']) ? $_POST['wtid'] : $_POST['id'];
-$sql = "DELETE FROM work_t WHERE wtid = $wtid";
+$time = $_POST['time'];
+$cid = $_SESSION['cid'];
+$sql = "DELETE FROM rollcall WHERE cid = $cid AND time = '".$time."'";
 if ($conn->query($sql) ===TRUE){
     return 'success';
 }else{

@@ -33,39 +33,83 @@ $copy = @$_GET['copy'];
                 <div class="layui-colla-item">
                     <h3 class="layui-colla-title">第<?php echo $number ?>章 <?php echo $row['title'] ?></h3>
                     <div class="layui-colla-content layui-show">
-                        <?php while ($row1 = mysqli_fetch_assoc($rs1)) { ?>
-                            <h2 class="link" id="item" style="margin-bottom: 5px"
-                                onclick="gotoPage('teacher/chapterItem.php?chid=<?php echo $row1['chid'] ?>')">
-                                <img src="icon/<?php
-                                switch ($row1['type']) {
-                                    case 'A':
-                                        echo 'attachment.png';
-                                        break;
-                                    case 'L':
-                                        echo 'link.png';
-                                        break;
-                                }
-                                ?>" class="layui-nav-img"><?php echo $row1['title'] ?></h2>
-                        <?php }
-                        $rs1 = mysqli_query($conn, "SELECT * FROM work_t WHERE cid = cid AND chid = $chid");
-                        while ($row1 = mysqli_fetch_assoc($rs1)) {
+                        <table class="layui-table" lay-even="" lay-skin="nob">
+                            <colgroup>
+                                <col width="400">
+                                <col width="100">
+                            </colgroup>
+                            <tbody>
+                            <?php while ($row1 = mysqli_fetch_assoc($rs1)) { ?>
+                                <tr>
+                                    <td>
+                                        <h2 class="link" id="item" style="margin-bottom: 5px"
+                                            onclick="gotoPage('teacher/chapterItem.php?chid=<?php echo $row1['chid'] ?>')">
+                                            <img src="icon/<?php
+                                            switch ($row1['type']) {
+                                                case 'A':
+                                                    echo 'attachment.png';
+                                                    break;
+                                                case 'L':
+                                                    echo 'link.png';
+                                                    break;
+                                            }
+                                            ?>" class="layui-nav-img"><?php echo $row1['title'] ?>
+                                        </h2>
+                                    </td>
+                                    <td>
+                                        <button class="layui-btn layui-btn-sm delItem" data-method="delItem"
+                                                data-title="<?php echo $row1['title'] ?>"
+                                                data-type="I"
+                                                data-id="<?php echo $row1['chid'] ?>">
+                                            <i class="layui-icon">&#xe640;</i></button>
+                                    </td>
+                                </tr>
+
+                            <?php }
+                            $rs1 = mysqli_query($conn, "SELECT * FROM work_t WHERE cid = cid AND chid = $chid");
+                            while ($row1 = mysqli_fetch_assoc($rs1)) {
+                                ?>
+                                <tr>
+                                    <td>
+                                        <h2 class="link" style="margin-bottom: 5px"
+                                            onclick="gotoPage('teacher/workCompletion.php?wtid=<?php echo $row1['wtid'] ?>')">
+                                            <img src="icon/work.png" class="layui-nav-img"><?php echo $row1['title'] ?>
+                                        </h2>
+                                    </td>
+                                    <td>
+                                        <button class="layui-btn layui-btn-sm delItem" data-method="delItem"
+                                                data-title="<?php echo $row1['title'] ?>"
+                                                data-type="W"
+                                                data-id="<?php echo $row1['wtid'] ?>">
+                                            <i class="layui-icon">&#xe640;</i></button>
+                                    </td>
+                                </tr>
+                                <?php
+                            }
+                            $rs1 = mysqli_query($conn, "SELECT * FROM discass_t WHERE cid = cid AND chid = $chid");
+                            while ($row1 = mysqli_fetch_assoc($rs1)) {
+                                ?>
+                                <tr>
+                                    <td>
+                                        <h2 class="link" style="margin-bottom: 5px"
+                                            onclick="gotoPage('teacher/discuss.php?dtid=<?php echo $row1['dtid'] ?>')">
+                                            <img src="icon/disscuss.png"
+                                                 class="layui-nav-img"><?php echo $row1['title'] ?>
+                                        </h2>
+                                    </td>
+                                    <td>
+                                        <button class="layui-btn layui-btn-sm delItem" data-method="delItem"
+                                                data-title="<?php echo $row1['title'] ?>"
+                                                data-type="D"
+                                                data-id="<?php echo $row1['dtid'] ?>">
+                                            <i class="layui-icon">&#xe640;</i></button>
+                                    </td>
+                                </tr>
+                                <?php
+                            }
                             ?>
-                            <h2 class="link" style="margin-bottom: 5px"
-                                onclick="gotoPage('teacher/workCompletion.php?wtid=<?php echo $row1['wtid'] ?>')">
-                                <img src="icon/work.png" class="layui-nav-img"><?php echo $row1['title'] ?>
-                            </h2>
-                            <?php
-                        }
-                        $rs1 = mysqli_query($conn, "SELECT * FROM discass_t WHERE cid = cid AND chid = $chid");
-                        while ($row1 = mysqli_fetch_assoc($rs1)) {
-                            ?>
-                            <h2 class="link" style="margin-bottom: 5px"
-                                onclick="gotoPage('teacher/discuss.php?dtid=<?php echo $row1['dtid'] ?>')">
-                                <img src="icon/disscuss.png" class="layui-nav-img"><?php echo $row1['title'] ?>
-                            </h2>
-                            <?php
-                        }
-                        ?>
+                            </tbody>
+                        </table>
                         <form class="layui-form" action="">
                             <div class="layui-form-item">
                                 <label class="layui-form-label">添加项目</label>
@@ -255,6 +299,42 @@ $copy = @$_GET['copy'];
                         layer.closeAll();
                     }
                 })
+            },
+            delItem: function (othis) {
+                let title = othis.data('title');
+                let id = othis.data('id');
+                let type = othis.data('type');
+                let url = '';
+                switch (type){
+                    case 'W':
+                        url = './php/deleteWork.php';
+                        break;
+                    case 'D':
+                        url = './php/deleteDiscuss_t.php';
+                        break;
+                    case 'I':
+                        url = './php/deleteItem.php';
+                        break;
+                }
+                //配置一个透明的询问框
+                layer.msg('确认删除' + title + '吗？', {
+                    time: 20000, //20s后自动关闭
+                    btn: ['确认', '退出']
+                    , btn1: function () {
+                        $.ajax({
+                            url: url,
+                            type: 'post',
+                            data: {
+                                id: id
+                            },
+                            success: function () {
+                                gotoPage('teacher/courseChapter.php');
+                                layer.msg('删除成功');
+                            }
+                        });
+                        layer.closeAll();
+                    }
+                })
             }
         };
         $('#addChapter').on('click', function () {
@@ -263,6 +343,10 @@ $copy = @$_GET['copy'];
         });
 
         $('.delChapter').on('click', function () {
+            let othis = $(this), method = othis.data('method');
+            active[method] ? active[method].call(this, othis) : '';
+        });
+        $('.delItem').on('click', function () {
             let othis = $(this), method = othis.data('method');
             active[method] ? active[method].call(this, othis) : '';
         });

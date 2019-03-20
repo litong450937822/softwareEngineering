@@ -35,100 +35,112 @@ $rs1 = mysqli_query($conn, "SELECT * FROM chapter WHERE cid = $cid AND type = 'T
                     ?></cite></a>
         </span>
     </div>
-    <form class="layui-form layui-form-pane" action="" lay-filter="work">
-        <div class="layui-form-item">
-            <label class="layui-form-label">作业标题</label>
-            <div class="layui-input-block">
-                <input type="text" name="title" autocomplete="off" placeholder="请输入标题" lay-verify="title"
-                       class="layui-input" value="<?php echo @$row['title'] ?>">
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <div class="layui-inline">
-                <label class="layui-form-label">起始时间</label>
+    <?php if (mysqli_num_rows($rs1) >= 1) { ?>
+        <form class="layui-form layui-form-pane" action="" lay-filter="work">
+            <div class="layui-form-item">
+                <label class="layui-form-label">作业标题</label>
                 <div class="layui-input-block">
-                    <input type="text" name="startTime" id="startTime" autocomplete="off" lay-verify="required"
-                           value="<?php if ($wtid != null)
-                               echo $row['startTime'];
-                           else
-                               echo date('Y/m/d h:i:s'); ?>" class="layui-input">
+                    <input type="text" name="title" autocomplete="off" placeholder="请输入标题" lay-verify="title"
+                           class="layui-input" value="<?php echo @$row['title'] ?>">
                 </div>
             </div>
-            <div class="layui-inline">
-                <label class="layui-form-label">结束时间</label>
-                <div class="layui-input-inline">
-                    <input type="text" name="endTime" id="endTime" autocomplete="off" lay-verify="endTime"
-                           class="layui-input" value="<?php echo @$row['endTime'] ?>">
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">起始时间</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="startTime" id="startTime" autocomplete="off" lay-verify="required"
+                               value="<?php if ($wtid != null)
+                                   echo $row['startTime'];
+                               else
+                                   echo date('Y/m/d h:i:s'); ?>" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">结束时间</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="endTime" id="endTime" autocomplete="off" lay-verify="endTime"
+                               class="layui-input" value="<?php echo @$row['endTime'] ?>">
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="layui-form-block" style="margin-bottom: 20px">
-            <label class="layui-form-label">选择章节</label>
-            <div class="layui-input-block" style="width: 200px">
-                <select name="chid" data-number="<?php echo $number ?>" lay-filter="chapter">
-                    <option value="">请选择章节</option>
-                    <?php
-                    while ($row1 = mysqli_fetch_assoc($rs1)) {
-                        ?>
-                        <option value="<?php echo $row1['chid'] ?>" <?php
-                        if ($number == $row1['number'])
-                            echo 'selected=""';
-                        ?>><?php echo '第' . $row1['number'] . '章 ' . $row1['title'] ?></option>
-                    <?php } ?>
-                </select>
+            <div class="layui-form-block" style="margin-bottom: 20px">
+                <label class="layui-form-label">选择章节</label>
+                <div class="layui-input-block" style="width: 200px">
+                    <select name="chid" data-number="<?php echo $number ?>" lay-filter="chapter">
+                        <option value="">请选择章节</option>
+                        <?php
+                        while ($row1 = mysqli_fetch_assoc($rs1)) {
+                            ?>
+                            <option value="<?php echo $row1['chid'] ?>" <?php
+                            if ($number == $row1['number'])
+                                echo 'selected=""';
+                            ?>><?php echo '第' . $row1['number'] . '章 ' . $row1['title'] ?></option>
+                        <?php } ?>
+                    </select>
+                </div>
             </div>
-        </div>
-        <div class="layui-form-item layui-form-text">
-            <label class="layui-form-label">作业内容</label>
-            <div class="layui-input-block">
+            <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label">作业内容</label>
+                <div class="layui-input-block">
                 <textarea placeholder="请输入内容" name="content" lay-verify="required"
                           class="layui-textarea"><?php echo @$row['content'] ?></textarea>
+                </div>
             </div>
-        </div>
-        <div class="layui-upload">
-            <div class="layui-upload-list">
-                <table class="layui-table">
-                    <thead>
-                    <tr>
-                        <th>文件名</th>
-                        <th>大小</th>
-                        <th>状态</th>
-                        <th>操作</th>
-                    </tr>
-                    </thead>
-                    <tbody id="demoList">
-                    <?php if ($wtid != null && $row['file'] != '') {
-                        $files = explode(";", $row['file']);
-                        for ($i = 0; $i < count($files); $i++) {
-                            $url = '../file/' . $_SESSION['number'] . '/' . $files[$i];
-                            $url = iconv("UTF-8", "gb2312", $url);
-                            ?>
-                            <tr id="upload-<?php echo $i; ?>">
-                                <td id="fileName"><?php echo $files[$i] ?></td>
-                                <td><?php if (file_exists($url)) {
-                                        $fileSize = round(filesize($url) / 1024);
-                                        echo $fileSize . 'KB';
-                                    } else echo 0; ?></td>
-                                <td>已经上传</td>
-                                <td>
-                                    <button class="layui-btn layui-btn-xs layui-btn-danger" type="button"
-                                            onclick="delFile('upload-<?php echo $i; ?>','<?php echo $files[$i] ?>')">删除
-                                    </button>
-                                </td>
-                            </tr>
-                        <?php }
-                    }
-                    ?>
-                    </tbody>
-                </table>
+            <div class="layui-upload">
+                <div class="layui-upload-list">
+                    <table class="layui-table">
+                        <thead>
+                        <tr>
+                            <th>文件名</th>
+                            <th>大小</th>
+                            <th>状态</th>
+                            <th>操作</th>
+                        </tr>
+                        </thead>
+                        <tbody id="demoList">
+                        <?php if ($wtid != null && $row['file'] != '') {
+                            $files = explode(";", $row['file']);
+                            for ($i = 0; $i < count($files); $i++) {
+                                $url = '../file/' . $_SESSION['number'] . '/' . $files[$i];
+                                $url = iconv("UTF-8", "gb2312", $url);
+                                ?>
+                                <tr id="upload-<?php echo $i; ?>">
+                                    <td id="fileName"><?php echo $files[$i] ?></td>
+                                    <td><?php if (file_exists($url)) {
+                                            $fileSize = round(filesize($url) / 1024);
+                                            echo $fileSize . 'KB';
+                                        } else echo 0; ?></td>
+                                    <td>已经上传</td>
+                                    <td>
+                                        <button class="layui-btn layui-btn-xs layui-btn-danger" type="button"
+                                                onclick="delFile('upload-<?php echo $i; ?>','<?php echo $files[$i] ?>')">
+                                            删除
+                                        </button>
+                                    </td>
+                                </tr>
+                            <?php }
+                        }
+                        ?>
+                        </tbody>
+                    </table>
+                </div>
             </div>
+            <div class="layui-form-item">
+                <button type="button" class="layui-btn" id="testList">选择文件</button>
+                <button type="button" class="layui-btn" id="upload">上传文件</button>
+            </div>
+            <button class="layui-btn " lay-submit="" lay-filter="insertWork" id="submit">提交</button>
+        </form>
+        <?php
+    }else {
+    ?>
+        <div style="width: 100%;height: 150px;background-color: #f5f5f5;
+        text-align: center;line-height: 150px;border-radius: 4px">
+            <p style="color: #999;font-size: 30px;font-weight: bolder">该课程暂无章节</p>
         </div>
-        <div class="layui-form-item">
-            <button type="button" class="layui-btn" id="testList">选择文件</button>
-            <button type="button" class="layui-btn" id="upload">上传文件</button>
-        </div>
-        <button class="layui-btn " lay-submit="" lay-filter="insertWork" id="submit">提交</button>
-    </form>
+        <?php
+    }
+    ?>
 </div>
 
 <script>

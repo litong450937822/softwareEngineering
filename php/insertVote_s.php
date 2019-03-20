@@ -11,16 +11,13 @@ require_once("../connect/checkLogin.php");
 $vtid = $_SESSION['vtid'];
 $sid = $_SESSION['id'];
 $result = $_POST['result'];
-
+$array = [];
 $rs = mysqli_query($conn, "SELECT * FROM vote_s WHERE vtid=$vtid AND sid = $sid");
 if (mysqli_num_rows($rs) >= 1) {
-    return 'error';
+    $array['state']= 1;
+    echo json_encode($array);
 }
 
 $sql = "INSERT INTO vote_s VALUE ($vtid,$sid,$result) ";
 
-if (mysqli_query($conn, $sql)) {
-    echo "新记录插入成功";
-} else {
-    echo "Error: " . $sql . "<br>" . mysqli_error($conn);
-}
+$conn->query($sql);
