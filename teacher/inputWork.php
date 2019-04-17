@@ -14,6 +14,7 @@ $cid = $_SESSION['cid'];
 if ($wtid != null) {
     $rs = mysqli_query($conn, "SELECT * FROM work_t WHERE wtid = $wtid");
     $row = mysqli_fetch_assoc($rs);
+    $chid = $row['chid'];
 }
 $rs1 = mysqli_query($conn, "SELECT * FROM chapter WHERE cid = $cid AND type = 'T'");
 ?>
@@ -52,7 +53,7 @@ $rs1 = mysqli_query($conn, "SELECT * FROM chapter WHERE cid = $cid AND type = 'T
                                value="<?php if ($wtid != null)
                                    echo $row['startTime'];
                                else
-                                   echo date('Y/m/d h:i:s'); ?>" class="layui-input">
+                                   echo date('Y/m/d H:i:s'); ?>" class="layui-input">
                     </div>
                 </div>
                 <div class="layui-inline">
@@ -66,13 +67,13 @@ $rs1 = mysqli_query($conn, "SELECT * FROM chapter WHERE cid = $cid AND type = 'T
             <div class="layui-form-block" style="margin-bottom: 20px">
                 <label class="layui-form-label">选择章节</label>
                 <div class="layui-input-block" style="width: 200px">
-                    <select name="chid" data-number="<?php echo $number ?>" lay-filter="chapter">
+                    <select name="chid" data-number="<?php echo $number ?>" lay-verify="required">
                         <option value="">请选择章节</option>
                         <?php
                         while ($row1 = mysqli_fetch_assoc($rs1)) {
                             ?>
                             <option value="<?php echo $row1['chid'] ?>" <?php
-                            if ($number == $row1['number'])
+                            if (@$chid == $row1['chid'])
                                 echo 'selected=""';
                             ?>><?php echo '第' . $row1['number'] . '章 ' . $row1['title'] ?></option>
                         <?php } ?>

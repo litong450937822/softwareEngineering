@@ -30,8 +30,6 @@ if (!isset($_SESSION['id'])) {
         }
     </style>
     <script language="JavaScript">
-
-        //每30秒确认一次是否在线
         function loginTime() {
             <?php if ($_SESSION['identity'] == 's') { ?>
             $.ajax({
@@ -40,7 +38,6 @@ if (!isset($_SESSION['id'])) {
             });
             <?php } ?>
         }
-
 
         $(function () {
             let content = $('#content');
@@ -53,7 +50,7 @@ if (!isset($_SESSION['id'])) {
             menu.load('navigation/teacherMenu.html');
             <?php } ?>
             $('#left_menu').hide();
-            setInterval(loginTime, 30000);
+            setInterval(loginTime, 30000);  //每30秒确认一次是否在线
         });
 
         <?php
@@ -72,13 +69,11 @@ if (!isset($_SESSION['id'])) {
 
         function gotoPage(page) {
             $('#content').load(page);
-            return false;
         }
 
         function changeMenu(page) {
             $('#menu').load(page);
             $('#left_menu').hide();
-            return false;
         }
 
 

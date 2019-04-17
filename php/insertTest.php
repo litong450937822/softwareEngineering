@@ -34,10 +34,12 @@ VALUES ($number,'" . $ttid . "','" . $question . "','" . $option1 . "','" . $opt
         $result = $conn->query($sql);
         $number++;
     }
-}else {
+} else {
     $sql = "UPDATE test_t SET title = '" . $title . "',startTime = '" . $startTime . "',endTime = '" . $endTime . "' 
     WHERE ttid = $ttid";
     $result = $conn->query($sql);
+    $sql = "DELETE  FROM test_s WHERE ttid=$ttid";
+    $conn->query($sql);
     while (isset($_POST['question' . $number])) {
         $question = $_POST['question' . $number];
         $option1 = $_POST['question' . $number . 'A'];
@@ -45,8 +47,12 @@ VALUES ($number,'" . $ttid . "','" . $question . "','" . $option1 . "','" . $opt
         $option3 = $_POST['question' . $number . 'C'];
         $option4 = $_POST['question' . $number . 'D'];
         $answer = $_POST['answer' . $number];
-        $sql = "UPDATE test_q SET question = '" . $question . "' ,option1 = '" . $option1 . "',option2 = '" . $option2 . "'
-        ,option3 = '" . $option3 . "',option4 = '" . $option4 . "',answer = '".$answer."' WHERE ttid = $ttid AND number = $number";
+        if (mysqli_num_rows($conn->query("SELECT * FROM test_q WHERE ttid = $ttid AND number = $number")) == 1)
+            $sql = "UPDATE test_q SET question = '" . $question . "' ,option1 = '" . $option1 . "',option2 = '" . $option2 . "'
+        ,option3 = '" . $option3 . "',option4 = '" . $option4 . "',answer = '" . $answer . "' WHERE ttid = $ttid AND number = $number";
+        else
+            $sql = "INSERT INTO test_q(ttid, number, question, option1, option2, option3, option4, answer) 
+VALUES ($ttid,$number,'".$question."','".$option1."','".$option2."','".$option3."','".$option4."','".$answer."')";
         $result = $conn->query($sql);
         $number++;
     }
@@ -54,6 +60,5 @@ VALUES ($number,'" . $ttid . "','" . $question . "','" . $option1 . "','" . $opt
 if ($number > 1) {
     echo $number - 1;
     return $number - 1;
-}
-else
+} else
     return 'error';

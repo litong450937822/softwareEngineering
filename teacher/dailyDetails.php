@@ -21,17 +21,22 @@ $rs2 = mysqli_query($conn, "SELECT count(*) as count FROM time WHERE sid = $sid 
 $rs3 = mysqli_query($conn, "SELECT count(*) as count FROM time WHERE sid = $sid AND type='V' AND date = '" . $date . "'");
 $rs4 = mysqli_query($conn, "SELECT count(*) as count FROM time WHERE sid = $sid AND type='Q' AND date = '" . $date . "'");
 $rs5 = mysqli_query($conn, "SELECT count(*) as count FROM time WHERE sid = $sid AND type='E' AND date = '" . $date . "'");
+$rs6 = mysqli_query($conn, "SELECT count(*) as count FROM time WHERE sid = $sid AND type='A' AND date = '" . $date . "'");
+$rs7 = mysqli_query($conn, "SELECT count(*) as count FROM time WHERE sid = $sid AND type='K' AND date = '" . $date . "'");
 $row1 = mysqli_fetch_assoc($rs1);
 $row2 = mysqli_fetch_assoc($rs2);
 $row3 = mysqli_fetch_assoc($rs3);
 $row4 = mysqli_fetch_assoc($rs4);
 $row5 = mysqli_fetch_assoc($rs5);
+$row6 = mysqli_fetch_assoc($rs6);
+$row7 = mysqli_fetch_assoc($rs7);
 $workTime = $row1['count'];
-$voteTime = $row2['count'];
-$discussTime = $row3['count'];
+$discussTime = $row2['count'];
+$voteTime = $row3['count'];
 $questionTime = $row4['count'];
 $testTime = $row5['count'];
-
+$attachmentTime = $row6['count'];
+$linkTime = $row7['count'];
 ?>
 <div class="layui-col-md8 layui-col-md-offset2" style="padding-top: 30px;">
     <div style="margin-bottom: 15px">
@@ -80,7 +85,7 @@ $testTime = $row5['count'];
             right: 10,
             top: 20,
             bottom: 20,
-            data: ['作业','讨论','投票','问卷','测验']
+            data: ['作业','讨论','投票','问卷','测验','附件','链接']
 
             // selected: data.selected
         },
@@ -95,7 +100,9 @@ $testTime = $row5['count'];
                     {value:<?php echo $discussTime ?>, name: '讨论'},
                     {value:<?php echo $voteTime ?>, name: '投票'},
                     {value:<?php echo $questionTime ?>, name: '问卷'},
-                    {value:<?php echo $testTime ?>, name: '测试'}
+                    {value:<?php echo $testTime ?>, name: '测验'},
+                    {value:<?php echo $attachmentTime ?>, name: '附件'},
+                    {value:<?php echo $linkTime ?>, name: '链接'}
                 ]
             }
         ]

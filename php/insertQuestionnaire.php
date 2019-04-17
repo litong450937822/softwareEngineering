@@ -32,6 +32,8 @@ VALUES ($number,'" . $qtid . "','" . $question . "' ) ";
     $sql = "UPDATE question_t SET title = '" . $title . "',startTime = '" . $startTime . "',endTime = '" . $endTime . "' 
     WHERE qtid = $qtid";
     $result = $conn->query($sql);
+    $sql = "DELETE  FROM question_s WHERE qtid=$qtid";
+    $conn->query($sql);
     while (isset($_POST['question' . $number])) {
         $question = $_POST['question' . $number];
         $sql = "UPDATE question_q SET question = '" . $question . "' WHERE qtid = $qtid AND number = $number";

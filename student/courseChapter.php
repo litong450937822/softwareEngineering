@@ -33,13 +33,13 @@ $count = mysqli_num_rows($rs);
                     <div class="layui-colla-content layui-show">
                         <?php while ($row1 = mysqli_fetch_assoc($rs1)) { ?>
                             <h2 class="link" id="item" style="margin-bottom: 5px"
-                                onclick="gotoPage('teacher/chapterItem.php?chid=<?php echo $row1['chid'] ?>')">
+                                onclick="gotoPage('student/chapterItem.php?chid=<?php echo $row1['chid'] ?>')">
                                 <img src="icon/<?php
                                 switch ($row1['type']) {
                                     case 'A':
                                         echo 'attachment.png';
                                         break;
-                                    case 'L':
+                                    case 'K':
                                         echo 'link.png';
                                         break;
                                 }
@@ -84,62 +84,5 @@ $count = mysqli_num_rows($rs);
         let element = layui.element; //导航的hover效果、二级菜单等功能，需要依赖element模块
 
         element.render();
-    });
-
-    layui.use(['layer', 'form'], function () {
-        let $ = layui.jquery, layer = layui.layer;
-        let form = layui.form;
-
-        form.render();
-
-        let active = {
-            offset: function (othis) {
-
-                layer.open({
-                    type: 1
-                    , title: '添加章节'
-                    , offset: 'auto'
-                    , id: 'chapter' //防止重复弹出
-                    , content: '<div style="margin: 20px">' +
-                    '<form class="layui-form layui-form-pane" action="" >\n' +
-                    '<div class="layui-form-item">\n' +
-                    '<label class="layui-form-label">章节名</label>\n' +
-                    '<div class="layui-input-block">\n' +
-                    '<input type="text" name="title" autocomplete="off" placeholder="请输入章节名" lay-verify="required" class="layui-input">\n' +
-                    '</div>' +
-                    '</div>' +
-                    '</form>' +
-                    '</div>'
-                    , btnAlign: 'c' //按钮居中
-                    , shade: 0.3
-                    , btn: '确定'
-                    , shadeClose: true
-                    , yes: function (index) {
-                        let count = <?php echo $count + 1; ?>;
-                        let title = $('input[name="title"]').val();
-                        $.ajax({
-                            url: './php/insertChapter.php',
-                            type: 'post',
-                            data: {
-                                number: count,
-                                title: title,
-                            },
-                            success: function () {
-                                layer.close(index);
-                                gotoPage('teacher/courseChapter.php');
-
-                            }
-                        });
-
-                    }
-                });
-            }
-        };
-
-
-        $('#addChapter').on('click', function () {
-            let othis = $(this), method = othis.data('method');
-            active[method] ? active[method].call(this, othis) : '';
-        })
     });
 </script

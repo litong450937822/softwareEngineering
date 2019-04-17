@@ -24,11 +24,11 @@ $result = '';
 
 function statistical($number)
 {
-    global $conn, $qtid, $finish, $result, $countPerson, $len;
-    $rs = mysqli_query($conn, "SELECT * FROM vote_s WHERE result = $number");
+    global $conn, $vtid, $finish, $result;
+    $rs = mysqli_query($conn, "SELECT * FROM vote_s WHERE result = $number AND vtid = $vtid");
     $count = mysqli_num_rows($rs);
     if ($count != 0)
-        $result = round(($count / $finish) * 100) . "%";
+        $result = @round(($count / $finish) * 100) . "%";
     else
         $result = '0%';
 }

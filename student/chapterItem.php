@@ -9,18 +9,23 @@
 require_once("../connect/conn.php");
 require_once("../connect/checkLogin.php");
 $cid = $_SESSION['cid'];
+$id = $_SESSION['id'];
 $chid = $_GET['chid'];
-$rs = mysqli_query($conn,"SELECT number From course LEFT JOIN teacher t ON course.tid = t.tid WHERE cid = .$cid");
+$rs = mysqli_query($conn,"SELECT number From course LEFT JOIN teacher t ON course.tid = t.tid WHERE cid = $cid");
 $row = mysqli_fetch_assoc($rs);
 $number = $row['number'];
 $rs = mysqli_query($conn, "SELECT * FROM chapter WHERE chid = $chid");
 $row = mysqli_fetch_assoc($rs);
+$type = $row['type'];
+$date = date('Y/m/d');
+$sql = "INSERT INTO time (date, type, sid, cid) VALUES ('" . $date . "','".$type."',$id,$cid)";
+$conn->query($sql);
 ?>
 <div class="layui-col-md8 layui-col-md-offset2" style="padding-top: 30px;">
     <div style="margin-bottom: 15px">
         <span class="layui-breadcrumb" style="margin-bottom: 20px">
             <a class="link" onclick="backToSelect('t')">课程选择</a>
-            <a class="link" onclick="gotoPage('teacher/courseChapter.php')">课程章节</a>
+            <a class="link" onclick="gotoPage('student/courseChapter.php')">课程章节</a>
             <a><cite><?php echo $row['title'] ?></cite></a>
         </span>
     </div>
@@ -36,14 +41,14 @@ $row = mysqli_fetch_assoc($rs);
             <td><?php echo $row['time'] ?></td>
             <td>完成指标：</td>
             <td><?php
-            if ($row['type'] == 'A')
+            if ($type == 'A')
                 echo '观看或下载所有参考文件附件';
-            elseif ($row['type'] == 'L')
+            elseif ($type == 'K')
                 echo '访问线上链接' ?></td>
         </tr>
     </table>
     <?php
-    if ($row['type'] == 'A') {
+    if ($type == 'A') {
         ?>
         <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
             <legend>附件</legend>
@@ -77,12 +82,13 @@ $row = mysqli_fetch_assoc($rs);
         <?php
     }else {
         ?>
-        <a href="<?php echo $row['content'] ?>" target="_blank">新窗口打开</a>
+        <a style="margin: 20px" href="<?php echo $row['content'] ?>" target="_blank">新窗口打开</a>
         <?php
     }
     ?>
 </div>
 <script>
+
     layui.use('element', function () {
         let element = layui.element; //导航的hover效果、二级菜单等功能，需要依赖element模块
 

@@ -21,3 +21,5 @@ if (mysqli_num_rows($rs) >= 1) {
 $sql = "INSERT INTO vote_s VALUE ($vtid,$sid,$result) ";
 
 $conn->query($sql);
+$array['state']= 0;
+echo json_encode($array);

@@ -44,7 +44,7 @@ if ($qtid != null) {
                            value="<?php if ($qtid != null)
                                echo $row['startTime'];
                            else
-                               echo date('Y/m/d h:i:s'); ?>" class="layui-input">
+                               echo date('Y/m/d H:i:s'); ?>" class="layui-input">
                 </div>
             </div>
             <div class="layui-inline">
@@ -173,9 +173,9 @@ if ($qtid != null) {
                 data: data.field,
                 success: function (data) {
                     if (qtid === '')
-                        layer.msg('添加测验成功，共' + data + '道题目');
+                        layer.msg('添加问卷成功，共' + data + '道题目');
                     else
-                        layer.msg('修改测验成功，共' + data + '道题目');
+                        layer.msg('修改问卷成功，共' + data + '道题目');
                     gotoPage('teacher/courseQuestionnaire.php');
                 }
             });

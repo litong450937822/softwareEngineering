@@ -36,15 +36,12 @@ $rs1 = mysqli_query($conn, "SELECT * FROM chapter WHERE cid = $cid AND type = 'T
         <div class="layui-form-block" style="margin-bottom: 20px">
             <label class="layui-form-label">选择章节</label>
             <div class="layui-input-block" style="width: 200px">
-                <select name="chid" data-number="<?php echo $number ?>" lay-filter="chapter">
+                <select name="chid" data-number="<?php echo $number ?>" lay-verify="required">
                     <option value="">请选择章节</option>
                     <?php
                     while ($row1 = mysqli_fetch_assoc($rs1)) {
                         ?>
-                        <option value="<?php echo $row1['chid'] ?>" <?php
-                        if ($number == $row1['number'])
-                            echo 'selected=""';
-                        ?>><?php echo '第' . $row1['number'] . '章 ' . $row1['title'] ?></option>
+                        <option value="<?php echo $row1['chid'] ?>"><?php echo '第' . $row1['number'] . '章 ' . $row1['title'] ?></option>
                     <?php } ?>
                 </select>
             </div>
@@ -75,9 +72,11 @@ $rs1 = mysqli_query($conn, "SELECT * FROM chapter WHERE cid = $cid AND type = 'T
             $.ajax({
                 url: './php/addDiscuss.php',
                 type: 'post',
-                data: data.field
+                data: data.field,
+                success:function () {
+                    gotoPage('teacher/courseDiscuss.php');
+                }
             });
-            gotoPage('teacher/courseDiscuss.php');
             return false; //阻止表单跳转
         });
     });

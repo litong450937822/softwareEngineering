@@ -46,7 +46,7 @@ if ($ttid != null) {
                            value="<?php if ($ttid != null)
                                echo $row['startTime'];
                            else
-                               echo date('Y/m/d h:i:s'); ?>" class="layui-input">
+                               echo date('Y/m/d H:i:s'); ?>" class="layui-input">
                 </div>
             </div>
             <div class="layui-inline">

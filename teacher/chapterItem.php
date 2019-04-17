@@ -10,7 +10,7 @@ require_once("../connect/conn.php");
 require_once("../connect/checkLogin.php");
 $cid = $_SESSION['cid'];
 $chid = $_GET['chid'];
-$rs = mysqli_query($conn,"SELECT number From course LEFT JOIN teacher t ON course.tid = t.tid WHERE cid = .$cid");
+$rs = mysqli_query($conn,"SELECT number From course LEFT JOIN teacher t ON course.tid = t.tid WHERE cid = $cid");
 $row = mysqli_fetch_assoc($rs);
 $number = $row['number'];
 $rs = mysqli_query($conn, "SELECT * FROM chapter WHERE chid = $chid");
@@ -38,7 +38,7 @@ $row = mysqli_fetch_assoc($rs);
             <td><?php
             if ($row['type'] == 'A')
                 echo '观看或下载所有参考文件附件';
-            elseif ($row['type'] == 'L')
+            elseif ($row['type'] == 'K')
                 echo '访问线上链接' ?></td>
         </tr>
     </table>

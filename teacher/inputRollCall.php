@@ -10,6 +10,7 @@ require_once("../connect/checkLogin.php");
 $clid = $_SESSION['clid'];
 $time = @$_SESSION['time'];
 @$_SESSION['time'] = null;
+echo $time;
 $rs = mysqli_query($conn, "SELECT sid,name FROM student WHERE clid = $clid");
 ?>
 <div class="layui-col-md8 layui-col-md-offset2" style="padding-top: 30px;">
@@ -35,7 +36,7 @@ $rs = mysqli_query($conn, "SELECT sid,name FROM student WHERE clid = $clid");
                        value="<?php if ($time != null)
                            echo $time;
                        else
-                           echo date('Y/m/d h:i:s'); ?>" class="layui-input">
+                           echo date('Y/m/d H:i:s'); ?>" class="layui-input">
             </div>
             <!--            </div>-->
         </div>
@@ -55,7 +56,7 @@ $rs = mysqli_query($conn, "SELECT sid,name FROM student WHERE clid = $clid");
                 $sid = $row['sid'];
                 $state = '';
                 if ($time != null) {
-                    $rs1 = mysqli_query($conn, "SELECT * FROM rollcall WHERE sid = $sid");
+                    $rs1 = mysqli_query($conn, "SELECT * FROM rollcall WHERE sid = $sid AND time = '".$time."'");
                     $row1 = mysqli_fetch_assoc($rs1);
                     $state = $row1['state'];
                 }

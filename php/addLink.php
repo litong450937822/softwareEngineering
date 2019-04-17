@@ -14,7 +14,7 @@ $number = $_POST['number'];
 $cid = $_SESSION['cid'];
 $nowTime = date('Y/m/d H:i:s');
 $link = $_POST['link'];
-$sql = "INSERT INTO chapter(cid, number, title, type, content, time) VALUES ($cid,$number,'".$title."','L','".$link."','".$nowTime."')";
+$sql = "INSERT INTO chapter(cid, number, title, type, content, time) VALUES ($cid,$number,'".$title."','K','".$link."','".$nowTime."')";
 if ($conn->query($sql) === TRUE) {
     echo '添加成功';
 } else {

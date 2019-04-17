@@ -69,7 +69,7 @@ $rs1 = mysqli_query($conn, $sql1);
             <?php
             while ($row1 = mysqli_fetch_assoc($rs1)) {
                 ?>
-                <tr onclick="gotoPage('teacher/browseWork.php?wtid=<?php echo $wtid ?>&sid=<?php
+                <tr class="link" onclick="gotoPage('teacher/browseWork.php?wtid=<?php echo $wtid ?>&sid=<?php
                 echo $row1['sid'] ?>')">
                     <td><?php echo $row1['name'] ?></td>
                     <td style="text-align: center">

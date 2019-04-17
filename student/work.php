@@ -14,19 +14,17 @@ $schoolNumber = $_SESSION['number'];
 $cid = $_SESSION['cid'];
 $sid = $_SESSION['id'];
 $rs = mysqli_query($conn,'SELECT number FROM course LEFT JOIN teacher t ON course.tid = t.tid WHERE cid = '.$cid);
-//echo 'SELECT number FROM course LEFT JOIN teacher t ON course.tid = t.tid WHERE cid = '.$cid;
 $row = mysqli_fetch_assoc($rs);
 $number = $row['number'];
 $rs = mysqli_query($conn, "select * from work_t where wtid = $wtid");
 $row = mysqli_fetch_assoc($rs);
 $rs1 = mysqli_query($conn, "select * from work_s where wtid = $wtid AND sid = $sid");
-$nowTime = date('Y/m/d H:i');
+$nowTime = date('Y/m/d H:i:s');
 $endTime = $row['endTime'];
 $startTime = $row['startTime'];
 $date = date('Y/m/d');
 $sql = "INSERT INTO time (date, type, sid, cid) VALUES ('" . $date . "','O',$sid,$cid)";
 $conn->query($sql);
-
 ?>
 
 <div class="layui-col-md8 layui-col-md-offset2" style="padding-top: 30px;" id="layer">
@@ -116,7 +114,7 @@ $conn->query($sql);
             <button class="layui-btn <?php
             if (strtotime($nowTime) - strtotime($endTime) > 0 || strtotime($nowTime) - strtotime($startTime) < 0 ) {
                 echo 'layui-btn-disabled';
-            } ?>" onclick="<?php if (strtotime($nowTime) - strtotime($endTime) <= 0 || strtotime($nowTime) - strtotime($startTime) >= 0) {
+            } ?>" onclick="<?php if (strtotime($nowTime) - strtotime($endTime) <= 0 && strtotime($nowTime) - strtotime($startTime) >= 0) {
                 ?>gotoPage('student/submitWork.php?title=+<?php echo $row['title'] ?>');
             <?php } ?>">
                 <i class="layui-icon">&#xe62f;</i> 提交作业

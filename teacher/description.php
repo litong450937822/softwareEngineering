@@ -32,7 +32,7 @@ $_SESSION['clid'] = $row['clid'];
                 <p style="font-size: 24px; font-weight: bold;line-height: 60px "><?php echo $row['courseName'] ?></p>
                 <p>班级：<?php echo $row['className'] ?></p>
                 <p><?php echo $row['semester'] ?></p>
-
+                <p style="margin-top: 10px;font-size: 22px"><?php echo $row['describe'] ?></p>
             </td>
         </tr>
     </table>

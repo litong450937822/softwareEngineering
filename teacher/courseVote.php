@@ -101,7 +101,7 @@ $rs = mysqli_query($conn, "select * from vote_t where cid = $cid");
                         type: "POST",
                         url: "./php/deleteVote.php",//url
                         data: {
-                            qtid: qtid,
+                            vtid: vtid,
                         },
                         success: function () {
                             layer.msg('刪除成功');

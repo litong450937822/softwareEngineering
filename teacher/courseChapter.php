@@ -49,7 +49,7 @@ $copy = @$_GET['copy'];
                                                 case 'A':
                                                     echo 'attachment.png';
                                                     break;
-                                                case 'L':
+                                                case 'K':
                                                     echo 'link.png';
                                                     break;
                                             }
@@ -117,7 +117,7 @@ $copy = @$_GET['copy'];
                                     <select name="item" data-number="<?php echo $number ?>" lay-filter="item">
                                         <option value="">请选择添加项目</option>
                                         <option value="A">附件</option>
-                                        <option value="L">链接</option>
+                                        <option value="K">链接</option>
                                         <option value="W">作业</option>
                                         <option value="D">讨论</option>
                                     </select>
@@ -204,7 +204,7 @@ $copy = @$_GET['copy'];
                 case 'A':
                     gotoPage('teacher/inputAttachment.php?number=' + number);
                     break;
-                case 'L':
+                case 'K':
                     gotoPage('teacher/inputLink.php?number=' + number);
                     break;
                 case 'W':

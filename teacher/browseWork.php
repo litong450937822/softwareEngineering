@@ -131,9 +131,11 @@ $rs = mysqli_query($conn, $sql);
                     score: $('#score').val()
                     , wtid:<?php echo $wtid; ?>
                     , sid:<?php echo $sid; ?>
+                },
+                success: function () {
+                    gotoPage('teacher/workCompletion.php?wtid=<?php echo $wtid; ?>');
                 }
             });
-            gotoPage('teacher/workCompletion.php?wtid=<?php echo $wtid; ?>');
             return false; //阻止表单跳转
         });
         element.render();

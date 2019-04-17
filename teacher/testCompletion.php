@@ -112,8 +112,7 @@ function statistical($number)
             <?php
             while ($row1 = mysqli_fetch_assoc($rs1)) {
                 ?>
-                <tr onclick="gotoPage('teacher/browseWork.php?wtid=<?php echo $ttid ?>&sid=<?php
-                echo $row1['sid'] ?>')">
+                <tr>
                     <td><?php echo $row1['name'] ?></td>
                     <td style="text-align: center">
                         <?php if ($row1['score'] == null)
