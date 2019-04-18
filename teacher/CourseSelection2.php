@@ -8,7 +8,7 @@
 require_once("../connect/conn.php");
 require_once("../connect/checkLogin.php");
 $tid = $_SESSION['id'];
-$rs = mysqli_query($conn, "select * from course left join teacher on course.tid = teacher.tid 
+$rs = mysqli_query($conn, "select * from course left join class c on course.clid = c.clid 
 where course.tid =  $tid");
 ?>
 <div class="layui-col-md8 layui-col-md-offset2" style="padding-top: 30px;">
@@ -31,7 +31,7 @@ where course.tid =  $tid");
                 <td><img src="./img/course-cover-default.png" style="width: 130px; height: 71px"></td>
                 <td><p style="font-size: 20px"><?php echo $row['courseName'] ?></p>
                     <p>开课日期：<?php echo $row['startDate']  ?> - 课程结束日期：<?php echo $row['endDate']  ?></p>
-                    <p>任课教师：<?php echo $row['name'] ?></p>
+                    <p>班级：<?php echo $row['className'] ?></p>
                 </td>
                 <td><?php echo $row['semester'] ?></td>
             </tr>
